@@ -126,3 +126,7 @@ export default function Authenticated({user, header, children}: PropsWithChildre
         </div>
     );
 }
+
+
+
+
