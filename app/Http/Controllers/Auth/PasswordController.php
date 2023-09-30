@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Staff\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -15,6 +15,7 @@ class PasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
+        // TODO: Add guard param
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],

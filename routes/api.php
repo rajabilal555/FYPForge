@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Staff\Auth\AuthenticatedSessionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

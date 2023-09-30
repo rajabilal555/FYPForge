@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Staff\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -16,8 +16,9 @@ class EmailVerificationPromptController extends Controller
      */
     public function __invoke(Request $request): RedirectResponse|Response
     {
+//        TODO: Add guard param
         return $request->user()->hasVerifiedEmail()
             ? redirect()->intended(RouteServiceProvider::HOME)
-            : Inertia::render('Staff/Auth/VerifyEmail', ['status' => session('status')]);
+            : Inertia::render('Auth/VerifyEmail', ['status' => session('status')]);
     }
 }

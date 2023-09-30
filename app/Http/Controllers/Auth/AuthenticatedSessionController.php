@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Staff\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +18,8 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Staff/Auth/Login', [
-            'canResetPassword' => Route::has('staff.password.request'),
+        return Inertia::render('Auth/Login', [
+            'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
         ]);
     }
@@ -30,19 +29,19 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate('staff');
+        $request->authenticate($request->get('type'));
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('staff.dashboard'));
+        return redirect()->intended(route($request->get('type') . '.dashboard'));
     }
 
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, $guard): RedirectResponse
     {
-        Auth::guard('staff')->logout();
+        Auth::guard($guard)->logout();
 
         $request->session()->invalidate();
 

@@ -38,4 +38,17 @@ Route::prefix('staff')->group(function () {
     });
 });
 
+Route::prefix('advisor')->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Advisor/Dashboard');
+    })->middleware(['auth', 'verified'])->name('advisor.dashboard');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('advisor.profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('advisor.profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('advisor.profile.destroy');
+    });
+});
+
+
 require __DIR__ . '/auth.php';

@@ -1,4 +1,4 @@
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import AuthenticatedLayout from '@/Layouts/StaffAuthenticatedLayout';
 import {Head} from '@inertiajs/react';
 import {PageProps} from '@/types';
 
@@ -17,17 +17,17 @@ export default function Dashboard({auth}: PageProps) {
                     </div>
 
                     <div className="grid grid-cols-2">
-                    <div className="grid grid-cols-2 h-80 w-110 mt-10 ">
-                        <div className='shadow-md'></div>
-                        <div className='shadow-md'></div>
-                        <div className='shadow-md'></div>
-                        <div className='shadow-md'></div>
+                        <div className="grid grid-cols-2 h-80 w-110 mt-10 ">
+                            <div className='shadow-md'></div>
+                            <div className='shadow-md'></div>
+                            <div className='shadow-md'></div>
+                            <div className='shadow-md'></div>
+                        </div>
+                        <div className="grid grid-cols-2 h-80 w-160 mt-10 ">
+                            <div className='shadow-md'></div>
+                            <div className='shadow-md'></div>
+                        </div>
                     </div>
-                    <div className="grid grid-cols-2 h-80 w-160 mt-10 ">
-                        <div className='shadow-md'></div>
-                        <div className='shadow-md'></div>
-                    </div>
-                    </div>           
                 </div>
             </div>
         </AuthenticatedLayout>

@@ -57,7 +57,8 @@ export default function Authenticated({user, header, children}: PropsWithChildre
 
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('staff.profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('staff.logout')} method="post" as="button">
+                                        <Dropdown.Link href={route('logout', {'guard': 'staff'})} method="post"
+                                                       as="button">
                                             Log Out
                                         </Dropdown.Link>
                                     </Dropdown.Content>
@@ -108,7 +109,7 @@ export default function Authenticated({user, header, children}: PropsWithChildre
 
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route('staff.profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('staff.logout')} as="button">
+                            <ResponsiveNavLink method="post" href={route('logout', {'guard': 'staff'})} as="button">
                                 Log Out
                             </ResponsiveNavLink>
                         </div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Staff\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -18,7 +18,7 @@ class ConfirmablePasswordController extends Controller
      */
     public function show(): Response
     {
-        return Inertia::render('Staff/Auth/ConfirmPassword');
+        return Inertia::render('Auth/ConfirmPassword');
     }
 
     /**

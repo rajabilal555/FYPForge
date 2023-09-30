@@ -6,6 +6,7 @@ import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import {Head, Link, useForm} from "@inertiajs/react";
 import {FormEventHandler, useEffect} from "react";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/Components/ui/select";
 
 export default function Login({
                                   status,
@@ -17,6 +18,7 @@ export default function Login({
     const {data, setData, post, processing, errors, reset} = useForm({
         email: "",
         password: "",
+        type: "",
         remember: false,
     });
 
@@ -29,7 +31,7 @@ export default function Login({
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route("staff.login"));
+        post(route("login"));
     };
 
     return (
@@ -75,7 +77,22 @@ export default function Login({
 
                     <InputError message={errors.password} className="mt-2"/>
                 </div>
+                <div className="mt-4">
+                    <InputLabel htmlFor="type" value="Type"/>
 
+                    <Select onValueChange={(e) => setData("type", e)}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select Type"/>
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="student">Student</SelectItem>
+                            <SelectItem value="advisor">Advisor</SelectItem>
+                            <SelectItem value="staff">Coordinator</SelectItem>
+                        </SelectContent>
+                    </Select>
+
+                    <InputError message={errors.type} className="mt-2"/>
+                </div>
                 <div className="block mt-4">
                     <label className="flex items-center">
                         <Checkbox
@@ -94,7 +111,7 @@ export default function Login({
                 <div className="flex items-center justify-end mt-4">
                     {canResetPassword && (
                         <Link
-                            href={route("staff.password.request")}
+                            href={route("password.request")}
                             className="text-sm text-gray-600 underline rounded-md hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
                             Forgot your password?

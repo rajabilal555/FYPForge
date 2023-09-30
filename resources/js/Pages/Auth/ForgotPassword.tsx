@@ -13,7 +13,7 @@ export default function ForgotPassword({status}: { status?: string }) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('staff.password.email'));
+        post(route('password.email'));
     };
 
     return (
