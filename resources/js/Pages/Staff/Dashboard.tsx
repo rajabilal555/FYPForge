@@ -233,9 +233,9 @@ export default function Dashboard({ auth }: PageProps) {
                                 </ul>
                                 <a
                                     href="#"
-                                    className="flex justify-center gap-2"
+                                    className="flex justify-center gap-2 mb-4"
                                 >
-                                    <div className="inline-flex font-bold align-text-top text-lg ">
+                                    <div className="inline-flex font-bold align-text-top text-lg">
                                         View all activities
                                     </div>
                                     <div className="inline-flex items-center w-4">
