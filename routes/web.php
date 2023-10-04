@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Staff\ProfileController;
+use App\Http\Controllers\Staff\StudentController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,9 @@ Route::prefix('staff')->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('staff.profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('staff.profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('staff.profile.destroy');
+
+        Route::resource('/student', StudentController::class, ['names' => 'staff.student']);
+
     });
 });
 
