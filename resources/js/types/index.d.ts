@@ -9,6 +9,7 @@ export type Student = {
     id: number;
     name: string;
     email: string;
+    registration_no: string;
     email_verified_at: string;
 }
 

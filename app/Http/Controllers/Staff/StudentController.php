@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
 class StudentController extends Controller
@@ -32,7 +34,15 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-//        Code to create a new Resource
+        $data = collect($request->validate([
+            'name' => ['required'],
+            'registration_no' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', Password::defaults()],
+        ]));
+
+        $student = Student::create($data->replace(['password' => Hash::make($data['password'])])->toArray());
+        $student->save();
     }
 
     /**

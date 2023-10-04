@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/StaffAuthenticatedLayout";
-import {Head, router} from "@inertiajs/react";
+import {Head, Link, router} from "@inertiajs/react";
 import {PageProps, Student} from "@/types";
 import {ColumnDef} from "@tanstack/react-table";
 import {DataTable} from "@/Components/ui/data-table";
@@ -12,6 +12,7 @@ import {
 } from "@/Components/ui/dropdown-menu";
 import {Button} from "@/Components/ui/button";
 import {EllipsisVerticalIcon} from "@heroicons/react/20/solid";
+import {Card} from "@/Components/ui/card";
 
 const columns: ColumnDef<Student>[] = [
     {
@@ -42,11 +43,10 @@ const columns: ColumnDef<Student>[] = [
 
                             onClick={() => router.get(route('staff.student.edit', {id: row.original.id}))}
                         >
-                            Copy payment ID
+                            Edit
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
+                        <DropdownMenuItem>View </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -63,9 +63,13 @@ export default function List({auth, students}: PageProps<{ students: Student[] }
                              }
         >
             <Head title="Students List"/>
-            <div className="container mx-auto py-10">
+
+            <Link href={route('staff.student.create')}>
+                <Button>Create</Button>
+            </Link>
+            <Card className="mt-4">
                 <DataTable columns={columns} data={students}/>
-            </div>
+            </Card>
         </AuthenticatedLayout>
     );
 }
