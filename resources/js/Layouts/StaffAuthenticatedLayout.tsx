@@ -1,16 +1,16 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
+import {useState, PropsWithChildren, ReactNode} from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/react";
-import { User } from "@/types";
+import {Link} from "@inertiajs/react";
+import {User} from "@/types";
 
 export default function Authenticated({
-    user,
-    header,
-    children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
+                                          user,
+                                          header,
+                                          children,
+                                      }: PropsWithChildren<{ user: User; header?: ReactNode }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -22,7 +22,7 @@ export default function Authenticated({
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800"/>
                                 </Link>
                             </div>
 
@@ -37,9 +37,7 @@ export default function Authenticated({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("staff.dashboard")}
-                                    active={route().current(
-                                        "projects.dashboard"
-                                    )}
+                                    active={route().current("projects.dashboard")}
                                 >
                                     Projects
                                 </NavLink>
@@ -47,19 +45,15 @@ export default function Authenticated({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("staff.dashboard")}
-                                    active={route().current(
-                                        "advisors.dashboard"
-                                    )}
+                                    active={route().current("advisors.dashboard")}
                                 >
                                     Advisors
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("staff.dashboard")}
-                                    active={route().current(
-                                        "students.dashboard"
-                                    )}
+                                    href={route("staff.student.index")}
+                                    active={route().current("staff.student.index")}
                                 >
                                     Students
                                 </NavLink>
@@ -67,9 +61,7 @@ export default function Authenticated({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("staff.dashboard")}
-                                    active={route().current(
-                                        "reports.dashboard"
-                                    )}
+                                    active={route().current("reports.dashboard")}
                                 >
                                     Reports
                                 </NavLink>
@@ -86,7 +78,6 @@ export default function Authenticated({
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {user.name}
-
                                                 <svg
                                                     className="ml-2 -mr-0.5 h-4 w-4"
                                                     xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +190,7 @@ export default function Authenticated({
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 method="post"
-                                href={route("logout", { guard: "staff" })}
+                                href={route("logout", {guard: "staff"})}
                                 as="button"
                             >
                                 Log Out
@@ -217,7 +208,14 @@ export default function Authenticated({
                 </header>
             )}
 
-            <main>{children}</main>
+            <main>
+                <div className="py-8">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        {children}
+                    </div>
+                </div>
+
+            </main>
         </div>
     );
 }

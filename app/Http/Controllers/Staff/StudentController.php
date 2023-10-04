@@ -7,14 +7,16 @@ use App\Models\Student;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class Students extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('pagepath/List', []);
+        return Inertia::render('Staff/Student/List', [
+            'students' => Student::all()
+        ]);
     }
 
     /**
@@ -22,7 +24,7 @@ class Students extends Controller
      */
     public function create()
     {
-        return Inertia::render('pagepath/Create', []);
+        return Inertia::render('Staff/Student/Create', []);
     }
 
     /**
