@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Staff\AdvisorController;
 use App\Http\Controllers\Staff\ProfileController;
 use App\Http\Controllers\Staff\StudentController;
 use Illuminate\Foundation\Application;
@@ -38,6 +39,7 @@ Route::prefix('staff')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('staff.profile.destroy');
 
         Route::resource('/student', StudentController::class, ['names' => 'staff.student']);
+        Route::resource('/advisor', AdvisorController::class, ['names' => 'staff.advisor']);
 
     });
 });

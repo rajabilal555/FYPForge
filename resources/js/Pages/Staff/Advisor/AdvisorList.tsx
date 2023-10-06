@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/StaffAuthenticatedLayout";
 import { Head, Link, router } from "@inertiajs/react";
-import { PageProps, Student } from "@/types";
+import { Advisor, PageProps, Student } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/Components/ui/data-table";
 import {
@@ -15,7 +15,7 @@ import { Button } from "@/Components/ui/button";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Card } from "@/Components/ui/card";
 
-const columns: ColumnDef<Student>[] = [
+const columns: ColumnDef<Advisor>[] = [
     {
         accessorKey: "name",
         header: "Name",
@@ -32,7 +32,7 @@ const columns: ColumnDef<Student>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-2">
+                        <Button variant="ghost" className="h-8 w-8 p-0">
                             <span className="sr-only">Open menu</span>
                             <EllipsisVerticalIcon />
                             {/*<MoreHorizontal className="h-4 w-4"/>*/}
@@ -43,7 +43,7 @@ const columns: ColumnDef<Student>[] = [
                         <DropdownMenuItem
                             onClick={() =>
                                 router.get(
-                                    route("staff.student.edit", {
+                                    route("staff.advisor.edit", {
                                         id: row.original.id,
                                     })
                                 )
@@ -59,26 +59,26 @@ const columns: ColumnDef<Student>[] = [
         },
     },
 ];
-export default function List({
+export default function AdvisorList({
     auth,
-    students,
-}: PageProps<{ students: Student[] }>) {
+    advisors,
+}: PageProps<{ advisors: Advisor[] }>) {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Student List
+                    Advisor List
                 </h2>
             }
         >
             <Head title="Students List" />
 
-            <Link href={route("staff.student.create")}>
+            <Link href={route("staff.advisor.create")}>
                 <Button>Create</Button>
             </Link>
             <Card className="mt-4">
-                <DataTable columns={columns} data={students} />
+                <DataTable columns={columns} data={advisors} />
             </Card>
         </AuthenticatedLayout>
     );
