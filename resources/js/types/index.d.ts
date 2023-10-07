@@ -20,6 +20,17 @@ export type Advisor = {
     email_verified_at: string;
 };
 
+export type PaginationLinks = {
+    url?: string,
+    label: string,
+    active: boolean,
+};
+
+export type PaginatedData<T> = {
+    data: T[],
+    links: PaginationLinks[],
+};
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {

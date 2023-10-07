@@ -11,13 +11,14 @@ use Inertia\Inertia;
 
 class StudentController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         return Inertia::render('Staff/Student/List', [
-            'students' => Student::all()
+            'students' => Student::paginate(10),
         ]);
     }
 

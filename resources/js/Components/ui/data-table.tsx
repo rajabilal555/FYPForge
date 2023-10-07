@@ -14,17 +14,20 @@ import {
     TableHeader,
     TableRow,
 } from "@/Components/ui/table";
-import { Button } from "./button";
+import Pagination from "@/Components/Pagination";
+import {PaginationLinks} from "@/types";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    pagesData: PaginationLinks[]
 }
 
 export function DataTable<TData, TValue>({
-    columns,
-    data,
-}: DataTableProps<TData, TValue>) {
+                                             columns,
+                                             data,
+                                             pagesData,
+                                         }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
@@ -45,10 +48,10 @@ export function DataTable<TData, TValue>({
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext()
-                                                  )}
+                                                    header.column.columnDef
+                                                        .header,
+                                                    header.getContext()
+                                                )}
                                         </TableHead>
                                     );
                                 })}
@@ -87,24 +90,27 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    Previous
-                </Button>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    Next
-                </Button>
-            </div>
+
+            <Pagination pages={pagesData} numRecords={10} totalRecords={123}/>
+
+            {/*<div className="flex items-center justify-end space-x-2 py-4">*/}
+            {/*    <Button*/}
+            {/*        variant="outline"*/}
+            {/*        size="sm"*/}
+            {/*        onClick={() => table.previousPage()}*/}
+            {/*        disabled={!table.getCanPreviousPage()}*/}
+            {/*    >*/}
+            {/*        Previous*/}
+            {/*    </Button>*/}
+            {/*    <Button*/}
+            {/*        variant="outline"*/}
+            {/*        size="sm"*/}
+            {/*        onClick={() => table.nextPage()}*/}
+            {/*        disabled={!table.getCanNextPage()}*/}
+            {/*    >*/}
+            {/*        Next*/}
+            {/*    </Button>*/}
+            {/*</div>*/}
         </div>
     );
 }

@@ -67,9 +67,7 @@ export default function List({auth}: PageProps) {
                                         <FormControl>
                                             <Input type='number' placeholder="20xxxxx" {...field} />
                                         </FormControl>
-                                        <FormDescription>
-                                            This is your public display name.
-                                        </FormDescription>
+
                                         <FormMessage/>
                                     </FormItem>
                                 )}
@@ -100,9 +98,7 @@ export default function List({auth}: PageProps) {
                                         <FormControl>
                                             <Input placeholder="forge@gmail.com" {...field} />
                                         </FormControl>
-                                        <FormDescription>
-                                            This is your public display name.
-                                        </FormDescription>
+
                                         <FormMessage/>
                                     </FormItem>
                                 )}
@@ -117,9 +113,7 @@ export default function List({auth}: PageProps) {
                                         <FormControl>
                                             <Input {...field} />
                                         </FormControl>
-                                        <FormDescription>
-                                            This is your public display name.
-                                        </FormDescription>
+
                                         <FormMessage/>
                                     </FormItem>
                                 )}
