@@ -1,8 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/StaffAuthenticatedLayout";
-import { Head, Link, router } from "@inertiajs/react";
-import { Advisor, PageProps, Student } from "@/types";
-import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "@/Components/ui/data-table";
+import {Head, Link, router} from "@inertiajs/react";
+import {Advisor, PageProps, PaginatedData} from "@/types";
+import {ColumnDef} from "@tanstack/react-table";
+import {DataTable} from "@/Components/ui/data-table";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,9 +11,9 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
-import { Button } from "@/Components/ui/button";
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import { Card } from "@/Components/ui/card";
+import {Button} from "@/Components/ui/button";
+import {EllipsisVerticalIcon} from "@heroicons/react/20/solid";
+import {Card} from "@/Components/ui/card";
 
 const columns: ColumnDef<Advisor>[] = [
     {
@@ -27,14 +27,14 @@ const columns: ColumnDef<Advisor>[] = [
     {
         id: "actions",
         header: "Actions",
-        cell: ({ row }) => {
+        cell: ({row}) => {
             // const student = row.original
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
                             <span className="sr-only">Open menu</span>
-                            <EllipsisVerticalIcon />
+                            <EllipsisVerticalIcon/>
                             {/*<MoreHorizontal className="h-4 w-4"/>*/}
                         </Button>
                     </DropdownMenuTrigger>
@@ -51,7 +51,7 @@ const columns: ColumnDef<Advisor>[] = [
                         >
                             Edit
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuSeparator/>
                         <DropdownMenuItem>View </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -60,9 +60,9 @@ const columns: ColumnDef<Advisor>[] = [
     },
 ];
 export default function AdvisorList({
-    auth,
-    advisors,
-}: PageProps<{ advisors: Advisor[] }>) {
+                                        auth,
+                                        advisors,
+                                    }: PageProps<{ advisors: PaginatedData<Advisor> }>) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -72,13 +72,13 @@ export default function AdvisorList({
                 </h2>
             }
         >
-            <Head title="Students List" />
+            <Head title="Students List"/>
 
             <Link href={route("staff.advisor.create")}>
                 <Button>Create</Button>
             </Link>
             <Card className="mt-4">
-                <DataTable columns={columns} data={advisors} />
+                <DataTable columns={columns} data={advisors.data} pagesData={advisors.links}/>
             </Card>
         </AuthenticatedLayout>
     );

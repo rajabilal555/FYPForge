@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Staff;
 use App\Http\Controllers\Controller;
 use App\Models\Advisor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
 class AdvisorController extends Controller
@@ -15,7 +17,7 @@ class AdvisorController extends Controller
     public function index()
     {
         return Inertia::render('Staff/Advisor/AdvisorList', [
-            'advisors' => Advisor::all()
+            'advisors' => Advisor::paginate(10)
         ]);
     }
 
@@ -32,7 +34,15 @@ class AdvisorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = collect($request->validate([
+            'name' => ['required'],
+            'registration_no' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', Password::defaults()],
+        ]));
+
+        $student = Advisor::create($data->replace(['password' => Hash::make($data['password'])])->toArray());
+        $student->save();
     }
 
     /**

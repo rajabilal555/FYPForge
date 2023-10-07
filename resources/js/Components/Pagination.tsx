@@ -1,7 +1,6 @@
 import {Link} from "@inertiajs/react";
 import {Button} from "@/Components/ui/button";
 import {PaginationLinks} from "@/types";
-import {Fragment} from "react";
 
 
 export default function Pagination({pages, numRecords, totalRecords}: {
@@ -11,9 +10,9 @@ export default function Pagination({pages, numRecords, totalRecords}: {
 }) {
     return (
         <div className="flex items-center justify-end space-x-2 py-4 px-4">
-            <span>
-                Showing {numRecords} of {totalRecords}
-            </span>
+            {/*<span>*/}
+            {/*    Showing {numRecords} of {totalRecords}*/}
+            {/*</span>*/}
 
             {pages.map(
                 value =>
@@ -24,8 +23,7 @@ export default function Pagination({pages, numRecords, totalRecords}: {
                             size="sm"
                             disabled={value.url == null}
                         >
-                            <span dangerouslySetInnerHTML={{__html: value.label}}>
-                            </span>
+                            <span dangerouslySetInnerHTML={{__html: value.label}}></span>
                         </Button>
                     </Link>
             )}
