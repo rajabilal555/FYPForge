@@ -1,4 +1,4 @@
-import AuthenticatedLayout from '@/Layouts/StudentAuthenticatedLayout';
+import AuthenticatedLayout from '@/Layouts/AdvisorAuthenticatedLayout';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import {Head} from '@inertiajs/react';

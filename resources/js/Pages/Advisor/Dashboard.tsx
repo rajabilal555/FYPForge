@@ -1,4 +1,4 @@
-import AuthenticatedLayout from "@/Layouts/StudentAuthenticatedLayout";
+import AuthenticatedLayout from "@/Layouts/AdvisorAuthenticatedLayout";
 import {Head} from "@inertiajs/react";
 import {PageProps} from "@/types";
 
@@ -8,7 +8,7 @@ export default function Dashboard({auth}: PageProps) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Student Dashboard
+                    Advisor Dashboard
                 </h2>
             }
         >
