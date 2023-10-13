@@ -15,21 +15,30 @@ import {
     TableRow,
 } from "@/Components/ui/table";
 import Pagination from "@/Components/Pagination";
-import { PaginationLinks } from "@/types";
+import {PaginatedData} from "@/types";
 
-interface DataTableProps<TData, TValue> {
+interface DataTablePropsWithData<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    pagesData: PaginationLinks[];
+    paginatedData?: never;
 }
 
+interface DataTablePropsWithPaginatedData<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[];
+    data?: never;
+    paginatedData: PaginatedData<TData>;
+}
+
+
 export function DataTable<TData, TValue>({
-    columns,
-    data,
-    pagesData,
-}: DataTableProps<TData, TValue>) {
+                                             columns,
+                                             data,
+                                             paginatedData,
+                                         }: DataTablePropsWithData<TData, TValue> | DataTablePropsWithPaginatedData<TData, TValue>) {
+
+
     const table = useReactTable({
-        data,
+        data: (data ?? (paginatedData!.data)) as TData[],
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -48,10 +57,10 @@ export function DataTable<TData, TValue>({
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                      header.column.columnDef
-                                                          .header,
-                                                      header.getContext()
-                                                  )}
+                                                    header.column.columnDef
+                                                        .header,
+                                                    header.getContext()
+                                                )}
                                         </TableHead>
                                     );
                                 })}
@@ -91,26 +100,8 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
 
-            <Pagination pages={pagesData} numRecords={10} totalRecords={123} />
-
-            {/*<div className="flex items-center justify-end space-x-2 py-4">*/}
-            {/*    <Button*/}
-            {/*        variant="outline"*/}
-            {/*        size="sm"*/}
-            {/*        onClick={() => table.previousPage()}*/}
-            {/*        disabled={!table.getCanPreviousPage()}*/}
-            {/*    >*/}
-            {/*        Previous*/}
-            {/*    </Button>*/}
-            {/*    <Button*/}
-            {/*        variant="outline"*/}
-            {/*        size="sm"*/}
-            {/*        onClick={() => table.nextPage()}*/}
-            {/*        disabled={!table.getCanNextPage()}*/}
-            {/*    >*/}
-            {/*        Next*/}
-            {/*    </Button>*/}
-            {/*</div>*/}
+            {paginatedData != undefined && <Pagination pages={paginatedData!.links} numRecords={paginatedData.per_page}
+                                                       totalRecords={paginatedData.total}/>}
         </div>
     );
 }

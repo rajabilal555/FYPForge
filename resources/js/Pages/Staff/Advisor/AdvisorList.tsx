@@ -68,17 +68,17 @@ export default function AdvisorList({
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Advisor List
+                    Advisor StudentList
                 </h2>
             }
         >
-            <Head title="Students List"/>
+            <Head title="Students StudentList"/>
 
             <Link href={route("staff.advisor.create")}>
                 <Button>Create</Button>
             </Link>
             <Card className="mt-4">
-                <DataTable columns={columns} data={advisors.data} pagesData={advisors.links}/>
+                <DataTable columns={columns} data={advisors.data} paginatedData={advisors.links}/>
             </Card>
         </AuthenticatedLayout>
     );

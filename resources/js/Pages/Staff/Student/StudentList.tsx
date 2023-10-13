@@ -32,14 +32,12 @@ const columns: ColumnDef<Student>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-2">
+                        <Button variant="ghost" className="h-8 w-8 p-1">
                             <span className="sr-only">Open menu</span>
                             <EllipsisVerticalIcon/>
-                            {/*<MoreHorizontal className="h-4 w-4"/>*/}
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
                             onClick={() =>
                                 router.get(
@@ -52,33 +50,33 @@ const columns: ColumnDef<Student>[] = [
                             Edit
                         </DropdownMenuItem>
                         <DropdownMenuSeparator/>
-                        <DropdownMenuItem>View </DropdownMenuItem>
+                        <DropdownMenuItem>View</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             );
         },
     },
 ];
-export default function List({
-                                 auth,
-                                 students,
-                             }: PageProps<{ students: PaginatedData<Student> }>) {
+export default function StudentList({
+                                        auth,
+                                        students,
+                                    }: PageProps<{ students: PaginatedData<Student> }>) {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Student List
+                    All Students
                 </h2>
             }
         >
-            <Head title="Students List"/>
+            <Head title="Students StudentList"/>
 
             <Link href={route("staff.student.create")}>
                 <Button>Create</Button>
             </Link>
             <Card className="mt-4">
-                <DataTable columns={columns} data={students.data} pagesData={students.links}/>
+                <DataTable columns={columns} paginatedData={students}/>
             </Card>
         </AuthenticatedLayout>
     );
