@@ -19,7 +19,7 @@ export default function UpdatePasswordForm({className = ''}: { className?: strin
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
 
-        put(route('student.password.update'), {
+        put(route('advisor.password.update'), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

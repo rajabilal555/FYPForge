@@ -1,5 +1,4 @@
 import AuthenticatedLayout from '@/Layouts/StaffAuthenticatedLayout';
-import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import {Head} from '@inertiajs/react';
@@ -28,10 +27,6 @@ export default function Edit({auth, mustVerifyEmail, status}: PageProps<{
 
                     <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                         <UpdatePasswordForm className="max-w-xl"/>
-                    </div>
-
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                        <DeleteUserForm className="max-w-xl"/>
                     </div>
                 </div>
             </div>

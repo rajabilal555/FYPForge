@@ -23,5 +23,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test Student',
             'email' => 'student@example.com'
         ]);
+        \App\Models\Advisor::factory()->create([
+            'name' => 'Test Advisor',
+            'email' => 'advisor@example.com'
+        ]);
     }
 }

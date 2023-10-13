@@ -1,16 +1,16 @@
-import { useState, PropsWithChildren, ReactNode } from "react";
+import {useState, PropsWithChildren, ReactNode} from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/react";
-import { User } from "@/types";
+import {Link} from "@inertiajs/react";
+import {User} from "@/types";
 
-export default function Authenticated({
-    user,
-    header,
-    children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
+export default function AuthenticatedLayout({
+                                                user,
+                                                header,
+                                                children,
+                                            }: PropsWithChildren<{ user: User; header?: ReactNode }>) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -22,33 +22,33 @@ export default function Authenticated({
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800"/>
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("staff.dashboard")}
-                                    active={route().current("staff.dashboard")}
+                                    href={route("student.dashboard")}
+                                    active={route().current("student.dashboard")}
                                 >
                                     Dashboard
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("staff.dashboard")}
+                                    href={route("student.dashboard")}
                                     active={route().current(
                                         "projects.dashboard"
                                     )}
                                 >
-                                    Projects
+                                    My Project
                                 </NavLink>
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("staff.advisor.index")}
+                                    href={route("student.dashboard")}
                                     active={route().current(
-                                        "staff.advisor.index"
+                                        "student.dashboard"
                                     )}
                                 >
                                     Advisors
@@ -56,22 +56,12 @@ export default function Authenticated({
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("staff.student.index")}
+                                    href={route("student.dashboard")}
                                     active={route().current(
-                                        "staff.student.index"
+                                        "student.dashboard"
                                     )}
                                 >
-                                    Students
-                                </NavLink>
-                            </div>
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink
-                                    href={route("staff.dashboard")}
-                                    active={route().current(
-                                        "reports.dashboard"
-                                    )}
-                                >
-                                    Reports
+                                    Help
                                 </NavLink>
                             </div>
                         </div>
@@ -104,13 +94,13 @@ export default function Authenticated({
 
                                     <Dropdown.Content>
                                         <Dropdown.Link
-                                            href={route("staff.profile.edit")}
+                                            href={route("student.profile.edit")}
                                         >
                                             Profile
                                         </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("logout", {
-                                                guard: "staff",
+                                                guard: "student",
                                             })}
                                             method="post"
                                             as="button"
@@ -173,8 +163,8 @@ export default function Authenticated({
                 >
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            href={route("staff.dashboard")}
-                            active={route().current("staff.dashboard")}
+                            href={route("student.dashboard")}
+                            active={route().current("student.dashboard")}
                         >
                             Dashboard
                         </ResponsiveNavLink>
@@ -192,13 +182,13 @@ export default function Authenticated({
 
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink
-                                href={route("staff.profile.edit")}
+                                href={route("student.profile.edit")}
                             >
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 method="post"
-                                href={route("logout", { guard: "staff" })}
+                                href={route("logout", {guard: "student"})}
                                 as="button"
                             >
                                 Log Out

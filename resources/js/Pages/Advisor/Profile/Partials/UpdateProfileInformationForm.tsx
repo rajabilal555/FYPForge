@@ -22,7 +22,7 @@ export default function UpdateProfileInformation({mustVerifyEmail, status, class
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route('student.profile.update'));
+        patch(route('advisor.profile.update'));
     };
 
     return (

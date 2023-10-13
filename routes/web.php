@@ -22,21 +22,16 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('staff.login'),
-        'canRegister' => Route::has('staff.register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Welcome', []);
 })->name('welcome');
 
 
 Route::prefix('staff')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Staff/Dashboard');
-    })->middleware(['auth', 'verified'])->name('staff.dashboard');
+    })->middleware(['auth:staff', 'verified'])->name('staff.dashboard');
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware('auth:staff')->group(function () {
         Route::get('/profile', [Staff\ProfileController::class, 'edit'])->name('staff.profile.edit');
         Route::patch('/profile', [Staff\ProfileController::class, 'update'])->name('staff.profile.update');
         Route::delete('/profile', [Staff\ProfileController::class, 'destroy'])->name('staff.profile.destroy');
@@ -49,9 +44,9 @@ Route::prefix('staff')->group(function () {
 Route::prefix('advisor')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Advisor/Dashboard');
-    })->middleware(['auth', 'verified'])->name('advisor.dashboard');
+    })->middleware(['auth:advisor', 'verified'])->name('advisor.dashboard');
 
-    Route::middleware('auth')->group(function () {
+    Route::middleware('auth:advisor')->group(function () {
         Route::get('/profile', [Advisor\ProfileController::class, 'edit'])->name('advisor.profile.edit');
         Route::patch('/profile', [Advisor\ProfileController::class, 'update'])->name('advisor.profile.update');
         Route::delete('/profile', [Advisor\ProfileController::class, 'destroy'])->name('advisor.profile.destroy');
