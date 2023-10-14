@@ -1,0 +1,87 @@
+<?php
+
+namespace {{CONTROLLER_NAMESPACE}};
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use App\Models\{{MODEL_NAME}};
+
+class {{CONTROLLER_CLASS_NAME}} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): \Inertia\Response
+    {
+        return Inertia::render('{{NAME}}\{{CLASS_NAME}}List', []);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): \Inertia\Response
+    {
+        return Inertia::render('{{NAME}}\{{CLASS_NAME}}Create', []);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $data = collect($request->validate([
+            // add validation rules
+        ]));
+
+        $model = {{MODEL_NAME}}::create($data->toArray());
+        $model->save();
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show({{MODEL_NAME}} $model): \Inertia\Response
+    {
+        return Inertia::render('{{NAME}}\{{CLASS_NAME}}View', [
+            'model' => $model->only([
+                'id',
+                // add more fields to send to user
+            ])
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit({{MODEL_NAME}} $model): \Inertia\Response
+    {
+        return Inertia::render('{{NAME}}\{{CLASS_NAME}}Edit', [
+            'model' => $model->only([
+                'id',
+                // add more fields to send to user
+            ])
+        ]);
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, {{MODEL_NAME}} $model)
+    {
+        $data = $request->validate([
+            //Validation
+        ]);
+        $model->fill($data)->save();
+        return redirect()->route('model.index')->with('flash_message', 'Model updated.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy({{MODEL_NAME}} $model)
+    {
+        //
+    }
+}
