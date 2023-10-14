@@ -1,8 +1,8 @@
 import AuthenticatedLayout from "@/Layouts/StudentAuthenticatedLayout";
-import {Head} from "@inertiajs/react";
-import {PageProps} from "@/types";
+import { Head } from "@inertiajs/react";
+import { PageProps } from "@/types";
 
-export default function Dashboard({auth}: PageProps) {
+export default function Dashboard({ auth }: PageProps) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -12,7 +12,7 @@ export default function Dashboard({auth}: PageProps) {
                 </h2>
             }
         >
-            <Head title="Dashboard"/>
+            <Head title="Dashboard" />
 
             <div className="grid grid-rows-2-4  p-4 text-black">
                 <div className="grid grid-cols-4  gap-5 mb-5">
@@ -45,8 +45,7 @@ export default function Dashboard({auth}: PageProps) {
                         <p className="mb-6">Ads with posts</p>
                         <div className="flex justify-between gap-1 mb-10 ">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -61,8 +60,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -77,8 +75,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -93,8 +90,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10 ">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -109,8 +105,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10 ">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -131,8 +126,7 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
@@ -150,8 +144,7 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
@@ -169,8 +162,7 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
@@ -188,8 +180,7 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
@@ -207,8 +198,7 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">

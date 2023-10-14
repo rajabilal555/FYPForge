@@ -1,8 +1,22 @@
 import AuthenticatedLayout from "@/Layouts/StaffAuthenticatedLayout";
-import {Head} from "@inertiajs/react";
-import {PageProps} from "@/types";
+import { Head } from "@inertiajs/react";
+import { PageProps } from "@/types";
 
-export default function Dashboard({auth}: PageProps) {
+export default function Dashboard({ auth }: PageProps) {
+    const stats = [
+        {
+            name: "Total Students",
+            value: "240",
+            subtitle: "some text",
+        },
+        {
+            name: "Total Advisors",
+            value: "54",
+            subtitle: "some text",
+        },
+        { name: "Slots Available", value: "28", subtitle: "some text" },
+        { name: "Total Groups", value: "120", subtitle: "some text" },
+    ];
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -12,49 +26,25 @@ export default function Dashboard({auth}: PageProps) {
                 </h2>
             }
         >
-            <Head title="Dashboard"/>
+            <Head title="Dashboard" />
 
             <div className="grid grid-rows-2-4  p-4 text-black">
                 <div className="grid grid-cols-4  gap-5 mb-5">
-                    <section className=" p-4 bg-white h-28 rounded-lg">
-                        <h2 className="text-l font-bold">
-                            Total Students
-                        </h2>
-                        <p className="text-2xl font-bold">400</p>
-                        <h3>some text like that</h3>
-                    </section>
-                    <section className=" p-4 bg-white rounded-lg">
-                        <h2 className="text-l font-bold">
-                            Total Advisors
-                        </h2>
-                        <p className="text-2xl font-bold">15</p>
-                        <h3>some text like that</h3>
-                    </section>
-                    <section className=" p-4 bg-white rounded-lg">
-                        <h2 className="text-l font-bold">
-                            Slots available
-                        </h2>
-                        <p className="text-2xl font-bold">24</p>
-                        <h3>some text like that</h3>
-                    </section>
-                    <section className=" p-4 bg-white rounded-lg">
-                        <h2 className="text-l font-bold">
-                            Total Student Groups
-                        </h2>
-                        <p className="text-2xl font-bold">45</p>
-                        <h3>some text like that</h3>
-                    </section>
+                    {stats.map((stat) => (
+                        <section className=" p-4 transition-all ease-in-out hover:border-primary hover:border-2 bg-white h-28 rounded-lg">
+                            <h2 className="text-l font-bold">{stat.name}</h2>
+                            <p className="text-2xl font-bold">{stat.value}</p>
+                            <h3>{stat.subtitle}</h3>
+                        </section>
+                    ))}
                 </div>
                 <div className="grid grid-cols-2  gap-4 items-center">
                     <section className="p-4 ml-12  bg-white rounded-lg h-auto">
-                        <h2 className="text-xl font-bold">
-                            Open Advisors
-                        </h2>
+                        <h2 className="text-xl font-bold">Open Advisors</h2>
                         <p className="mb-6">Ads with posts</p>
                         <div className="flex justify-between gap-1 mb-10 ">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -69,8 +59,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -85,8 +74,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -101,8 +89,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10 ">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -117,8 +104,7 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                         <div className="flex justify-between gap-1 mb-10 ">
                             <div className="flex gap-3 ">
-                                <div
-                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                     FF
                                 </div>
                                 <div className="inline-flex items-center">
@@ -133,26 +119,22 @@ export default function Dashboard({auth}: PageProps) {
                         </div>
                     </section>
                     <section className="p-4 mr-32 mt-5 bg-white rounded-lg h-auto">
-                        <h2 className="text-xl font-bold">
-                            Recent Activity
-                        </h2>
+                        <h2 className="text-xl font-bold">Recent Activity</h2>
                         <p>Activity of all the projects</p>
                         <ul className="mt-6">
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
                                             <div className="font-bold">
-                                                FYP Forge | Olivia
-                                                Martin
+                                                FYP Forge | Olivia Martin
                                             </div>
                                             <p className="">
-                                                5 mins ago - updated
-                                                project details
+                                                5 mins ago - updated project
+                                                details
                                             </p>
                                         </div>
                                     </div>
@@ -161,14 +143,12 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
                                             <div className="font-bold">
-                                                FYP Forge | Jackson Las
-                                                Martin
+                                                FYP Forge | Jackson Las Martin
                                             </div>
                                             <p className="">
                                                 1 hr ago - Submitted for
@@ -181,18 +161,16 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
                                             <div className="font-bold">
-                                                SZABDESK | Isabella
-                                                Nguyen Martin
+                                                SZABDESK | Isabella Nguyen
+                                                Martin
                                             </div>
                                             <p className="">
-                                                2 hrs ago - Marked by
-                                                panel
+                                                2 hrs ago - Marked by panel
                                             </p>
                                         </div>
                                     </div>
@@ -201,18 +179,16 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
                                             <div className="font-bold">
-                                                FYP Forge | Willian Kim
-                                                Martin
+                                                FYP Forge | Willian Kim Martin
                                             </div>
                                             <p className="">
-                                                6 hrs ago - updated
-                                                project details
+                                                6 hrs ago - updated project
+                                                details
                                             </p>
                                         </div>
                                     </div>
@@ -221,28 +197,23 @@ export default function Dashboard({auth}: PageProps) {
                             <li>
                                 <div className="flex  gap-1 mb-10 ">
                                     <div className="flex gap-3">
-                                        <div
-                                            className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                        <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                             FF
                                         </div>
                                         <div className="flex flex-col">
                                             <div className="font-bold">
-                                                FYP Forge | Sofia Davis
-                                                Martin
+                                                FYP Forge | Sofia Davis Martin
                                             </div>
                                             <p className="">
-                                                5 mins ago - updated
-                                                project details
+                                                5 mins ago - updated project
+                                                details
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        <a
-                            href="#"
-                            className="flex justify-center gap-2 mb-4"
-                        >
+                        <a href="#" className="flex justify-center gap-2 mb-4">
                             <div className="inline-flex font-bold align-text-top text-lg">
                                 View all activities
                             </div>
@@ -267,5 +238,5 @@ export default function Dashboard({auth}: PageProps) {
                 </div>
             </div>
         </AuthenticatedLayout>
-    )
+    );
 }
