@@ -78,7 +78,7 @@ export default function AdvisorList({
                 <Button>Create</Button>
             </Link>
             <Card className="mt-4">
-                <DataTable columns={columns} data={advisors.data} paginatedData={advisors.links}/>
+                <DataTable columns={columns} paginatedData={advisors}/>
             </Card>
         </AuthenticatedLayout>
     );
