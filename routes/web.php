@@ -38,6 +38,7 @@ Route::prefix('staff')->group(function () {
 
         Route::resource('/student', Staff\StudentController::class, ['names' => 'staff.student']);
         Route::resource('/advisor', Staff\AdvisorController::class, ['names' => 'staff.advisor']);
+        Route::resource('/project', Staff\ProjectController::class, ['names' => 'staff.project']);
     });
 });
 
@@ -63,6 +64,10 @@ Route::prefix('student')->group(function () {
         Route::get('/profile', [Student\ProfileController::class, 'edit'])->name('student.profile.edit');
         Route::patch('/profile', [Student\ProfileController::class, 'update'])->name('student.profile.update');
         Route::delete('/profile', [Student\ProfileController::class, 'destroy'])->name('student.profile.destroy');
+
+        Route::get('/project', [Student\ProjectController::class, 'show'])->name('student.project.show');
+
+
     });
 });
 
