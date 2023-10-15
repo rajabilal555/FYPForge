@@ -18,8 +18,8 @@ import {
     PhoneIcon,
     PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-import img from "../../../app/Assets/images/img1.jpg";
-import logo from "../../../app/Assets/images/FYPForgeFinal.png";
+import img from "../../images/img1.jpg";
+import logo from "../../images/FYPForgeFinal.png";
 
 const products = [
     {
@@ -70,284 +70,199 @@ export default function Welcome({
     laravelVersion: string;
     phpVersion: string;
 }>) {
+    // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    // const [navbarOpen, setNavbarOpen] = useState(false);
+    // const transparent = true;
+    const navigation = [
+        { name: "Home", href: "#" },
+        { name: "Projects", href: "#" },
+        { name: "Alumni", href: "#" },
+        { name: "Contact", href: "#" },
+    ];
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const stats = [
+        { id: 1, name: "Transactions every 24 hours", value: "44 million" },
+        { id: 2, name: "Assets under holding", value: "$119 trillion" },
+        { id: 3, name: "New users annually", value: "46,000" },
+    ];
 
     return (
         <>
-            <Head title="Welcome" />
-            <header className="bg-white">
-                <nav
-                    className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
-                    aria-label="Global"
-                >
-                    <div className="flex lg:flex-1">
-                        <a href="#" className="-m-1.5 p-1.5">
-                            <span className="sr-only">FYP Forge</span>
-                            <img className="h-8 w-auto " src={logo} alt="" />
-                            {/* <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" /> */}
-                        </a>
-                    </div>
-                    <div className="flex lg:hidden">
-                        <button
-                            type="button"
-                            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-                            onClick={() => setMobileMenuOpen(true)}
-                        >
-                            <span className="sr-only">Open main menu</span>
-                            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-                        </button>
-                    </div>
-                    <Popover.Group className="hidden lg:flex lg:gap-x-12">
-                        <Popover className="relative">
-                            <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-                                Projects
-                                <ChevronDownIcon
-                                    className="h-5 w-5 flex-none text-gray-400"
-                                    aria-hidden="true"
-                                />
-                            </Popover.Button>
-
-                            <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-200"
-                                enterFrom="opacity-0 translate-y-1"
-                                enterTo="opacity-100 translate-y-0"
-                                leave="transition ease-in duration-150"
-                                leaveFrom="opacity-100 translate-y-0"
-                                leaveTo="opacity-0 translate-y-1"
-                            >
-                                <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                                    <div className="p-4">
-                                        {products.map((item) => (
-                                            <div
-                                                key={item.name}
-                                                className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
-                                            >
-                                                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                                    <item.icon
-                                                        className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
-                                                        aria-hidden="true"
-                                                    />
-                                                </div>
-                                                <div className="flex-auto">
-                                                    <a
-                                                        href={item.href}
-                                                        className="block font-semibold text-gray-900"
-                                                    >
-                                                        {item.name}
-                                                        <span className="absolute inset-0" />
-                                                    </a>
-                                                    <p className="mt-1 text-gray-600">
-                                                        {item.description}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
-                                        {callsToAction.map((item) => (
-                                            <a
-                                                key={item.name}
-                                                href={item.href}
-                                                className="flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100"
-                                            >
-                                                <item.icon
-                                                    className="h-5 w-5 flex-none text-gray-400"
-                                                    aria-hidden="true"
-                                                />
-                                                {item.name}
-                                            </a>
-                                        ))}
-                                    </div>
-                                </Popover.Panel>
-                            </Transition>
-                        </Popover>
-
-                        <a
-                            href="#"
-                            className="text-sm font-semibold leading-6 text-gray-900"
-                        >
-                            Features
-                        </a>
-                        <a
-                            href="#"
-                            className="text-sm font-semibold leading-6 text-gray-900"
-                        >
-                            Marketplace
-                        </a>
-                        <a
-                            href="#"
-                            className="text-sm font-semibold leading-6 text-gray-900"
-                        >
-                            Company
-                        </a>
-                    </Popover.Group>
-                    {auth.user ? (
-                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <Link
-                                className="text-sm font-semibold leading-6 text-gray-900"
-                                href={route("logout")}
-                                method="post"
-                                as="button"
-                            >
-                                Log Out
-                            </Link>
-                        </div>
-                    ) : (
-                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <a
-                                href={route("login")}
-                                className="text-sm font-semibold leading-6 text-gray-900"
-                            >
-                                Log in <span aria-hidden="true">&rarr;</span>
-                            </a>
-                        </div>
-                    )}
-                </nav>
-                <Dialog
-                    as="div"
-                    className="lg:hidden"
-                    open={mobileMenuOpen}
-                    onClose={setMobileMenuOpen}
-                >
-                    <div className="fixed inset-0 z-10" />
-                    <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                        <div className="flex items-center justify-between">
+            <div className="bg-white">
+                <header className="absolute inset-x-0 top-0 z-50">
+                    <nav
+                        className="flex items-center justify-between p-6 lg:px-8"
+                        aria-label="Global"
+                    >
+                        <div className="flex lg:flex-1">
                             <a href="#" className="-m-1.5 p-1.5">
                                 <span className="sr-only">FYP Forge</span>
-                                <img
-                                    className="h-8 w-auto"
-                                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                    alt=""
-                                />
+                                <div className="font-bold text-3xl text-primary">
+                                    FYP Forge
+                                </div>
+                                {/* <img className="h-8 w-auto" src="" alt="" /> */}
                             </a>
+                        </div>
+                        <div className="flex lg:hidden">
                             <button
                                 type="button"
-                                className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                                onClick={() => setMobileMenuOpen(false)}
+                                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+                                onClick={() => setMobileMenuOpen(true)}
                             >
-                                <span className="sr-only">Close menu</span>
-                                <XMarkIcon
+                                <span className="sr-only">Open main menu</span>
+                                <Bars3Icon
                                     className="h-6 w-6"
                                     aria-hidden="true"
                                 />
                             </button>
                         </div>
-                        <div className="mt-6 flow-root">
-                            <div className="-my-6 divide-y divide-gray-500/10">
-                                <div className="space-y-2 py-6">
-                                    <Disclosure as="div" className="-mx-3">
-                                        {({ open }) => (
-                                            <>
-                                                <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                                                    Projects
-                                                    {/* <ChevronDownIcon
-                          className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
-                          aria-hidden="true"
-                        /> */}
-                                                </Disclosure.Button>
-                                                <Disclosure.Panel className="mt-2 space-y-2">
-                                                    {[
-                                                        ...products,
-                                                        ...callsToAction,
-                                                    ].map((item) => (
-                                                        <Disclosure.Button
-                                                            key={item.name}
-                                                            as="a"
-                                                            href={item.href}
-                                                            className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                                        >
-                                                            {item.name}
-                                                        </Disclosure.Button>
-                                                    ))}
-                                                </Disclosure.Panel>
-                                            </>
-                                        )}
-                                    </Disclosure>
-                                    <a
-                                        href="#"
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
-                                        Features
-                                    </a>
-                                    <a
-                                        href="#"
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
-                                        Marketplace
-                                    </a>
-                                    <a
-                                        href="#"
-                                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
-                                        Company
-                                    </a>
-                                </div>
-                                <div className="py-6">
-                                    <a
-                                        href="#"
-                                        className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                    >
-                                        Log in
-                                    </a>
+                        <div className="hidden lg:flex lg:gap-x-12">
+                            {navigation.map((item) => (
+                                <a
+                                    key={item.name}
+                                    href={item.href}
+                                    className="text-sm font-semibold leading-6 text-gray-700"
+                                >
+                                    {item.name}
+                                </a>
+                            ))}
+                        </div>
+                        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                            <a
+                                href="#"
+                                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >
+                                Get started
+                            </a>
+                            {/* <a
+                                href="#"
+                                className="text-sm font-semibold leading-6 text-gray-900"
+                            >
+                                Log in <span aria-hidden="true">&rarr;</span>
+                            </a> */}
+                        </div>
+                    </nav>
+                    <Dialog
+                        as="div"
+                        className="lg:hidden"
+                        open={mobileMenuOpen}
+                        onClose={setMobileMenuOpen}
+                    >
+                        <div className="fixed inset-0 z-50" />
+                        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                            <div className="flex items-center justify-between">
+                                <a href="#" className="-m-1.5 p-1.5">
+                                    <span className="sr-only">
+                                        Your Company
+                                    </span>
+                                    <img
+                                        className="h-8 w-auto"
+                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                                        alt=""
+                                    />
+                                </a>
+                                <button
+                                    type="button"
+                                    className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    <span className="sr-only">Close menu</span>
+                                    <XMarkIcon
+                                        className="h-6 w-6"
+                                        aria-hidden="true"
+                                    />
+                                </button>
+                            </div>
+                            <div className="mt-6 flow-root">
+                                <div className="-my-6 divide-y divide-gray-500/10">
+                                    <div className="space-y-2 py-6">
+                                        {navigation.map((item) => (
+                                            <a
+                                                key={item.name}
+                                                href={item.href}
+                                                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                            >
+                                                {item.name}
+                                            </a>
+                                        ))}
+                                    </div>
+                                    <div className="py-6">
+                                        <a
+                                            href="#"
+                                            className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                                        >
+                                            Log in
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </Dialog.Panel>
-                </Dialog>
-            </header>
+                        </Dialog.Panel>
+                    </Dialog>
+                </header>
 
-            {/* <div>
-                <img src={img} className="h-auto max-w-full " alt="..." />
-            </div> */}
+                <div className="relative isolate px-6 pt-14 lg:px-8">
+                    <div
+                        className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                        aria-hidden="true"
+                    >
+                        <div
+                            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+                            style={{
+                                clipPath:
+                                    "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+                            }}
+                        />
+                    </div>
+                    <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-32">
+                        <div className="text-center">
+                            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-6xl">
+                                FYP Forge Igniting Ideas
+                            </h1>
+                            <p className="mt-6 text-lg leading-8 text-gray-600">
+                                FYP Forge: Where creativity meets craftsmanship,
+                                where ambition is tempered by expertise, and
+                                where the fire of innovation molds dreams into
+                                reality. We're not just building projects; we're
+                                forging futures.
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+                        aria-hidden="true"
+                    >
+                        <div
+                            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
+                            style={{
+                                clipPath:
+                                    "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+                            }}
+                        />
+                    </div>
+                </div>
+                <div className="bg-white py-24 sm:py-10">
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                        <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
+                            {stats.map((stat) => (
+                                <div
+                                    key={stat.id}
+                                    className="mx-auto flex max-w-xs flex-col gap-y-4"
+                                >
+                                    <dt className="text-base leading-7 text-gray-600">
+                                        {stat.name}
+                                    </dt>
+                                    <dd className="order-first text-3xl font-semibold tracking-tight text-secondary sm:text-5xl">
+                                        {stat.value}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-muted text-center sticky bottom-0 dark:bg-neutral-700  p-3  text-neutral-700 dark:text-neutral-200">
+                © 2023 Copyright FYP Forge
+            </div>
         </>
     );
 }
-
-// export default function Welcome({auth, laravelVersion, phpVersion}: PageProps<{
-//     laravelVersion: string,
-//     phpVersion: string
-// }>) {
-//     const notify = () => toast('Work in Progress', {type: "warning",});
-
-//     return (
-//         <>
-//             <Head title="Welcome"/>
-//             <div
-//                 className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-//                 <div
-//                     className=" mx-auto p-6 lg:p-8">
-//                     <h1 className="text-3xl font-semibold text-center mb-6">
-//                         Welcome to the FYP Management Portal
-//                     </h1>
-//                     <div className="space-x-8 text-center flex align-middle justify-center">
-//                         <button onClick={notify}
-//                                 className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-full inline-block  text-lg">
-//                             Student Login
-//                         </button>
-//                         <button onClick={notify}
-//                                 className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-full inline-block  text-lg">
-//                             Advisor Login
-//                         </button>
-//                         <Link href={route('staff.login')}
-//                               className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-full inline-block text-lg">
-//                             Coordinator/Staff Login
-//                         </Link>
-//                     </div>
-//                 </div>
-//                 <ToastContainer/>
-//             </div>
-
-//             <style>{`
-//                 .bg-dots-darker {
-//                     background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E");
-//                 }
-//                 @media (prefers-color-scheme: dark) {
-//                     .dark\\:bg-dots-lighter {
-//                         background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E");
-//                     }
-//                 }
-//             `}</style>
-//         </>
-//     );
-// }
