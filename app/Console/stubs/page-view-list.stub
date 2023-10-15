@@ -68,8 +68,8 @@ const columns: ColumnDef<{{CLASS_NAME}}>[] = [
 ];
 export default function {{CLASS_NAME}}List({
                                         auth,
-                                        model,
-                                    }: PageProps<{ model: PaginatedData<{{CLASS_NAME}}> }>) {
+                                        data,
+                                    }: PageProps<{ data: PaginatedData<{{CLASS_NAME}}> }>) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -81,11 +81,11 @@ export default function {{CLASS_NAME}}List({
         >
             <Head title="{{CLASS_NAME}}s StudentList"/>
 
-            <Link href={route("staff.student.create")}>
+            <Link href={route("model.create")}>
                 <Button>Create</Button>
             </Link>
             <Card className="mt-4">
-                <DataTable columns={columns} paginatedData={model}/>
+                <DataTable columns={columns} paginatedData={data}/>
             </Card>
         </AuthenticatedLayout>
     );

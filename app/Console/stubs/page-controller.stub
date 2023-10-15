@@ -14,7 +14,9 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
      */
     public function index(): \Inertia\Response
     {
-        return Inertia::render('{{NAME}}\{{CLASS_NAME}}List', []);
+        return Inertia::render('{{PAGES_PATH}}List', [
+           'data' => Project::paginate(10),
+        ]);
     }
 
     /**
@@ -22,7 +24,7 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
      */
     public function create(): \Inertia\Response
     {
-        return Inertia::render('{{NAME}}\{{CLASS_NAME}}Create', []);
+        return Inertia::render('{{PAGES_PATH}}Create', []);
     }
 
     /**
@@ -43,7 +45,7 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
      */
     public function show({{MODEL_NAME}} $model): \Inertia\Response
     {
-        return Inertia::render('{{NAME}}\{{CLASS_NAME}}View', [
+        return Inertia::render('{{PAGES_PATH}}View', [
             'model' => $model->only([
                 'id',
                 // add more fields to send to user
@@ -56,7 +58,7 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
      */
     public function edit({{MODEL_NAME}} $model): \Inertia\Response
     {
-        return Inertia::render('{{NAME}}\{{CLASS_NAME}}Edit', [
+        return Inertia::render('{{PAGES_PATH}}Edit', [
             'model' => $model->only([
                 'id',
                 // add more fields to send to user

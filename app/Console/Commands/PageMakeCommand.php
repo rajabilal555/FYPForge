@@ -137,7 +137,7 @@ class PageMakeCommand extends Command
             'CLASS_NAME' => $className,
             'CONTROLLER_CLASS_NAME' => $className . 'Controller',
             'CONTROLLER_NAMESPACE' => $this->getNamespace($name, 'App\Http\Controllers\\'),
-            'PAGES_PATH' => $this->getPagePath($name),
+            'PAGES_PATH' => str_replace('\\', '/', $this->getNameArg()) . '/' . $className,
             'MODEL_NAME' => trim($this->argument('model') ?? ''),
         ];
     }
