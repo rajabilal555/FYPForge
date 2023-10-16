@@ -35,7 +35,7 @@ export default function Login({
     };
 
     return (
-        <GuestLayout subtitle={"Staff Login"}>
+        <GuestLayout subtitle={"Login"}>
             <Head title="Log in"/>
 
             {status && (
