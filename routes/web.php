@@ -6,6 +6,7 @@
 use App\Http\Controllers\Staff;
 use App\Http\Controllers\Student;
 use App\Http\Controllers\Advisor;
+use App\Models\Project;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,11 @@ Route::get('/', function () {
     return Inertia::render('Welcome', []);
 })->name('welcome');
 
+Route::get('/projects', function () {
+    return Inertia::render('Landing/Projects', [
+        'projects' => Project::where('status', '!=', 'pending')->paginate(10),
+    ]);
+})->name('welcome');
 
 Route::prefix('staff')->group(function () {
     Route::get('/dashboard', function () {

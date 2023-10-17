@@ -2,14 +2,11 @@ import AuthenticatedLayout from "@/Layouts/StudentAuthenticatedLayout";
 import {Head} from "@inertiajs/react";
 import {PageProps} from "@/types";
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/Components/ui/card";
-import {Alert, AlertDescription, AlertTitle} from "@/Components/ui/alert";
 import {
-    AvatarIcon,
-    ChevronRightIcon,
-    DashboardIcon,
     DotsHorizontalIcon,
     DownloadIcon,
-    UploadIcon
+    UploadIcon,
+    TrashIcon,
 } from "@radix-ui/react-icons";
 import {
     ListTile,
@@ -20,20 +17,27 @@ import {
     ListTileTrailing
 } from "@/Components/list-tile";
 import {Button} from "@/Components/ui/button";
-import {Avatar, AvatarFallback} from "@/Components/ui/avatar";
+import {Avatar, AvatarFallback, AvatarImage} from "@/Components/ui/avatar";
 import {PlusIcon} from "@heroicons/react/24/solid";
+import {Popover, PopoverContent, PopoverTrigger} from "@/Components/ui/popover";
+import {ChevronDownIcon} from "@heroicons/react/20/solid";
+import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList} from "@/Components/ui/command";
+import {MessageSquareIcon} from "lucide-react";
+import ConfirmButton from "@/Components/confirm-button";
 
 export default function Dashboard({auth}: PageProps) {
     const members = [
         {
             id: 1,
             avatar: "JD",
-            name: "John Doe",
+            name: "John Doe (YOU)",
+            email: "bscs1234@szabist.pk"
         },
         {
             id: 2,
             avatar: "JS",
-            name: "John Smith (YOU)",
+            name: "John Smith",
+            email: "bscs1234@szabist.pk"
         }
     ];
     const files = [
@@ -81,58 +85,48 @@ export default function Dashboard({auth}: PageProps) {
                             {/*<CardDescription>Ali Mobin</CardDescription>*/}
                         </CardHeader>
                         <CardContent>
-                            <ListTile>
-                                <ListTileLeading>
+                            <div className="flex items-center justify-between space-x-4">
+                                <div className="flex items-center space-x-4">
                                     <Avatar>
-                                        {/*<AvatarImage src="https://github.com/shadcn.png" />*/}
                                         <AvatarFallback>AM</AvatarFallback>
                                     </Avatar>
-                                </ListTileLeading>
-                                <ListTileContent>
-                                    <ListTileTitle>Ali Mobin</ListTileTitle>
-                                    {/*<ListTileDescription>*/}
-                                    {/*    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus,*/}
-                                    {/*    ligula*/}
-                                    {/*</ListTileDescription>*/}
-                                </ListTileContent>
-                                <ListTileTrailing>
-                                    <Button variant="outline" size="icon">
-                                        <DotsHorizontalIcon className="h-4 w-4"/>
-                                    </Button>
-                                </ListTileTrailing>
-                            </ListTile>
+                                    <div>
+                                        <p className="text-sm font-medium leading-none">Ali Mobin</p>
+                                    </div>
+                                </div>
+                                <Button variant="outline" size="icon">
+                                    <MessageSquareIcon className="h-4 w-4"/>
+                                </Button>
+                            </div>
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Group Members</CardTitle>
-                            <CardDescription>Your teammates</CardDescription>
+                            <CardTitle>Team Members</CardTitle>
+                            <CardDescription>
+                                Invite your team members to collaborate.
+                            </CardDescription>
                         </CardHeader>
-                        <CardContent>
-                            <div className="space-y-2">
-                                {members.map((member) => (
-                                    <ListTile key={member.id}>
-                                        <ListTileLeading>
-                                            <Avatar>
-                                                {/*<AvatarImage src="https://github.com/shadcn.png" />*/}
-                                                <AvatarFallback>JD</AvatarFallback>
-                                            </Avatar>
-                                        </ListTileLeading>
-                                        <ListTileContent>
-                                            <ListTileTitle>John Doe</ListTileTitle>
-                                            {/*<ListTileDescription>*/}
-                                            {/*    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rhoncus,*/}
-                                            {/*    ligula*/}
-                                            {/*</ListTileDescription>*/}
-                                        </ListTileContent>
-                                        <ListTileTrailing>
-                                            <Button variant="outline" size="icon">
-                                                <DotsHorizontalIcon className="h-4 w-4"/>
-                                            </Button>
-                                        </ListTileTrailing>
-                                    </ListTile>
-                                ))}
-                            </div>
+                        <CardContent className="grid gap-6">
+                            {members.map((member) => (
+                                <div key={member.id} className="flex items-center justify-between space-x-4">
+                                    <div className="flex items-center space-x-4">
+                                        <Avatar>
+                                            <AvatarFallback>{member.avatar}</AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                            <p className="text-sm font-medium leading-none">{member.name}</p>
+                                            <p className="text-sm text-muted-foreground">{member.email}</p>
+                                        </div>
+                                    </div>
+                                    <ConfirmButton onConfirm={() => alert("clicked")}
+                                                   dialogDescription={`You want to delete ${member.name}`}>
+                                        <Button variant="outline" size="icon">
+                                            <TrashIcon className="h-4 w-4"/>
+                                        </Button>
+                                    </ConfirmButton>
+                                </div>
+                            ))}
                         </CardContent>
                         <CardFooter className="flex justify-stretch">
                             <Button variant="ghost" className="w-full">
@@ -161,9 +155,12 @@ export default function Dashboard({auth}: PageProps) {
                                             <Button variant="outline" size="icon">
                                                 <DownloadIcon className="h-4 w-4"/>
                                             </Button>
-                                            <Button variant="outline" size="icon">
-                                                <DotsHorizontalIcon className="h-4 w-4"/>
-                                            </Button>
+                                            <ConfirmButton onConfirm={() => alert("clicked")}
+                                                           dialogDescription={`You want to delete ${member.name}`}>
+                                                <Button variant="outline" className="text-red-600" size="icon">
+                                                    <TrashIcon className="h-4 w-4"/>
+                                                </Button>
+                                            </ConfirmButton>
                                         </ListTileTrailing>
                                     </ListTile>
                                 ))}
