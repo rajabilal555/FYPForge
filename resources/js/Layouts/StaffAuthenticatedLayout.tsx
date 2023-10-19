@@ -36,10 +36,8 @@ export default function AuthenticatedLayout({
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("staff.dashboard")}
-                                    active={route().current(
-                                        "projects.dashboard"
-                                    )}
+                                    href={route("staff.project.index")}
+                                    active={route().current("staff.project.index")}
                                 >
                                     Projects
                                 </NavLink>
@@ -47,9 +45,7 @@ export default function AuthenticatedLayout({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("staff.advisor.index")}
-                                    active={route().current(
-                                        "staff.advisor.index"
-                                    )}
+                                    active={route().current("staff.advisor.index")}
                                 >
                                     Advisors
                                 </NavLink>
@@ -57,9 +53,7 @@ export default function AuthenticatedLayout({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("staff.student.index")}
-                                    active={route().current(
-                                        "staff.student.index"
-                                    )}
+                                    active={route().current("staff.student.index")}
                                 >
                                     Students
                                 </NavLink>
@@ -67,9 +61,7 @@ export default function AuthenticatedLayout({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("staff.dashboard")}
-                                    active={route().current(
-                                        "reports.dashboard"
-                                    )}
+                                    active={route().current("staff.reports")}
                                 >
                                     Reports
                                 </NavLink>

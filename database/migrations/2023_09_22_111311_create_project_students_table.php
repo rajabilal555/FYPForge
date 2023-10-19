@@ -10,17 +10,17 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('student_group_students', function (Blueprint $table) {
+        Schema::create('project_students', function (Blueprint $table) {
             $table->foreignId('student_id')
-                ->unique() // One student can only be in one group
+                ->unique() // One student can only be in one group/project
                 ->constrained('students')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->foreignId('student_group_id')
-                ->constrained('student_groups')
+            $table->foreignId('project_id')
+                ->constrained('projects')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->index(['student_id', 'student_group_id']);
+            $table->index(['student_id', 'project_id']);
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('student_group_students');
+        Schema::dropIfExists('project_students');
     }
 };

@@ -36,10 +36,8 @@ export default function AuthenticatedLayout({
                             </div>
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
-                                    href={route("student.dashboard")}
-                                    active={route().current(
-                                        "projects.dashboard"
-                                    )}
+                                    href={route("student.project.show")}
+                                    active={route().current("student.project.show")}
                                 >
                                     My Project
                                 </NavLink>
@@ -47,9 +45,7 @@ export default function AuthenticatedLayout({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("student.dashboard")}
-                                    active={route().current(
-                                        "student.dashboard"
-                                    )}
+                                    active={route().current("student.advisor.index")}
                                 >
                                     Advisors
                                 </NavLink>
@@ -57,9 +53,7 @@ export default function AuthenticatedLayout({
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
                                     href={route("student.dashboard")}
-                                    active={route().current(
-                                        "student.dashboard"
-                                    )}
+                                    active={route().current("student.help")}
                                 >
                                     Help
                                 </NavLink>
@@ -208,7 +202,7 @@ export default function AuthenticatedLayout({
 
             <main>
                 <div className="py-8">
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div className="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8">
                         {children}
                     </div>
                 </div>

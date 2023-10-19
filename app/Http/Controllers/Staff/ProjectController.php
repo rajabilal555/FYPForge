@@ -1,30 +1,31 @@
 <?php
 
-namespace {{CONTROLLER_NAMESPACE}};
+namespace App\Http\Controllers\Staff;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use App\Models\{{MODEL_NAME}};
+use App\Models\Project;
+use Inertia\Response;
 
-class {{CONTROLLER_CLASS_NAME}} extends Controller
+class ProjectController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): \Inertia\Response
+    public function index(): Response
     {
-        return Inertia::render('{{PAGES_PATH}}List', [
-           'data' => Project::paginate(10),
+        return Inertia::render('Staff/Project/ProjectList', [
+            'data' => Project::paginate(10),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): \Inertia\Response
+    public function create()
     {
-        return Inertia::render('{{PAGES_PATH}}Create', []);
     }
 
     /**
@@ -32,20 +33,14 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
      */
     public function store(Request $request)
     {
-        $data = collect($request->validate([
-            // add validation rules
-        ]));
-
-        $model = {{MODEL_NAME}}::create($data->toArray());
-        $model->save();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show({{MODEL_NAME}} $model): \Inertia\Response
+    public function show(Project $model): Response
     {
-        return Inertia::render('{{PAGES_PATH}}View', [
+        return Inertia::render('Staff/Project/ProjectView', [
             'model' => $model->only([
                 'id',
                 // add more fields to send to user
@@ -56,9 +51,9 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit({{MODEL_NAME}} $model): \Inertia\Response
+    public function edit(Project $model): Response
     {
-        return Inertia::render('{{PAGES_PATH}}Edit', [
+        return Inertia::render('Staff/Project/ProjectEdit', [
             'model' => $model->only([
                 'id',
                 // add more fields to send to user
@@ -70,7 +65,7 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, {{MODEL_NAME}} $model)
+    public function update(Request $request, Project $model): RedirectResponse
     {
         $data = $request->validate([
             //Validation
@@ -82,7 +77,7 @@ class {{CONTROLLER_CLASS_NAME}} extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy({{MODEL_NAME}} $model)
+    public function destroy(Project $model)
     {
         //
     }

@@ -262,7 +262,7 @@ export default function Welcome({
                 </div>
             </div>
             <div
-                className="bg-muted text-center fixed w-full bottom-0 dark:bg-neutral-700  p-3  text-neutral-700 dark:text-neutral-200">
+                className="bg-muted text-center sticky bottom-0 dark:bg-neutral-700  p-3  text-neutral-700 dark:text-neutral-200">
                 © 2023 Copyright FYP Forge
             </div>
         </>

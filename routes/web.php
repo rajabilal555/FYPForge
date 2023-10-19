@@ -6,6 +6,7 @@
 use App\Http\Controllers\Staff;
 use App\Http\Controllers\Student;
 use App\Http\Controllers\Advisor;
+use App\Models\Project;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,11 @@ Route::get('/', function () {
     return Inertia::render('Welcome', []);
 })->name('welcome');
 
+Route::get('/projects', function () {
+    return Inertia::render('Landing/Projects', [
+        'projects' => Project::where('status', '!=', 'pending')->paginate(10),
+    ]);
+})->name('welcome');
 
 Route::prefix('staff')->group(function () {
     Route::get('/dashboard', function () {
@@ -38,6 +44,7 @@ Route::prefix('staff')->group(function () {
 
         Route::resource('/student', Staff\StudentController::class, ['names' => 'staff.student']);
         Route::resource('/advisor', Staff\AdvisorController::class, ['names' => 'staff.advisor']);
+        Route::resource('/project', Staff\ProjectController::class, ['names' => 'staff.project']);
     });
 });
 
@@ -63,6 +70,10 @@ Route::prefix('student')->group(function () {
         Route::get('/profile', [Student\ProfileController::class, 'edit'])->name('student.profile.edit');
         Route::patch('/profile', [Student\ProfileController::class, 'update'])->name('student.profile.update');
         Route::delete('/profile', [Student\ProfileController::class, 'destroy'])->name('student.profile.destroy');
+
+        Route::get('/project', [Student\ProjectController::class, 'show'])->name('student.project.show');
+
+
     });
 });
 

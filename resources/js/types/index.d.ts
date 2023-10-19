@@ -50,3 +50,5 @@ export type PageProps<
         user: User;
     };
 };
+
+export type Project = { id: number }
