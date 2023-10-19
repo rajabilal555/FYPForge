@@ -30,7 +30,7 @@ Route::get('/projects', function () {
     return Inertia::render('Landing/Projects', [
         'projects' => Project::where('status', '!=', 'pending')->paginate(10),
     ]);
-})->name('welcome');
+})->name('landing.projects');
 
 Route::prefix('staff')->group(function () {
     Route::get('/dashboard', function () {

@@ -1,9 +1,7 @@
-import {Link, Head} from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import {PageProps} from "@/types";
-import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {Fragment, useState} from "react";
-import {Dialog, Disclosure, Popover, Transition} from "@headlessui/react";
+import {useState} from "react";
+import {Dialog} from "@headlessui/react";
 import {
     ArrowPathIcon,
     Bars3Icon,
@@ -14,7 +12,6 @@ import {
     XMarkIcon,
 } from "@heroicons/react/24/outline";
 import {
-    ChevronDownIcon,
     PhoneIcon,
     PlayCircleIcon,
 } from "@heroicons/react/20/solid";
@@ -62,20 +59,13 @@ const callsToAction = [
 //     return classes.filter(Boolean).join(' ')
 //   }
 
-export default function Welcome({
-                                    auth,
-                                    laravelVersion,
-                                    phpVersion,
-                                }: PageProps<{
-    laravelVersion: string;
-    phpVersion: string;
-}>) {
+export default function Welcome({}: PageProps<{}>) {
     // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     // const [navbarOpen, setNavbarOpen] = useState(false);
     // const transparent = true;
     const navigation = [
         {name: "Home", href: "#"},
-        {name: "Projects", href: "#"},
+        {name: "Projects", href: route('landing.projects')},
         {name: "Alumni", href: "#"},
         {name: "Contact", href: "#"},
     ];
@@ -88,6 +78,7 @@ export default function Welcome({
 
     return (
         <>
+            <Head title="Welcome | FYP Forge"/>
             <div className="bg-white">
                 <header className="absolute inset-x-0 top-0 z-50">
                     <nav
@@ -118,22 +109,22 @@ export default function Welcome({
                         </div>
                         <div className="hidden lg:flex lg:gap-x-12">
                             {navigation.map((item) => (
-                                <a
+                                <Link
                                     key={item.name}
                                     href={item.href}
                                     className="text-sm font-semibold leading-6 text-gray-700"
                                 >
                                     {item.name}
-                                </a>
+                                </Link>
                             ))}
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <a
-                                href="#"
+                            <Link
+                                href={route('login')}
                                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Get started
-                            </a>
+                            </Link>
                             {/* <a
                                 href="#"
                                 className="text-sm font-semibold leading-6 text-gray-900"
