@@ -10,25 +10,19 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('project_queries', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')
-                ->nullable();
-            
-            $table->string('status');
+            $table->string('query');
 
-            $table->foreignId('panel_id')
-                ->nullable()
-                ->constrained('panels')
+            $table->foreignId('project_id')
+                ->constrained('projects')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->foreignId('advisor_id')
-                ->nullable()
-                ->constrained('advisors')
+            $table->foreignId('student_id')
+                ->constrained('students')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->dateTime('next_evaluation_date')
+            $table->string('answer')
                 ->nullable();
 
             $table->timestamps();
@@ -40,6 +34,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('project_queries');
     }
 };
