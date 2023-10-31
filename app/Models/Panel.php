@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Project extends Model
+class Panel extends Model
 {
     use HasFactory;
 
@@ -17,16 +16,19 @@ class Project extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'description',
-        'status',
-        'panel_id',
-        'created_by',
-        'updated_by',
     ];
 
-    public function students(): HasMany
+
+    public function projects(): HasMany
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Project::class);
     }
+
+    // project_evaluations
+    public function projectEvaluations(): HasMany
+    {
+        return $this->hasMany(ProjectEvaluation::class);
+    }
+
 }
