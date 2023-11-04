@@ -58,7 +58,13 @@ class AdvisorController extends Controller
      */
     public function edit(Advisor $advisor)
     {
-        //
+        return Inertia::render('Staff/Advisor/AdvisorEdit', [
+            'advisor' => $advisor->only([
+                'id',
+                'name',
+                'email',
+            ])
+        ]);
     }
 
     /**
@@ -66,7 +72,13 @@ class AdvisorController extends Controller
      */
     public function update(Request $request, Advisor $advisor)
     {
-        //
+        $advisor->fill($request->validate([
+            'name' => ['required'],
+            'email' => ['required', 'email'],
+        ]))->save();
+
+
+        return redirect()->route('staff.advisor.index')->with('flash_message', 'Record updated.');
     }
 
     /**

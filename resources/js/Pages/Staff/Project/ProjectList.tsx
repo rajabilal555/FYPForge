@@ -81,9 +81,6 @@ export default function ProjectList({
         >
             <Head title="Projects List"/>
 
-            <Link href={route("staff.project.create")}>
-                <Button>Create</Button>
-            </Link>
             <Card className="mt-4">
                 <DataTable columns={columns} paginatedData={data}/>
             </Card>

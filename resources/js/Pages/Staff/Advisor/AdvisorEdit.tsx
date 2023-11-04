@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/StaffAuthenticatedLayout";
 import {Head, useForm} from "@inertiajs/react";
-import {PageProps} from "@/types";
+import {Advisor, PageProps} from "@/types";
 import {Card, CardContent, CardHeader, CardTitle} from "@/Components/ui/card";
 
 import {Button} from "@/Components/ui/button";
@@ -10,11 +10,13 @@ import {ChangeEvent} from "react";
 import InputError from "@/Components/InputError";
 
 
-export default function AdvisorCreate({auth}: PageProps) {
+export default function AdvisorEdit({auth, advisor}: PageProps<{
+    advisor: Advisor
+}>) {
 
-    const {data, setData, post, processing, errors} = useForm({
-        email: '',
-        name: '',
+    const {data, setData, put, processing, errors} = useForm({
+        email: advisor.email,
+        name: advisor.name,
         password: '',
     });
 
@@ -22,22 +24,21 @@ export default function AdvisorCreate({auth}: PageProps) {
     function handleSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
         console.log(data);
-        post(route('staff.advisor.store'))
+        put(route('staff.advisor.update', {advisor: advisor.id}));
     }
-
 
     return (
         <AuthenticatedLayout user={auth.user}
                              header={
                                  <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                                     Create Advisor
+                                     Edit Advisor
                                  </h2>
                              }
         >
-            <Head title="Create Advisor"/>
+            <Head title="Edit Advisor"/>
             <Card>
                 <CardHeader>
-                    <CardTitle>New Advisor</CardTitle>
+                    <CardTitle> Editing {advisor.name} </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-8">
@@ -58,7 +59,7 @@ export default function AdvisorCreate({auth}: PageProps) {
                         <div className="grid w-full items-center gap-1.5">
                             <Label>Password</Label>
                             <Input type="password" onChange={e => setData('password', e.target.value)}
-                                   placeholder="Enter Password"/>
+                                   placeholder="Unchanged"/>
                             <InputError message={errors.password}/>
                         </div>
 

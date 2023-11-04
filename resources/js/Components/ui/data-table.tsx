@@ -1,8 +1,9 @@
 import {
+    Column,
+    Table as ReactTable,
     ColumnDef,
     flexRender,
     getCoreRowModel,
-    getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
 
@@ -16,6 +17,10 @@ import {
 } from "@/Components/ui/table";
 import Pagination from "@/Components/Pagination";
 import {PaginatedData} from "@/types";
+import {Input} from "@/Components/ui/input";
+import DebouncedInput from "@/Components/DebouncedInput";
+import {IconInput} from "@/Components/ui/icon-input";
+import {SearchIcon} from "lucide-react";
 
 interface DataTablePropsWithData<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -39,14 +44,20 @@ export function DataTable<TData, TValue>({
 
     const table = useReactTable({
         data: (data ?? (paginatedData!.data)) as TData[],
+        manualFiltering: true,
+        manualPagination: true,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
     });
 
     return (
         <div>
-            <div className="rounded-md border">
+            <div className="p-4 rounded-md border">
+                <div className="flex justify-between items-center mb-4">
+                    <div className="w-1/4">
+                        <IconInput icon={SearchIcon} className={"w-full"} placeholder="Search..."/>
+                    </div>
+                </div>
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -61,6 +72,11 @@ export function DataTable<TData, TValue>({
                                                         .header,
                                                     header.getContext()
                                                 )}
+                                            {header.column.getCanFilter() ? (
+                                                <div>
+                                                    <Filter column={header.column} table={table}/>
+                                                </div>
+                                            ) : null}
                                         </TableHead>
                                     );
                                 })}
@@ -100,8 +116,66 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
 
-            {paginatedData != undefined && <Pagination pages={paginatedData!.links} numRecords={paginatedData.per_page}
-                                                       totalRecords={paginatedData.total}/>}
+            {paginatedData != undefined &&
+                <Pagination
+                    pages={paginatedData!.links}
+                    from={paginatedData.from}
+                    to={paginatedData.to}
+                    perPage={paginatedData.per_page}
+                    totalRecords={paginatedData.total}/>}
         </div>
     );
+}
+
+
+function Filter({
+                    column,
+                    table,
+                }: {
+    column: Column<any, unknown>
+    table: ReactTable<any>
+}) {
+    const firstValue = table
+        .getPreFilteredRowModel()
+        .flatRows[0]?.getValue(column.id)
+
+    const columnFilterValue = column.getFilterValue()
+
+
+    return typeof firstValue === 'number' ? (
+        <div>
+            <div className="flex space-x-2">
+                <DebouncedInput
+                    type="number"
+                    value={(columnFilterValue as [number, number])?.[0] ?? ''}
+                    onChange={value =>
+                        column.setFilterValue((old: [number, number]) => [value, old?.[1]])
+                    }
+                    placeholder={`Min`}
+                    className="w-24 border shadow rounded"
+                />
+                <DebouncedInput
+                    type="number"
+                    value={(columnFilterValue as [number, number])?.[1] ?? ''}
+                    onChange={value =>
+                        column.setFilterValue((old: [number, number]) => [old?.[0], value])
+                    }
+                    placeholder={`Max`}
+                    className="w-24 border shadow rounded"
+                />
+            </div>
+            <div className="h-1"/>
+        </div>
+    ) : (
+        <>
+            <DebouncedInput
+                type="text"
+                value={(columnFilterValue ?? '') as string}
+                onChange={value => column.setFilterValue(value)}
+                placeholder={`Search by ${column.columnDef.header}`}
+                className="w-full"
+            />
+            <div className="h-1"/>
+        </>
+    )
 }

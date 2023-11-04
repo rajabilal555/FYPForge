@@ -19,7 +19,7 @@ class StudentController extends Controller
     public function index(): Response
     {
         return Inertia::render('Staff/Student/StudentList', [
-            'students' => Student::paginate(10),
+            'students' => Student::paginate(request('per_page', 10)),
         ]);
     }
 
@@ -38,7 +38,7 @@ class StudentController extends Controller
     {
         $data = collect($request->validate([
             'name' => ['required'],
-            'registration_no' => ['required'],
+            'registration_no' => ['required', 'numeric'],
             'email' => ['required', 'email'],
             'password' => ['required', Password::defaults()],
         ]));
@@ -68,6 +68,9 @@ class StudentController extends Controller
         return Inertia::render('Staff/Student/StudentEdit', [
             'student' => $student->only([
                 'id',
+                'name',
+                'email',
+                'registration_no',
                 // add more fields to send to user
             ])
         ]);
@@ -81,7 +84,7 @@ class StudentController extends Controller
     {
         $student->fill($request->validate([
             'name' => ['required'],
-            'registration_no' => ['required'],
+            'registration_no' => ['required', 'numeric'],
             'email' => ['required', 'email'],
         ]))->save();
 

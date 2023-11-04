@@ -5,30 +5,24 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "@/Components/ui/card";
 import {
     LineChart,
     Line,
-    CartesianGrid,
     XAxis,
     YAxis,
     Tooltip,
     ResponsiveContainer,
-    Legend,
     BarChart,
     Bar,
 } from "recharts";
 import {useState} from "react";
-import Calendar from "react-calendar";
-import CalendarCard from "@/Components/ui/calendar-card";
-import "react-calendar/dist/Calendar.css";
-import {MdChevronLeft, MdChevronRight} from "react-icons/md";
-import "../../../css/miniCalendar.css";
+import {Calendar} from "@/Components/ui/calendar";
 
 export default function Dashboard({auth}: PageProps) {
+    const [date, setDate] = useState<Date | undefined>(new Date())
     const stats = [
         {
             name: "Total Students",
@@ -43,23 +37,6 @@ export default function Dashboard({auth}: PageProps) {
         {name: "Slots Available", value: "28", subtitle: "some text"},
         {name: "Total Groups", value: "120", subtitle: "some text"},
     ];
-    // const data1 = {
-    //     labels: ["Red", "Orange", "Blue"],
-    //     // datasets is an array of objects where each object represents a set of data to display corresponding to the labels above. for brevity, we'll keep it at one object
-    //     datasets: [
-    //         {
-    //             label: "Popularity of colours",
-    //             data: [55, 23, 96],
-    //             // you can set indiviual colors for each bar
-    //             backgroundColor: [
-    //                 "rgba(255, 255, 255, 0.6)",
-    //                 "rgba(255, 255, 255, 0.6)",
-    //                 "rgba(255, 255, 255, 0.6)",
-    //             ],
-    //             borderWidth: 1,
-    //         },
-    //     ],
-    // };
     const data = [
         {
             name: "Mon",
@@ -406,15 +383,11 @@ export default function Dashboard({auth}: PageProps) {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="flex justify-center">
-                                {/* <CalendarCard extra="flex w-full h-full flex-col px-3 py-3"> */}
                                 <Calendar
-                                    onChange={onChange}
-                                    value={value}
-                                    prevLabel={<MdChevronLeft className="ml-1 h-6 w-6 "/>}
-                                    nextLabel={<MdChevronRight className="ml-1 h-6 w-6 "/>}
-                                    view={"month"}
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={setDate}
                                 />
-                                {/* </CalendarCard> */}
                             </CardContent>
                         </Card>
                     </div>

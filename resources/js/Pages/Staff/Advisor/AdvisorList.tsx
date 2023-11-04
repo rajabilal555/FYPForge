@@ -32,14 +32,12 @@ const columns: ColumnDef<Advisor>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
+                        <Button variant="ghost" className="h-8 w-8 p-1">
                             <span className="sr-only">Open menu</span>
                             <EllipsisVerticalIcon/>
-                            {/*<MoreHorizontal className="h-4 w-4"/>*/}
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem
                             onClick={() =>
                                 router.get(
@@ -68,11 +66,11 @@ export default function AdvisorList({
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Advisor StudentList
+                    Advisor List
                 </h2>
             }
         >
-            <Head title="Students StudentList"/>
+            <Head title="Advisors"/>
 
             <Link href={route("staff.advisor.create")}>
                 <Button>Create</Button>

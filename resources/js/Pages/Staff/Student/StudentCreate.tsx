@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/StaffAuthenticatedLayout";
-import {Head, useForm} from "@inertiajs/react";
+import {Head, router, useForm} from "@inertiajs/react";
 import {PageProps} from "@/types";
 import {Card, CardContent, CardHeader, CardTitle} from "@/Components/ui/card";
 
@@ -10,7 +10,7 @@ import {ChangeEvent} from "react";
 import InputError from "@/Components/InputError";
 
 
-export default function List({auth}: PageProps) {
+export default function StudentCreate({auth}: PageProps) {
 
     const {data, setData, post, processing, errors} = useForm({
         registration_no: '',
@@ -22,9 +22,8 @@ export default function List({auth}: PageProps) {
 
     function handleSubmit(e: ChangeEvent<HTMLFormElement>) {
         e.preventDefault()
-        // post('/login')
         console.log(data);
-        post(route('staff.student.store'))
+        post(route('staff.student.store'), {onSuccess: () => router.get(route('staff.student.index'))})
     }
 
 

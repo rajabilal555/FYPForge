@@ -19,10 +19,12 @@ const columns: ColumnDef<Student>[] = [
     {
         accessorKey: "name",
         header: "Name",
+        enableColumnFilter: true,
     },
     {
         accessorKey: "email",
         header: "Email",
+        enableColumnFilter: true,
     },
     {
         id: "actions",
@@ -60,7 +62,9 @@ const columns: ColumnDef<Student>[] = [
 export default function StudentList({
                                         auth,
                                         students,
-                                    }: PageProps<{ students: PaginatedData<Student> }>) {
+                                    }: PageProps<{
+    students: PaginatedData<Student>
+}>) {
     return (
         <AuthenticatedLayout
             user={auth.user}
