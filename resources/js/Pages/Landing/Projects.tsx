@@ -1,9 +1,7 @@
-import {Link, Head} from "@inertiajs/react";
-import {PageProps} from "@/types";
-import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import {Fragment, useState} from "react";
-import {Dialog, Disclosure, Popover, Transition} from "@headlessui/react";
+import { Link, Head } from "@inertiajs/react";
+import { PageProps } from "@/types";
+import { Fragment, useState } from "react";
+import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import {
     ArrowPathIcon,
     Bars3Icon,
@@ -18,72 +16,109 @@ import {
     PhoneIcon,
     PlayCircleIcon,
 } from "@heroicons/react/20/solid";
-import img from "../../images/img1.jpg";
-import logo from "../../images/FYPForgeFinal.png";
+import { DataTable } from "@/Components/ui/data-table";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/Components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
 
-const products = [
-    {
-        name: "Analytics",
-        description: "Get a better understanding of your traffic",
-        href: "#",
-        icon: ChartPieIcon,
-    },
-    {
-        name: "Engagement",
-        description: "Speak directly to your customers",
-        href: "#",
-        icon: CursorArrowRaysIcon,
-    },
-    {
-        name: "Security",
-        description: "Your customers’ data will be safe and secure",
-        href: "#",
-        icon: FingerPrintIcon,
-    },
-    {
-        name: "Integrations",
-        description: "Connect with third-party tools",
-        href: "#",
-        icon: SquaresPlusIcon,
-    },
-    {
-        name: "Automations",
-        description: "Build strategic funnels that will convert",
-        href: "#",
-        icon: ArrowPathIcon,
-    },
-];
-const callsToAction = [
-    {name: "Watch demo", href: "#", icon: PlayCircleIcon},
-    {name: "Contact sales", href: "#", icon: PhoneIcon},
-];
-
-// function classNames(...classes) {
-//     return classes.filter(Boolean).join(' ')
-//   }
-
-export default function Welcome({
-                                    auth,
-                                    laravelVersion,
-                                    phpVersion,
-                                }: PageProps<{
-    laravelVersion: string;
-    phpVersion: string;
-}>) {
-    // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    // const [navbarOpen, setNavbarOpen] = useState(false);
-    // const transparent = true;
+export default function Projects({}: PageProps<{}>) {
     const navigation = [
-        {name: "Home", href: "#"},
-        {name: "Projects", href: "#"},
-        {name: "Alumni", href: "#"},
-        {name: "Contact", href: "#"},
+        { name: "Home", href: "#" },
+        { name: "Projects", href: "#" },
+        { name: "Alumni", href: "#" },
+        { name: "Contact", href: "#" },
     ];
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const stats = [
-        {id: 1, name: "Transactions every 24 hours", value: "44 million"},
-        {id: 2, name: "Assets under holding", value: "$119 trillion"},
-        {id: 3, name: "New users annually", value: "46,000"},
+
+    const projectData = [
+        {
+            "member1-name": "Hanium Iqbal",
+            "member2-name": "Laiba Hasan",
+            "project-topic": "HERsheild",
+            "new-advisor": "Dr. Adeel Ansari",
+        },
+        {
+            "member1-name": "Aman .",
+            "member2-name": "",
+            "project-topic": "MotoMate",
+            "new-advisor": "Mr. Khawaja Mohiuddin",
+        },
+        {
+            "member1-name": "Mahad Khan",
+            "member2-name": "Hasnain Ali",
+            "project-topic": "Hunger Bounce / Learning Vouage Adventure",
+            "new-advisor": "Dr. Hasnain Mansoor",
+        },
+        {
+            "member1-name": "Fiza Muhammad Amin",
+            "member2-name": "Qurat Ul Ain Sikandar",
+            "project-topic": "szabist faculty app 2",
+            "new-advisor": "Dr. Khalid Rasheed",
+        },
+        {
+            "member1-name": "Muhammad Bilal Pasta",
+            "member2-name": "Muskaan Fatima",
+            "project-topic": "Trackify",
+            "new-advisor": "Dr. Faraz Junejo",
+        },
+        {
+            "member1-name": "Ahmed Bin Abdullah",
+            "member2-name": "Sheheryar Khan Afridi",
+            "project-topic": "HOPE",
+            "new-advisor": "Mr. Usama Khalid",
+        },
+        {
+            "member1-name": "Faiez Waseem",
+            "member2-name": "Muhammad Hamza Shamsi",
+            "project-topic": "AtmoWork",
+            "new-advisor": "Ms. Sadia Aziz",
+        },
+        {
+            "member1-name": "Prerna Rohra",
+            "member2-name": "Qirat Sohail",
+            "project-topic": "Earthquake Predictor / Intensity Minimizer",
+            "new-advisor": "Dr. Khalid Rasheed",
+        },
+        {
+            "member1-name": "Eman Mughal",
+            "member2-name": "Salima Karim Bux Karimi",
+            "project-topic": "Style Haven",
+            "new-advisor": "Mr. Adeel Karim",
+        },
+        {
+            "member1-name": "Sarah Amir",
+            "member2-name": "Javeria Shaikh",
+            "project-topic": "Automatic Parking system",
+            "new-advisor": "Ms. Faria Jameel",
+        },
+    ];
+
+    const columns: ColumnDef<Record<string, string>>[] = [
+        {
+            accessorKey: "member1-name",
+            header: "Member 1",
+            enableColumnFilter: false,
+        },
+        {
+            accessorKey: "member2-name",
+            header: "Member 2",
+            enableColumnFilter: false,
+        },
+        {
+            accessorKey: "project-topic",
+            header: "Project",
+            enableColumnFilter: false,
+        },
+        {
+            accessorKey: "new-advisor",
+            header: "Advisor",
+            enableColumnFilter: false,
+        },
     ];
 
     return (
@@ -148,19 +183,13 @@ export default function Welcome({
                         open={mobileMenuOpen}
                         onClose={setMobileMenuOpen}
                     >
-                        <div className="fixed inset-0 z-50"/>
-                        <Dialog.Panel
-                            className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                        <div className="fixed inset-0 z-50" />
+                        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                             <div className="flex items-center justify-between">
                                 <a href="#" className="-m-1.5 p-1.5">
-                                    <span className="sr-only">
-                                        Your Company
-                                    </span>
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                        alt=""
-                                    />
+                                    <div className="font-bold text-3xl text-primary">
+                                        FYP Forge
+                                    </div>
                                 </a>
                                 <button
                                     type="button"
@@ -214,20 +243,24 @@ export default function Welcome({
                             }}
                         />
                     </div>
-                    <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-32">
-                        <div className="text-center">
-                            <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-6xl">
-                                FYP Forge Igniting Ideas
-                            </h1>
-                            <p className="mt-6 text-lg leading-8 text-gray-600">
-                                FYP Forge: Where creativity meets craftsmanship,
-                                where ambition is tempered by expertise, and
-                                where the fire of innovation molds dreams into
-                                reality. We're not just building projects; we're
-                                forging futures.
-                            </p>
-                        </div>
+                    <div className="mx-auto max-w-5xl py-32 sm:py-48 lg:py-32">
+                        <Card className="">
+                            <CardHeader className="flex justify-center items-center">
+                                <CardTitle>Projects</CardTitle>
+                                <CardDescription>
+                                    Activity of all our glorious projects
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <DataTable
+                                    enableSearch={false}
+                                    columns={columns}
+                                    data={projectData}
+                                />
+                            </CardContent>
+                        </Card>
                     </div>
+
                     <div
                         className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
                         aria-hidden="true"
@@ -241,28 +274,8 @@ export default function Welcome({
                         />
                     </div>
                 </div>
-                <div className="bg-white py-24 sm:py-10">
-                    <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                        <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
-                            {stats.map((stat) => (
-                                <div
-                                    key={stat.id}
-                                    className="mx-auto flex max-w-xs flex-col gap-y-4"
-                                >
-                                    <dt className="text-base leading-7 text-gray-600">
-                                        {stat.name}
-                                    </dt>
-                                    <dd className="order-first text-3xl font-semibold tracking-tight text-secondary sm:text-5xl">
-                                        {stat.value}
-                                    </dd>
-                                </div>
-                            ))}
-                        </dl>
-                    </div>
-                </div>
             </div>
-            <div
-                className="bg-muted text-center sticky bottom-0 dark:bg-neutral-700  p-3  text-neutral-700 dark:text-neutral-200">
+            <div className="bg-muted text-center fixed w-full bottom-0 dark:bg-neutral-700  p-3  text-neutral-700 dark:text-neutral-200">
                 © 2023 Copyright FYP Forge
             </div>
         </>

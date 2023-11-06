@@ -1,7 +1,7 @@
-import {Head, Link} from "@inertiajs/react";
-import {PageProps} from "@/types";
-import {useState} from "react";
-import {Dialog} from "@headlessui/react";
+import { Head, Link } from "@inertiajs/react";
+import { PageProps } from "@/types";
+import { useState } from "react";
+import { Dialog } from "@headlessui/react";
 import {
     ArrowPathIcon,
     Bars3Icon,
@@ -11,10 +11,7 @@ import {
     SquaresPlusIcon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-    PhoneIcon,
-    PlayCircleIcon,
-} from "@heroicons/react/20/solid";
+import { PhoneIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 import img from "../../images/img1.jpg";
 import logo from "../../images/FYPForgeFinal.png";
 
@@ -51,8 +48,8 @@ const products = [
     },
 ];
 const callsToAction = [
-    {name: "Watch demo", href: "#", icon: PlayCircleIcon},
-    {name: "Contact sales", href: "#", icon: PhoneIcon},
+    { name: "Watch demo", href: "#", icon: PlayCircleIcon },
+    { name: "Contact sales", href: "#", icon: PhoneIcon },
 ];
 
 // function classNames(...classes) {
@@ -64,21 +61,21 @@ export default function Welcome({}: PageProps<{}>) {
     // const [navbarOpen, setNavbarOpen] = useState(false);
     // const transparent = true;
     const navigation = [
-        {name: "Home", href: "#"},
-        {name: "Projects", href: route('landing.projects')},
-        {name: "Alumni", href: "#"},
-        {name: "Contact", href: "#"},
+        { name: "Home", href: "#" },
+        { name: "Projects", href: route("landing.projects") },
+        { name: "Alumni", href: "#" },
+        { name: "Contact", href: "#" },
     ];
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const stats = [
-        {id: 1, name: "Transactions every 24 hours", value: "44 million"},
-        {id: 2, name: "Assets under holding", value: "$119 trillion"},
-        {id: 3, name: "New users annually", value: "46,000"},
+        { id: 1, name: "Transactions every 24 hours", value: "44 million" },
+        { id: 2, name: "Assets under holding", value: "$119 trillion" },
+        { id: 3, name: "New users annually", value: "46,000" },
     ];
 
     return (
         <>
-            <Head title="Welcome | FYP Forge"/>
+            <Head title="Welcome | FYP Forge" />
             <div className="bg-white">
                 <header className="absolute inset-x-0 top-0 z-50">
                     <nav
@@ -120,7 +117,7 @@ export default function Welcome({}: PageProps<{}>) {
                         </div>
                         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
                             <Link
-                                href={route('login')}
+                                href={route("login")}
                                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Get started
@@ -139,19 +136,13 @@ export default function Welcome({}: PageProps<{}>) {
                         open={mobileMenuOpen}
                         onClose={setMobileMenuOpen}
                     >
-                        <div className="fixed inset-0 z-50"/>
-                        <Dialog.Panel
-                            className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                        <div className="fixed inset-0 z-50" />
+                        <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                             <div className="flex items-center justify-between">
                                 <a href="#" className="-m-1.5 p-1.5">
-                                    <span className="sr-only">
-                                        Your Company
-                                    </span>
-                                    <img
-                                        className="h-8 w-auto"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                                        alt=""
-                                    />
+                                    <div className="font-bold text-3xl text-primary">
+                                        FYP Forge
+                                    </div>
                                 </a>
                                 <button
                                     type="button"
@@ -179,12 +170,12 @@ export default function Welcome({}: PageProps<{}>) {
                                         ))}
                                     </div>
                                     <div className="py-6">
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href={route("login")}
                                             className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                         >
                                             Log in
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -232,7 +223,7 @@ export default function Welcome({}: PageProps<{}>) {
                         />
                     </div>
                 </div>
-                <div className="bg-white py-24 sm:py-10">
+                {/* <div className="bg-white py-24 sm:py-10">
                     <div className="mx-auto max-w-7xl px-6 lg:px-8">
                         <dl className="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">
                             {stats.map((stat) => (
@@ -250,10 +241,9 @@ export default function Welcome({}: PageProps<{}>) {
                             ))}
                         </dl>
                     </div>
-                </div>
+                </div> */}
             </div>
-            <div
-                className="bg-muted text-center fixed w-full bottom-0 dark:bg-neutral-700  p-3  text-neutral-700 dark:text-neutral-200">
+            <div className="bg-muted text-center fixed w-full bottom-0 dark:bg-neutral-700  p-3  text-neutral-700 dark:text-neutral-200">
                 © 2023 Copyright FYP Forge
             </div>
         </>

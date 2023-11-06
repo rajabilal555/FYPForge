@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/StaffAuthenticatedLayout";
-import {Head} from "@inertiajs/react";
-import {PageProps} from "@/types";
+import { Head } from "@inertiajs/react";
+import { PageProps } from "@/types";
 import {
     Card,
     CardContent,
@@ -18,11 +18,11 @@ import {
     BarChart,
     Bar,
 } from "recharts";
-import {useState} from "react";
-import {Calendar} from "@/Components/ui/calendar";
+import { useState } from "react";
+import { Calendar } from "@/Components/ui/calendar";
 
-export default function Dashboard({auth}: PageProps) {
-    const [date, setDate] = useState<Date | undefined>(new Date())
+export default function Dashboard({ auth }: PageProps) {
+    const [date, setDate] = useState<Date | undefined>(new Date());
     const stats = [
         {
             name: "Total Students",
@@ -34,8 +34,8 @@ export default function Dashboard({auth}: PageProps) {
             value: "54",
             subtitle: "some text",
         },
-        {name: "Slots Available", value: "28", subtitle: "some text"},
-        {name: "Total Groups", value: "120", subtitle: "some text"},
+        { name: "Slots Available", value: "28", subtitle: "some text" },
+        { name: "Total Groups", value: "120", subtitle: "some text" },
     ];
     const data = [
         {
@@ -81,7 +81,7 @@ export default function Dashboard({auth}: PageProps) {
                 </h2>
             }
         >
-            <Head title="Dashboard"/>
+            <Head title="Dashboard" />
 
             {/* <div className="flex flex-col justify-between gap-4 p-4 text-black">
                 <div className="flex-1 mb-5 flex-row">
@@ -156,8 +156,10 @@ export default function Dashboard({auth}: PageProps) {
             <div className="grid grid-rows-2-4  p-4 text-black">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-5">
                     {stats.map((stat) => (
-                        <div key={stat.name}
-                             className="border bg-card text-card-foreground shadow-sm p-4 flex-1 transition-all ease-in-out hover:border-primary hover:border-2 bg-white h-28 rounded-lg">
+                        <div
+                            key={stat.name}
+                            className="border bg-card text-card-foreground shadow-sm p-4 flex-1 transition-all ease-in-out hover:border-primary hover:border-2 bg-white h-28 rounded-lg"
+                        >
                             <h2 className="text-l font-bold">{stat.name}</h2>
                             <p className="text-2xl font-bold">{stat.value}</p>
                             <h3>{stat.subtitle}</h3>
@@ -168,9 +170,7 @@ export default function Dashboard({auth}: PageProps) {
                     <div>
                         <Card className="">
                             <CardHeader>
-                                <CardTitle>
-                                    Recent Activity
-                                </CardTitle>
+                                <CardTitle>Recent Activity</CardTitle>
                                 <CardDescription>
                                     Activity of all the projects
                                 </CardDescription>
@@ -180,8 +180,7 @@ export default function Dashboard({auth}: PageProps) {
                                     <li>
                                         <div className="flex  gap-1 mb-10 ">
                                             <div className="flex gap-3">
-                                                <div
-                                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                                     FF
                                                 </div>
                                                 <div className="flex flex-col">
@@ -200,8 +199,7 @@ export default function Dashboard({auth}: PageProps) {
                                     <li>
                                         <div className="flex  gap-1 mb-10 ">
                                             <div className="flex gap-3">
-                                                <div
-                                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                                     FF
                                                 </div>
                                                 <div className="flex flex-col">
@@ -220,8 +218,7 @@ export default function Dashboard({auth}: PageProps) {
                                     <li>
                                         <div className="flex  gap-1 mb-10 ">
                                             <div className="flex gap-3">
-                                                <div
-                                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                                     FF
                                                 </div>
                                                 <div className="flex flex-col">
@@ -240,8 +237,7 @@ export default function Dashboard({auth}: PageProps) {
                                     <li>
                                         <div className="flex  gap-1 mb-10 ">
                                             <div className="flex gap-3">
-                                                <div
-                                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                                     FF
                                                 </div>
                                                 <div className="flex flex-col">
@@ -260,8 +256,7 @@ export default function Dashboard({auth}: PageProps) {
                                     <li>
                                         <div className="flex  gap-1 mb-10 ">
                                             <div className="flex gap-3">
-                                                <div
-                                                    className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
+                                                <div className=" bg-gray-100 w-12 h-12 rounded-full inline-flex items-center justify-center ">
                                                     FF
                                                 </div>
                                                 <div className="flex flex-col">
@@ -331,7 +326,7 @@ export default function Dashboard({auth}: PageProps) {
                                             tickLine={false}
                                             axisLine={false}
                                         />
-                                        <Tooltip/>
+                                        <Tooltip />
                                         {/*<Legend/>*/}
                                         <Line
                                             type="step"
@@ -354,14 +349,15 @@ export default function Dashboard({auth}: PageProps) {
                             <CardContent className="">
                                 <ResponsiveContainer width="100%" height={350}>
                                     <BarChart data={data}>
-                                        <Tooltip/>
+                                        <Tooltip />
                                         <XAxis
                                             dataKey="name"
                                             stroke="#888888"
                                             fontSize={12}
                                             tickLine={false}
                                             axisLine={false}
-                                            interval={0}/>
+                                            interval={0}
+                                        />
                                         <YAxis
                                             width={14}
                                             stroke="#888888"
@@ -369,7 +365,11 @@ export default function Dashboard({auth}: PageProps) {
                                             tickLine={false}
                                             axisLine={false}
                                         />
-                                        <Bar dataKey="task" fill="#8884d8" radius={[4, 4, 0, 0]}/>
+                                        <Bar
+                                            dataKey="task"
+                                            fill="#8884d8"
+                                            radius={[4, 4, 0, 0]}
+                                        />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </CardContent>
