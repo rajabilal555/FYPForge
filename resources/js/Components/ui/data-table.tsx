@@ -4,7 +4,7 @@ import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
-    useReactTable,
+    useReactTable, ColumnFiltersState, ColumnFilter,
 } from "@tanstack/react-table";
 
 import {
@@ -21,6 +21,10 @@ import {Input} from "@/Components/ui/input";
 import DebouncedInput from "@/Components/DebouncedInput";
 import {IconInput} from "@/Components/ui/icon-input";
 import {SearchIcon} from "lucide-react";
+import {router} from "@inertiajs/react";
+import {compileFiltersQuery, getInitialFilters, getUrlParams} from "@/lib/utils";
+import {useEffect, useState} from "react";
+import {Button} from "@/Components/ui/button";
 
 interface DataTablePropsWithData<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
@@ -41,6 +45,7 @@ export function DataTable<TData, TValue>({
                                              paginatedData,
                                          }: DataTablePropsWithData<TData, TValue> | DataTablePropsWithPaginatedData<TData, TValue>) {
 
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(getInitialFilters(columns));
 
     const table = useReactTable({
         data: (data ?? (paginatedData!.data)) as TData[],
@@ -48,7 +53,27 @@ export function DataTable<TData, TValue>({
         manualPagination: true,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        state: {
+            columnFilters: columnFilters,
+        },
+        onColumnFiltersChange: setColumnFilters,
+        // debugTable: true,
+        // debugHeaders: true,
+        // debugColumns: true,
     });
+
+    useEffect(() => {
+        const params = getUrlParams();
+        const compiled = compileFiltersQuery(columns, columnFilters);
+        if (JSON.stringify(compiled) !== JSON.stringify(params)) {
+            router.get(route(`${route().current()}`),
+                compileFiltersQuery(columns, columnFilters),
+                {
+                    replace: true,
+                    preserveScroll: true,
+                });
+        }
+    }, [columnFilters])
 
     return (
         <div>

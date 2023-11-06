@@ -19,7 +19,7 @@ class StudentController extends Controller
     public function index(): Response
     {
         return Inertia::render('Staff/Student/StudentList', [
-            'students' => Student::paginate(request('per_page', 10)),
+            'students' => Student::filters()->paginate(request('per_page', 10)),
         ]);
     }
 

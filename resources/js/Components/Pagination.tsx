@@ -2,6 +2,7 @@ import {Link, router} from "@inertiajs/react";
 import {Button} from "@/Components/ui/button";
 import {PaginationLinks} from "@/types";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/Components/ui/select";
+import {getUrlParams} from "@/lib/utils";
 
 
 export default function Pagination({pages, from, to, perPage, totalRecords}: {
@@ -21,10 +22,12 @@ export default function Pagination({pages, from, to, perPage, totalRecords}: {
                             value={`${perPage}`}
                             onValueChange={(value) => {
                                 console.log(value);
-                                router.replace(route(route().current() + ''), {
-                                    preserveScroll: true,
-                                    data: {per_page: value}
-                                });
+                                router.get(route(route().current() + ''),
+                                    {...getUrlParams(), per_page: value,},
+                                    {
+                                        replace: true,
+                                        preserveScroll: true,
+                                    });
                             }}
                         >
                             <SelectTrigger className="h-8 w-[70px]">

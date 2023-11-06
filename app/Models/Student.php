@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\DataTableSource;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,7 +12,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Student extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, DataTableSource;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +25,19 @@ class Student extends Authenticatable
         'registration_no',
         'password',
     ];
+
+    protected function allowedFilters(): array
+    {
+        return [
+            'name' => function (Builder $builder, $name, $value) {
+                return $builder->where($name, 'LIKE', '%' . $value . '%');
+            },
+            'email' => function (Builder $builder, $name, $value) {
+                return $builder->where($name, 'LIKE', '%' . $value . '%');
+            },
+        ];
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.
