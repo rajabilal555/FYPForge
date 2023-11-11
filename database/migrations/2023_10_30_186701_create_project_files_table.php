@@ -13,7 +13,8 @@ return new class extends Migration {
         Schema::create('project_files', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('file_path');
+            $table->string('storage_path');
+            $table->string('storage_disk');
 
             $table->foreignId('project_id')
                 ->constrained('projects')

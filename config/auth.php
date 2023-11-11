@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'staff',
+        'guard' => 'student',
         'passwords' => 'users',
     ],
 
@@ -48,7 +48,6 @@ return [
             'driver' => 'session',
             'provider' => 'advisors',
         ],
-
     ],
 
     /*

@@ -21,8 +21,8 @@ return new class extends Migration {
                 ->constrained('students')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->foreignId('panel_id')
-                ->constrained('panels')
+            $table->foreignId('evaluation_panel_id')
+                ->constrained('evaluation_panels')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
             // Status can be Satisfactory, Rejected, or Needs Improvement

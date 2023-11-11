@@ -15,12 +15,12 @@ return new class extends Migration {
             $table->string('name');
             $table->string('description')
                 ->nullable();
-            
+
             $table->string('status');
 
-            $table->foreignId('panel_id')
+            $table->foreignId('evaluation_panel_id')
                 ->nullable()
-                ->constrained('panels')
+                ->constrained('evaluation_panels')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->foreignId('advisor_id')

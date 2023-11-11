@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Traits\DataTableSource;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,9 +11,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Student extends Authenticatable
+class Student extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable, DataTableSource;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -25,19 +26,6 @@ class Student extends Authenticatable
         'registration_no',
         'password',
     ];
-
-    protected function allowedFilters(): array
-    {
-        return [
-            'name' => function (Builder $builder, $name, $value) {
-                return $builder->where($name, 'LIKE', '%' . $value . '%');
-            },
-            'email' => function (Builder $builder, $name, $value) {
-                return $builder->where($name, 'LIKE', '%' . $value . '%');
-            },
-        ];
-    }
-
 
     /**
      * The attributes that should be hidden for serialization.
@@ -64,4 +52,8 @@ class Student extends Authenticatable
         return $this->belongsTo(Project::class);
     }
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
+    }
 }
