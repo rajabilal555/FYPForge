@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources;
 
+use App\Enums\ProjectStatus;
 use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
@@ -32,11 +33,10 @@ class ProjectResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Textarea::make('description'),
+                Forms\Components\Select::make('status')
+                    ->options(ProjectStatus::class)
+                    ->required(),
                 Forms\Components\DateTimePicker::make('next_evaluation_date'),
             ]);
     }
@@ -48,8 +48,10 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
+                    ->words(10)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evaluation_panel.description')
                     ->words(10)

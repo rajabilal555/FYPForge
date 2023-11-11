@@ -2,13 +2,12 @@
 
 namespace App\Filament\Student\Pages;
 
+use App\Actions\InviteProjectMember;
 use App\Models\Project;
 use App\Models\ProjectFile;
 use App\Models\ProjectInvite;
 use App\Models\Student;
-use App\Models\User;
 use Filament\Actions\Action;
-use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
@@ -16,11 +15,10 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Notifications\DatabaseNotification;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\File;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
 
 class MyProject extends Page
@@ -36,14 +34,25 @@ class MyProject extends Page
         $this->project = auth()->user()->project;
     }
 
-    public function getTitle(): string|Htmlable
+    public function getHeader(): ?View
     {
-        return $this->project?->name ?? __('My Project');
+        return view('components.project-header', [
+            'project' => $this->project,
+            'actions' => $this->getHeaderActions()
+        ]);
     }
 
     protected function getHeaderActions(): array
     {
         return [
+            Action::make('dodo')
+                ->action(function () {
+                    Student::find(auth()->id())->notify(Notification::make()
+                        ->title('YOYOYOYo hows it going broooooz')
+                        ->body("I'm just testing this out")
+                        ->toDatabase());
+                }),
+
             CreateAction::make('create-project')
                 ->color('success')
                 ->icon('heroicon-m-sparkles')
@@ -121,7 +130,7 @@ class MyProject extends Page
                 Select::make('student_id')
                     ->label('Student')
                     ->placeholder('Select a student')
-                    ->options(Student::whereNotIn('id', [])->get()->pluck('name', 'id'))
+                    ->options(Student::whereNotIn('id', $this->project->students->pluck('id'))->get()->pluck('name', 'id'))
                     ->searchable()
                     ->required(),
 
@@ -129,30 +138,7 @@ class MyProject extends Page
                     ->required(),
             ])
             ->action(function (array $data) {
-                $student = Student::find($data['student_id']);
-
-                if ($student->project != null) {
-                    Notification::make()
-                        ->title('Invitation Failed')
-                        ->body('The student you are trying to invite already has a project.')
-                        ->danger()
-                        ->send();
-                    return;
-                }
-
-                ProjectInvite::updateOrCreate([
-                    'project_id' => $this->project->id,
-                    'student_id' => $data['student_id'],
-                    'sent_by' => auth()->id(),
-                ], [
-                    'message' => $data['message'],
-                    'status' => 'pending',
-                ]);
-
-                Notification::make()
-                    ->title('Invitation Sent')
-                    ->success()
-                    ->send();
+               app(InviteProjectMember::class)->handle($this->project, $data);
             });
     }
 

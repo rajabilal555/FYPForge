@@ -1,10 +1,11 @@
 <x-filament-panels::page xmlns:x-filament="http://www.w3.org/1999/html">
     @if($this->project)
         <x-filament::section>
-            {{ $project->description }}
+            <p>
+                {{ $project->description }}
+            </p>
         </x-filament::section>
         <div class="flex gap-4">
-
             <div class="w-2/6">
                 <x-filament::section>
                     <x-slot name="heading">
@@ -25,10 +26,6 @@
                                             </h3>
 
                                         </div>
-                                    </div>
-                                    <div class="flex gap-4 items-center">
-                                        {{--                                    {{ ($this->downloadFileAction)(['file' => $file->id]) }}--}}
-                                        {{--                                    {{ ($this->deleteFileAction)(['file' => $file->id]) }}--}}
                                     </div>
                                 </div>
                             </x-filament::section>
@@ -55,6 +52,7 @@
                                         </div>
                                     </div>
                                     <div class="flex gap-4 items-center">
+                                        {{-- TODO: can cancel Invite --}}
                                         <p class="text-gray-400">Invited</p>
                                     </div>
                                 </div>
