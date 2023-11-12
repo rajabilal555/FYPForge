@@ -19,14 +19,16 @@
             <h1
                 class="fi-header-heading text-2xl font-bold tracking-tight text-gray-950 dark:text-white sm:text-3xl"
             >
-                {{$project->name}}
+                {{ $heading }}
             </h1>
-            <x-filament::badge class="px-4" :size="\Filament\Support\Enums\ActionSize::ExtraLarge"
-                               :color="$project->status->getColor()">
-                <p class="text-lg">
-                    {{ $project->status->getLabel() }}
-                </p>
-            </x-filament::badge>
+            @if($project != null)
+                <x-filament::badge class="px-4" :size="\Filament\Support\Enums\ActionSize::ExtraLarge"
+                                   :color="$project->status->getColor()">
+                    <p class="text-lg">
+                        {{ $project->status->getLabel() }}
+                    </p>
+                </x-filament::badge>
+            @endif
         </div>
 
         @if ($subheading)

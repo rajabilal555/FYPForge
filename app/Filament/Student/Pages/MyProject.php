@@ -5,7 +5,6 @@ namespace App\Filament\Student\Pages;
 use App\Actions\InviteProjectMember;
 use App\Models\Project;
 use App\Models\ProjectFile;
-use App\Models\ProjectInvite;
 use App\Models\Student;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
@@ -15,8 +14,6 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
-use Filament\Notifications\DatabaseNotification;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +35,7 @@ class MyProject extends Page
     {
         return view('components.project-header', [
             'project' => $this->project,
+            'heading' => $this->project?->name ?? 'My Project',
             'actions' => $this->getHeaderActions()
         ]);
     }
@@ -45,14 +43,6 @@ class MyProject extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('dodo')
-                ->action(function () {
-                    Student::find(auth()->id())->notify(Notification::make()
-                        ->title('YOYOYOYo hows it going broooooz')
-                        ->body("I'm just testing this out")
-                        ->toDatabase());
-                }),
-
             CreateAction::make('create-project')
                 ->color('success')
                 ->icon('heroicon-m-sparkles')
