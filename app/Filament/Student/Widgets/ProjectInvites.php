@@ -2,6 +2,8 @@
 
 namespace App\Filament\Student\Widgets;
 
+use App\Actions\AcceptProjectInvite;
+use App\Actions\InviteProjectMember;
 use App\Models\Project;
 use App\Models\ProjectInvite;
 use Filament\Tables;
@@ -25,11 +27,9 @@ class ProjectInvites extends BaseWidget
                     ->wrap()
                     ->label('Description')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('project.created_at')
-                    ->label('Created')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('project.updated_at')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('message')
+                    ->wrap(),
+
                 Tables\Columns\TextColumn::make('project.status')
                     ->badge()
                     ->label('Status')
@@ -39,7 +39,7 @@ class ProjectInvites extends BaseWidget
                     ->label('Accept')
                     ->icon('heroicon-s-check-circle')
                     ->requiresConfirmation()
-                    ->action(fn(ProjectInvite $invite) => $invite->project->students()->save(auth()->user())),
+                    ->action(fn(ProjectInvite $invite) => app(AcceptProjectInvite::class)->handle($invite)),
                 Tables\Actions\Action::make('reject')
                     ->label('Reject')
                     ->icon('heroicon-s-x-circle')
