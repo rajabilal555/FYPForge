@@ -2,15 +2,19 @@
 
 namespace App\Actions;
 
+use App\Enums\ProjectInviteStatus;
 use App\Filament\Student\Pages\MyProject;
+use App\Models\Project;
 use App\Models\ProjectInvite;
 use App\Models\Student;
 
+use App\Traits\Makeable;
 use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
 
 class AcceptProjectInvite
 {
+    use Makeable;
     public function handle(ProjectInvite $invite): void
     {
         $student = Student::find(auth()->id());
@@ -30,11 +34,11 @@ class AcceptProjectInvite
         $invite->project->students()->save($student);
 
         $student->invites()->whereNot('id', $invite->id)->update([
-            'status' => 'rejected',
+            'status' => ProjectInviteStatus::Rejected,
         ]);
 
         $invite->update([
-            'status' => 'accepted',
+            'status' => ProjectInviteStatus::Accepted,
         ]);
 
         Notification::make()

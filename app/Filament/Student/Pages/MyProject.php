@@ -5,6 +5,7 @@ namespace App\Filament\Student\Pages;
 use App\Actions\InviteProjectMember;
 use App\Models\Project;
 use App\Models\ProjectFile;
+use App\Models\ProjectInvite;
 use App\Models\Student;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
@@ -50,6 +51,7 @@ class MyProject extends Page
                 ->hidden(fn() => $this->project != null)
                 ->label(__('Create Project'))
                 ->model(Project::class)
+                ->successNotificationTitle('Project Created')
                 ->using(function (array $data): Project {
                     $project = Project::create($data);
                     $project->students()->save(auth()->user());
@@ -120,7 +122,12 @@ class MyProject extends Page
                 Select::make('student_id')
                     ->label('Student')
                     ->placeholder('Select a student')
-                    ->options(Student::whereNotIn('id', $this->project->students->pluck('id'))->get()->pluck('name', 'id'))
+                    ->getSearchResultsUsing(fn (string $search): array => Student::where('name', 'like', "%{$search}%")->limit(50)->get()->pluck('name_with_registration', 'id')->toArray())
+                    ->getOptionLabelUsing(function ($value): ?string {
+                        $student = Student::find($value);
+
+                        return $student?->nameWithRegistration;
+                    })
                     ->searchable()
                     ->required(),
 
@@ -128,7 +135,19 @@ class MyProject extends Page
                     ->required(),
             ])
             ->action(function (array $data) {
-               app(InviteProjectMember::class)->handle($this->project, $data);
+               InviteProjectMember::make()->handle($this->project, $data);
+            });
+    }
+
+    public function cancelInviteAction(): Action
+    {
+        return Action::make('cancelInviteAction')
+            ->icon('heroicon-o-x-mark')
+            ->iconButton()
+            ->color('danger')
+            ->action(function (array $arguments) {
+                $invite = ProjectInvite::find($arguments['invite']);
+                $invite->delete();
             });
     }
 

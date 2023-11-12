@@ -1,11 +1,16 @@
 <?php
+
 namespace App\Actions;
 
+use App\Enums\ProjectInviteStatus;
 use App\Models\ProjectInvite;
 use App\Models\Student;
+use App\Traits\Makeable;
 use Filament\Notifications\Notification;
 
-class InviteProjectMember {
+class InviteProjectMember
+{
+    use Makeable;
     public function handle($project, array $data): void
     {
         $student = Student::find($data['student_id']);
@@ -25,7 +30,7 @@ class InviteProjectMember {
             'sent_by' => auth()->id(),
         ], [
             'message' => $data['message'],
-            'status' => 'pending',
+            'status' => ProjectInviteStatus::Pending,
         ]);
 
         Notification::make()

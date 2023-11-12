@@ -50,6 +50,11 @@ class Project extends Model
         return $this->hasMany(ProjectInvite::class);
     }
 
+    public function pendingInvites(): HasMany
+    {
+        return $this->hasMany(ProjectInvite::class)->where('status', 'pending');
+    }
+
     public function evaluation_panel(): BelongsTo
     {
         return $this->belongsTo(EvaluationPanel::class);

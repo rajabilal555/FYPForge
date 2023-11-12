@@ -35,7 +35,7 @@
                             </div>
                         @endforelse
 
-                        @foreach($project->invites as $invite)
+                        @foreach($project->pendingInvites as $invite)
                             <x-filament::section compact>
                                 <div class="flex justify-between items-center">
                                     <div class="flex gap-4 items-center">
@@ -52,8 +52,8 @@
                                         </div>
                                     </div>
                                     <div class="flex gap-4 items-center">
-                                        {{-- TODO: can cancel Invite --}}
-                                        <p class="text-gray-400">Invited</p>
+                                        <p class="text-gray-400">Invitation {{ $invite->status }}</p>
+                                        {{ ($this->cancelInviteAction)(['invite' => $invite->id]) }}
                                     </div>
                                 </div>
                             </x-filament::section>

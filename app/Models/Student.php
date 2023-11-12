@@ -47,6 +47,11 @@ class Student extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
+    public function getNameWithRegistrationAttribute()
+    {
+        return $this->name . ' (' . $this->registration_no . ')';
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class);

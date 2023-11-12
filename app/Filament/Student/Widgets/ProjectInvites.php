@@ -3,9 +3,11 @@
 namespace App\Filament\Student\Widgets;
 
 use App\Actions\AcceptProjectInvite;
-use App\Actions\InviteProjectMember;
-use App\Models\Project;
+use App\Actions\RejectProjectInvite;
+use App\Enums\ProjectInviteStatus;
 use App\Models\ProjectInvite;
+use Filament\Infolists\Components\Fieldset;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -16,34 +18,84 @@ class ProjectInvites extends BaseWidget
     {
         return $table
             ->query(
-                auth()->user()->invites()->with('project')->getQuery(),
+                auth()->user()->invites()->with('project', 'sender')->getQuery(),
             )
             ->paginated(false)
             ->columns([
-                Tables\Columns\TextColumn::make('project.name')
-                    ->label('Project')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('project.description')
+                Tables\Columns\TextColumn::make('sender.name')
                     ->wrap()
-                    ->label('Description')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('message')
-                    ->wrap(),
-
+                    ->label('Sent By'),
+                Tables\Columns\TextColumn::make('project.name')
+                    ->wrap()
+                    ->label('Project'),
                 Tables\Columns\TextColumn::make('project.status')
                     ->badge()
-                    ->label('Status')
-                    ->sortable(),
+                    ->label('Project Status'),
+                Tables\Columns\TextColumn::make('status')
+                    ->badge(),
             ])->actions([
+                Tables\Actions\Action::make('view')
+                    ->label('View')
+                    ->icon('heroicon-s-eye')
+                    ->modalHeading('Project Invitation')
+                    ->modalFooterActions([
+                        Tables\Actions\Action::make('acceptFooter')
+                            ->label('Accept')
+                            ->icon('heroicon-s-check-circle')
+                            ->color('success')
+                            ->requiresConfirmation()
+                            ->cancelParentActions()
+                            ->hidden(fn(ProjectInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                            ->action(fn(ProjectInvite $invite) => AcceptProjectInvite::make()->handle($invite)),
+                        Tables\Actions\Action::make('rejectFooter')
+                            ->label('Reject')
+                            ->icon('heroicon-s-x-circle')
+                            ->color('danger')
+                            ->requiresConfirmation()
+                            ->cancelParentActions()
+                            ->hidden(fn(ProjectInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                            ->action(fn(ProjectInvite $invite) => RejectProjectInvite::make()->handle($invite)),
+                    ])
+                    ->infolist([
+                        Fieldset::make('Sender')
+                            ->schema([
+                                TextEntry::make('sender.name')
+                                    ->label('Name'),
+                                TextEntry::make('sender.email')
+                                    ->label('Email'),
+                                TextEntry::make('message')
+                                    ->columnSpan(2)
+                                    ->markdown(),
+                            ]),
+                        Fieldset::make('Project')
+                            ->schema([
+                                TextEntry::make('project.name')
+                                    ->label('Name'),
+                                TextEntry::make('project.status')
+                                    ->label('Status')
+                                    ->badge(),
+                                TextEntry::make('project.description')
+                                    ->columnSpan(2)
+                                    ->markdown()
+                                    ->label('Description'),
+                            ]),
+
+                    ]),
+
+
                 Tables\Actions\Action::make('accept')
                     ->label('Accept')
+                    ->color('success')
                     ->icon('heroicon-s-check-circle')
                     ->requiresConfirmation()
-                    ->action(fn(ProjectInvite $invite) => app(AcceptProjectInvite::class)->handle($invite)),
+                    ->hidden(fn(ProjectInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                    ->action(fn(ProjectInvite $invite) => AcceptProjectInvite::make()->handle($invite)),
                 Tables\Actions\Action::make('reject')
                     ->label('Reject')
+                    ->color('danger')
                     ->icon('heroicon-s-x-circle')
                     ->requiresConfirmation()
+                    ->hidden(fn(ProjectInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
                     ->action(fn(ProjectInvite $invite) => $invite->delete()),
             ]);
     }
