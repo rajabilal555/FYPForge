@@ -34,7 +34,7 @@ class StudentPanelProvider extends PanelProvider
             ->authGuard('student')
             ->login(Login::class)
             ->profile()
-            ->brandLogo(fn() => "https://laravel.com/img/logotype.min.svg")
+            ->brandLogo(fn () => asset('logo.png'))
             ->colors([
                 'primary' => Color::Cyan,
             ])
@@ -43,14 +43,8 @@ class StudentPanelProvider extends PanelProvider
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Student/Resources'), for: 'App\\Filament\\Student\\Resources')
             ->discoverPages(in: app_path('Filament/Student/Pages'), for: 'App\\Filament\\Student\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
             ->discoverWidgets(in: app_path('Filament/Student/Widgets'), for: 'App\\Filament\\Student\\Widgets')
             ->databaseNotifications()
-            ->widgets([
-                Widgets\AccountWidget::class,
-            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

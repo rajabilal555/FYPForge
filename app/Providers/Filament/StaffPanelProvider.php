@@ -29,7 +29,7 @@ class StaffPanelProvider extends PanelProvider
             ->authGuard('staff')
             ->login(Login::class)
             ->profile()
-            ->brandLogo(fn() => "https://laravel.com/img/logotype.min.svg")
+            ->brandLogo(fn () => asset('logo.png'))
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -38,13 +38,7 @@ class StaffPanelProvider extends PanelProvider
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Staff/Resources'), for: 'App\\Filament\\Staff\\Resources')
             ->discoverPages(in: app_path('Filament/Staff/Pages'), for: 'App\\Filament\\Staff\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
             ->discoverWidgets(in: app_path('Filament/Staff/Widgets'), for: 'App\\Filament\\Staff\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-            ])
             ->databaseNotifications()
             ->middleware([
                 EncryptCookies::class,

@@ -76,7 +76,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string|null $description
- * @property string $status
+ * @property \App\Enums\ProjectStatus $status
  * @property int|null $evaluation_panel_id
  * @property int|null $advisor_id
  * @property string|null $next_evaluation_date
@@ -88,6 +88,8 @@ namespace App\Models{
  * @property-read int|null $files_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectInvite> $invites
  * @property-read int|null $invites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectInvite> $pendingInvites
+ * @property-read int|null $pending_invites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
  * @method static \Database\Factories\ProjectFactory factory($count = null, $state = [])
@@ -179,7 +181,7 @@ namespace App\Models{
  * @property int $project_id
  * @property int $student_id
  * @property int $sent_by
- * @property string $status
+ * @property \App\Enums\ProjectInviteStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Project $project
@@ -268,6 +270,9 @@ namespace App\Models{
  * @property int|null $project_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $name_with_registration
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectInvite> $invites
+ * @property-read int|null $invites_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\Project|null $project

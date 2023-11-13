@@ -9,6 +9,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
+use Filament\Support\Assets\Asset;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -30,7 +31,7 @@ class AdvisorPanelProvider extends PanelProvider
             ->authGuard('advisor')
             ->login(Login::class)
             ->profile()
-            ->brandLogo(fn() => "https://laravel.com/img/logotype.min.svg")
+            ->brandLogo(fn () => asset('logo.png'))
             ->colors([
                 'primary' => Color::Emerald,
             ])
@@ -39,13 +40,7 @@ class AdvisorPanelProvider extends PanelProvider
             ->darkMode(false)
             ->discoverResources(in: app_path('Filament/Advisor/Resources'), for: 'App\\Filament\\Advisor\\Resources')
             ->discoverPages(in: app_path('Filament/Advisor/Pages'), for: 'App\\Filament\\Advisor\\Pages')
-            ->pages([
-                Pages\Dashboard::class,
-            ])
             ->discoverWidgets(in: app_path('Filament/Advisor/Widgets'), for: 'App\\Filament\\Advisor\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
