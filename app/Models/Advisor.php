@@ -23,6 +23,9 @@ class Advisor extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'field_of_interests',
+        'room_no',
+        'slots',
         'extra_info',
     ];
 
@@ -44,6 +47,7 @@ class Advisor extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'field_of_interests' => 'array'
     ];
 
     public function canAccessPanel(Panel $panel): bool

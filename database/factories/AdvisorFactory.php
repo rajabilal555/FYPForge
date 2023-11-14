@@ -18,12 +18,15 @@ class AdvisorFactory extends Factory
      */
     public function definition(): array
     {
+        $fields = ['Image Processing', 'Machine Learning', 'Web Development', 'Android Development', 'Artificial Intelligence'];
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('password'),
             'remember_token' => Str::random(10),
+            'field_of_interests' => fake()->randomElements($fields, fake()->numberBetween(1, 3)),
+            'room_no' => fake()->randomDigit() . fake()->randomLetter(),
             'extra_info' => '{}',
         ];
     }
