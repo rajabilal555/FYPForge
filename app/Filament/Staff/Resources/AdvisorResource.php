@@ -11,7 +11,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AdvisorResource extends Resource
 {
@@ -49,10 +48,19 @@ class AdvisorResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->copyable()
                     ->searchable(),
-//                Tables\Columns\TextColumn::make('email_verified_at')
-//                    ->dateTime()
-//                    ->sortable(),
+                Tables\Columns\TextColumn::make('field_of_interests')
+                    ->wrap()
+                    ->label('Fields of Interest'),
+                Tables\Columns\TextColumn::make('room_no')
+                    ->label('Room No'),
+                Tables\Columns\TextColumn::make('available_slots')->counts('projects')
+                    ->sortable(['projects_count'])
+                    ->state(function (Advisor $record): string {
+                        return $record->available_slots . ' / ' . $record->slots;
+                    })
+                    ->label('Available Slots'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

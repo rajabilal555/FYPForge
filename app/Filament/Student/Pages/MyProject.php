@@ -29,7 +29,7 @@ class MyProject extends Page
 
     public function boot(): void
     {
-        $this->project = auth()->user()->project;
+        $this->project = Student::authUser()->project;
     }
 
     public function getHeader(): ?View
@@ -54,7 +54,7 @@ class MyProject extends Page
                 ->successNotificationTitle('Project Created')
                 ->using(function (array $data): Project {
                     $project = Project::create($data);
-                    $project->students()->save(auth()->user());
+                    $project->students()->save(Student::authUser());
                     return $project;
                 })
                 ->steps([
@@ -104,7 +104,7 @@ class MyProject extends Page
                 'class' => 'mt-5 w-full',
             ])
             ->action(function () {
-                $this->redirect('/');
+                $this->redirect(route(FindAdvisor::getRouteName()));
             });
     }
 
@@ -122,7 +122,7 @@ class MyProject extends Page
                 Select::make('student_id')
                     ->label('Student')
                     ->placeholder('Select a student')
-                    ->getSearchResultsUsing(fn (string $search): array => Student::where('name', 'like', "%{$search}%")->limit(50)->get()->pluck('name_with_registration', 'id')->toArray())
+                    ->getSearchResultsUsing(fn(string $search): array => Student::where('name', 'like', "%{$search}%")->limit(50)->get()->pluck('name_with_registration', 'id')->toArray())
                     ->getOptionLabelUsing(function ($value): ?string {
                         $student = Student::find($value);
 
@@ -135,7 +135,7 @@ class MyProject extends Page
                     ->required(),
             ])
             ->action(function (array $data) {
-               InviteProjectMember::make()->handle($this->project, $data);
+                InviteProjectMember::make()->handle($this->project, $data);
             });
     }
 
@@ -174,8 +174,8 @@ class MyProject extends Page
             ->requiresConfirmation()
             ->action(function (array $arguments) {
                 $file = ProjectFile::find($arguments['file']);
-
                 $file?->delete();
+                Storage::disk($file->storage_disk)->delete($file->storage_path);
             });
     }
 

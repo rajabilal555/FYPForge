@@ -54,9 +54,11 @@ class ProjectResource extends Resource
                     ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evaluation_panel.description')
+                    ->placeholder('No Panel')
                     ->words(10)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('advisor.name')
+                    ->placeholder('No Advisor')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('next_evaluation_date')
                     ->dateTime()

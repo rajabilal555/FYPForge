@@ -19,13 +19,18 @@ namespace App\Models{
  * @property string $email
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property mixed $password
+ * @property array $field_of_interests
+ * @property string $room_no
  * @property int $slots
  * @property mixed $extra_info
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $available_slots
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Project> $projects
+ * @property-read int|null $projects_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\AdvisorFactory factory($count = null, $state = [])
@@ -36,10 +41,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereExtraInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereFieldOfInterests($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereRoomNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereSlots($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereUpdatedAt($value)
  */

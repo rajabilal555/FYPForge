@@ -6,6 +6,7 @@ use App\Actions\AcceptProjectInvite;
 use App\Actions\RejectProjectInvite;
 use App\Enums\ProjectInviteStatus;
 use App\Models\ProjectInvite;
+use App\Models\Student;
 use Filament\Infolists\Components\Fieldset;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Tables;
@@ -18,7 +19,7 @@ class ProjectInvites extends BaseWidget
     {
         return $table
             ->query(
-                auth()->user()->invites()->with('project', 'sender')->getQuery(),
+                Student::authUser()->invites()->with('project', 'sender')->getQuery(),
             )
             ->paginated(false)
             ->columns([

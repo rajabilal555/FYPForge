@@ -4,7 +4,6 @@ namespace App\Actions;
 
 use App\Enums\ProjectInviteStatus;
 use App\Filament\Student\Pages\MyProject;
-use App\Models\Project;
 use App\Models\ProjectInvite;
 use App\Models\Student;
 

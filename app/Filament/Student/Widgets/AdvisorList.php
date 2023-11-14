@@ -3,6 +3,8 @@
 namespace App\Filament\Student\Widgets;
 
 use App\Models\Advisor;
+use App\Models\Student;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -15,24 +17,48 @@ class AdvisorList extends BaseWidget
     {
         return $table
             ->query(
-                Advisor::query()
+                Advisor::with('projects')
             )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->wrap()
+                    ->searchable()
                     ->label('Name'),
                 Tables\Columns\TextColumn::make('email')
+                    ->searchable()
                     ->wrap()
                     ->label('Email'),
                 Tables\Columns\TextColumn::make('field_of_interests')
-                    ->wrap()
-                    ->label('Fields'),
+                    ->searchable()
+                    ->listWithLineBreaks()
+                    ->bulleted()
+                    ->label('Fields of Interest'),
                 Tables\Columns\TextColumn::make('room_no')
-                    ->wrap()
                     ->label('Room No'),
-                Tables\Columns\TextColumn::make('slots')
-                    ->wrap()
-                    ->label('Slots')
+                Tables\Columns\TextColumn::make('available_slots')
+                    ->counts('projects')
+                    ->sortable(['projects_count'])
+                    ->state(function (Advisor $record): string {
+                        return $record->available_slots . ' / ' . $record->slots;
+                    })
+                    ->label('Available Slots'),
+            ])
+            ->filters([
+                Tables\Filters\SelectFilter::make('field_of_interests')
+                    ->multiple()
+                    ->options(fn(): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn($value, $key) => [$value => $value])->all())
+                    ->query(fn(Builder $query, array $data): Builder => $query->whereJsonContains('field_of_interests', $data['values']))
+                    ->label('Fields of Interest'),
+            ], Tables\Enums\FiltersLayout::AboveContent)
+            ->actions([
+                Tables\Actions\Action::make('invite')
+                    ->disabled(fn() => Student::authUser()->project == null)
+                    ->icon('heroicon-o-envelope')
+                    ->form([
+                        Textarea::make('message')
+                            ->helperText('Message to send to the advisor')
+                    ])
+                    ->modalHeading(fn (Advisor $record): string => 'Invite ' . $record->name . ' to your project')
+                    ->label('Invite'),
             ]);
     }
 

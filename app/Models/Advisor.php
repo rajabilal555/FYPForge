@@ -6,8 +6,10 @@ use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class Advisor extends Authenticatable implements FilamentUser
@@ -49,6 +51,21 @@ class Advisor extends Authenticatable implements FilamentUser
         'password' => 'hashed',
         'field_of_interests' => 'array'
     ];
+
+    public static function authUser(): static|Authenticatable
+    {
+        return Auth::user();
+    }
+    public function getAvailableSlotsAttribute()
+    {
+        return $this->slots - $this->projects->count();
+    }
+
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
 
     public function canAccessPanel(Panel $panel): bool
     {
