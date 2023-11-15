@@ -4,13 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('project_invites', function (Blueprint $table) {
+        Schema::create('project_advisor_invites', function (Blueprint $table) {
             $table->id();
 
             $table->text('message');
@@ -19,8 +20,8 @@ return new class extends Migration {
                 ->constrained('projects')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->foreignId('student_id')
-                ->constrained('students')
+            $table->foreignId('advisor_id')
+                ->constrained('advisors')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->foreignId('sent_by')
@@ -38,6 +39,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_invites');
+        Schema::dropIfExists('project_advisor_invites');
     }
 };

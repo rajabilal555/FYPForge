@@ -28,7 +28,6 @@ class Advisor extends Authenticatable implements FilamentUser
         'field_of_interests',
         'room_no',
         'slots',
-        'extra_info',
     ];
 
     /**

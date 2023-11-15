@@ -3,7 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\ProjectInviteStatus;
-use App\Models\ProjectInvite;
+use App\Models\ProjectMemberInvite;
 use App\Traits\Makeable;
 use Filament\Notifications\Notification;
 
@@ -11,7 +11,7 @@ class RejectProjectInvite
 {
     use Makeable;
 
-    public function handle(ProjectInvite $invite): void
+    public function handle(ProjectMemberInvite $invite): void
     {
 //        $invite->update([
 //            'status' => ProjectInviteStatus::Rejected,

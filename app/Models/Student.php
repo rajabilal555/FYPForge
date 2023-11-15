@@ -62,9 +62,14 @@ class Student extends Authenticatable implements FilamentUser
         return $this->belongsTo(Project::class);
     }
 
-    public function invites()
+    public function memberInvites()
     {
-        return $this->hasMany(ProjectInvite::class);
+        return $this->hasMany(ProjectMemberInvite::class);
+    }
+
+    public function advisorInvites()
+    {
+        return $this->hasMany(ProjectAdvisorInvite::class);
     }
 
     public function canAccessPanel(Panel $panel): bool

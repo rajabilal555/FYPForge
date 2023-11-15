@@ -20,7 +20,6 @@ return new class extends Migration
             $table->json('field_of_interests');
             $table->string('room_no');
             $table->integer('slots')->default(5);
-            $table->json('extra_info');
             $table->rememberToken();
             $table->timestamps();
         });

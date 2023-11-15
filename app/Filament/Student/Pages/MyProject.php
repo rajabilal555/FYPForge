@@ -4,8 +4,9 @@ namespace App\Filament\Student\Pages;
 
 use App\Actions\InviteProjectMember;
 use App\Models\Project;
+use App\Models\ProjectAdvisorInvite;
 use App\Models\ProjectFile;
-use App\Models\ProjectInvite;
+use App\Models\ProjectMemberInvite;
 use App\Models\Student;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
@@ -15,9 +16,12 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class MyProject extends Page
 {
@@ -135,18 +139,30 @@ class MyProject extends Page
                     ->required(),
             ])
             ->action(function (array $data) {
-                InviteProjectMember::make()->handle($this->project, $data);
+                InviteProjectMember::make()->handle($this->project, $data['student_id'], $data['message']);
             });
     }
 
-    public function cancelInviteAction(): Action
+    public function cancelMemberInviteAction(): Action
     {
-        return Action::make('cancelInviteAction')
+        return Action::make('cancelMemberInviteAction')
             ->icon('heroicon-o-x-mark')
             ->iconButton()
             ->color('danger')
             ->action(function (array $arguments) {
-                $invite = ProjectInvite::find($arguments['invite']);
+                $invite = ProjectMemberInvite::find($arguments['invite']);
+                $invite->delete();
+            });
+    }
+
+    public function cancelAdvisorInviteAction(): Action
+    {
+        return Action::make('cancelAdvisorInviteAction')
+            ->icon('heroicon-o-x-mark')
+            ->iconButton()
+            ->color('danger')
+            ->action(function (array $arguments) {
+                $invite = ProjectAdvisorInvite::find($arguments['invite']);
                 $invite->delete();
             });
     }
@@ -194,6 +210,11 @@ class MyProject extends Page
                     ->required(),
 
                 FileUpload::make('document')
+                    ->afterStateUpdated(function (Set $set, TemporaryUploadedFile $state) {
+                        $set('document_name', $state->getClientOriginalName());
+                    })
+//                    ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image',])
+                    ->maxSize(1024 * 20)
                     ->label('Document')
                     ->disk('private')
                     ->directory('project-files')

@@ -2,9 +2,17 @@
 
 namespace App\Filament\Student\Widgets;
 
+use App\Actions\InviteProjectAdvisor;
 use App\Models\Advisor;
 use App\Models\Student;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Wizard\Step;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
@@ -53,11 +61,49 @@ class AdvisorList extends BaseWidget
                 Tables\Actions\Action::make('invite')
                     ->disabled(fn() => Student::authUser()->project == null)
                     ->icon('heroicon-o-envelope')
-                    ->form([
-                        Textarea::make('message')
-                            ->helperText('Message to send to the advisor')
+                    ->fillForm(function (): array {
+                        $project = Student::authUser()->project;
+                        return [
+                            'project' => $project,
+                            'members' => $project->students,
+                            'files' => $project->files->pluck('name'),
+                        ];
+                    })
+                    ->steps([
+                        Step::make('Review Project')
+                            ->description('Review your project details')
+                            ->disabled()
+                            ->schema([
+                                TextInput::make('project.name')
+                                    ->columnSpan(1),
+                                TextInput::make('project.description')
+                                    ->columnSpan(1),
+                                Repeater::make('members')
+                                    ->schema([
+                                        TextInput::make('registration_no')->required(),
+                                        TextInput::make('name')->required(),
+                                    ])
+                                    ->columns(2)
+                                    ->disabled(),
+                                Repeater::make('files')
+                                    ->simple(TextInput::make('name')->label('File Name'))
+                                    ->disabled()
+                                    ->columns(1),
+                            ])
+                            ->columns(2),
+                        Step::make('Send Invite')
+                            ->description('Send the invite to the advisor with a message')
+                            ->schema([
+                                MarkdownEditor::make('message'),
+                            ]),
                     ])
-                    ->modalHeading(fn (Advisor $record): string => 'Invite ' . $record->name . ' to your project')
+//                    ->form([
+//
+//                        Textarea::make('message')
+//                            ->helperText('Message to send to the advisor')
+//                    ])
+                    ->action(fn(Advisor $record, array $data) => InviteProjectAdvisor::make()->handle(Student::authUser()->project, $record->id, $data['message']))
+                    ->modalHeading(fn(Advisor $record): string => 'Invite ' . $record->name . ' to your project')
                     ->label('Invite'),
             ]);
     }

@@ -1,8 +1,8 @@
 <x-filament-panels::page xmlns:x-filament="http://www.w3.org/1999/html">
     @if($this->project)
         <x-filament::section>
-            <p>
-                {{ $project->description }}
+            <p class="{{ !filled($project->description) ?'text-gray-400' : ''}} break-words overflow-ellipsis">
+                {{ $project->description ?? "No description"}}
             </p>
         </x-filament::section>
         <div class="flex gap-4">
@@ -35,7 +35,7 @@
                             </div>
                         @endforelse
 
-                        @foreach($project->pendingInvites as $invite)
+                        @foreach($project->pendingMemberInvites as $invite)
                             <x-filament::section compact>
                                 <div class="flex justify-between items-center">
                                     <div class="flex gap-4 items-center">
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="flex gap-4 items-center">
                                         <p class="text-gray-400">Invitation {{ $invite->status }}</p>
-                                        {{ ($this->cancelInviteAction)(['invite' => $invite->id]) }}
+                                        {{ ($this->cancelMemberInviteAction)(['invite' => $invite->id]) }}
                                     </div>
                                 </div>
                             </x-filament::section>
@@ -72,10 +72,34 @@
                         Advisor
                     </x-slot>
                     @if($project->advisor == null)
-                        <div class="text-gray-400">
-                            No Advisor yet
-                        </div>
-
+                        @forelse($project->pendingAdvisorInvites as $invite)
+                            <x-filament::section compact>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="flex flex-col gap-2 items-center">
+                                            <x-heroicon-o-user class="w-6 h-6"/>
+                                        </div>
+                                        <div class="flex flex-col gap-2 justify-center">
+                                            <h3 class="text-md">
+                                                {{$invite->advisor->name}}
+                                            </h3>
+                                            <p class="text-gray-400 text-sm">
+                                                {{$invite->created_at->diffForHumans()}}
+                                                by {{$invite->sender->name}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-4 items-center">
+                                        <p class="text-gray-400">Invitation {{ $invite->status }}</p>
+                                        {{ ($this->cancelAdvisorInviteAction)(['invite' => $invite->id]) }}
+                                    </div>
+                                </div>
+                            </x-filament::section>
+                        @empty
+                            <div class="text-gray-400">
+                                No Advisor yet
+                            </div>
+                        @endforelse
                         {{ $this->inviteAdvisorAction }}
                     @else
                         {{ $project->advisor->name }}

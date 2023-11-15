@@ -93,9 +93,9 @@ namespace App\Models{
  * @property-read \App\Models\EvaluationPanel|null $evaluation_panel
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectFile> $files
  * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectInvite> $invites
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $invites
  * @property-read int|null $invites_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectInvite> $pendingInvites
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $pendingInvites
  * @property-read int|null $pending_invites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
@@ -181,7 +181,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\ProjectInvite
+ * App\Models\ProjectMemberInvite
  *
  * @property int $id
  * @property string $message
@@ -194,17 +194,17 @@ namespace App\Models{
  * @property-read \App\Models\Project $project
  * @property-read \App\Models\Student $sender
  * @property-read \App\Models\Student $student
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite query()
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereMessage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereProjectId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereSentBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereStudentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectInvite whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereProjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereSentBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereStudentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereUpdatedAt($value)
  */
 	class ProjectInvite extends \Eloquent {}
 }
@@ -278,7 +278,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $name_with_registration
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectInvite> $invites
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $invites
  * @property-read int|null $invites_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count

@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProjectInvite extends Model
+class ProjectAdvisorInvite extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'message',
         'project_id',
-        'student_id',
+        'advisor_id',
         'sent_by',
         'status',
     ];
@@ -32,9 +32,9 @@ class ProjectInvite extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function student(): BelongsTo
+    public function advisor(): BelongsTo
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Advisor::class);
     }
 
     public function sender(): BelongsTo

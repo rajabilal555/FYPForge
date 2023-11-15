@@ -36,8 +36,21 @@ class AdvisorResource extends Resource
                     })
                     ->hiddenOn('edit')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('extra_info')
+                Forms\Components\TextInput::make('slots')
+                    ->required()
+                    ->numeric()
+                    ->minValue(1)
+                    ->maxValue(15),
+
+                Forms\Components\Select::make('field_of_interests')
+                    ->options(fn(): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn($value, $key) => [$value => $value])->all())
+                    ->multiple()
                     ->required(),
+
+                Forms\Components\TextInput::make('room_no')
+                    ->required()
+                    ->maxLength(255),
+
             ]);
     }
 

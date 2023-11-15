@@ -45,14 +45,24 @@ class Project extends Model
         return $this->hasMany(Student::class);
     }
 
-    public function invites(): HasMany
+    public function memberInvites(): HasMany
     {
-        return $this->hasMany(ProjectInvite::class);
+        return $this->hasMany(ProjectMemberInvite::class);
     }
 
-    public function pendingInvites(): HasMany
+    public function pendingMemberInvites(): HasMany
     {
-        return $this->hasMany(ProjectInvite::class)->where('status', 'pending');
+        return $this->hasMany(ProjectMemberInvite::class)->where('status', 'pending');
+    }
+
+    public function advisorInvites(): HasMany
+    {
+        return $this->hasMany(ProjectAdvisorInvite::class);
+    }
+
+    public function pendingAdvisorInvites(): HasMany
+    {
+        return $this->hasMany(ProjectAdvisorInvite::class)->where('status', 'pending');
     }
 
     public function evaluation_panel(): BelongsTo
