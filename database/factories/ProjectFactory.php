@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\ProjectStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class ProjectFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->text,
-            'status' => $this->faker->text,
+            'status' => $this->faker->randomElement(array_column(ProjectStatus::cases(), 'value')),
             'next_evaluation_date' => $this->faker->dateTime,
         ];
     }
