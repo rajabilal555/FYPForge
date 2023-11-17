@@ -22,7 +22,6 @@ namespace App\Models{
  * @property array $field_of_interests
  * @property string $room_no
  * @property int $slots
- * @property mixed $extra_info
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -40,7 +39,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereExtraInfo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereFieldOfInterests($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Advisor whereName($value)
@@ -90,13 +88,17 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Advisor|null $advisor
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectAdvisorInvite> $advisorInvites
+ * @property-read int|null $advisor_invites_count
  * @property-read \App\Models\EvaluationPanel|null $evaluation_panel
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectFile> $files
  * @property-read int|null $files_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $invites
- * @property-read int|null $invites_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $pendingInvites
- * @property-read int|null $pending_invites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $memberInvites
+ * @property-read int|null $member_invites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectAdvisorInvite> $pendingAdvisorInvites
+ * @property-read int|null $pending_advisor_invites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $pendingMemberInvites
+ * @property-read int|null $pending_member_invites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
  * @method static \Database\Factories\ProjectFactory factory($count = null, $state = [])
@@ -114,6 +116,36 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereUpdatedAt($value)
  */
 	class Project extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ProjectAdvisorInvite
+ *
+ * @property int $id
+ * @property string $message
+ * @property int $project_id
+ * @property int $advisor_id
+ * @property int $sent_by
+ * @property \App\Enums\ProjectInviteStatus $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Advisor $advisor
+ * @property-read \App\Models\Project $project
+ * @property-read \App\Models\Student $sender
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereAdvisorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereProjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereSentBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereUpdatedAt($value)
+ */
+	class ProjectAdvisorInvite extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -206,7 +238,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereStudentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereUpdatedAt($value)
  */
-	class ProjectInvite extends \Eloquent {}
+	class ProjectMemberInvite extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -277,9 +309,11 @@ namespace App\Models{
  * @property int|null $project_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectAdvisorInvite> $advisorInvites
+ * @property-read int|null $advisor_invites_count
  * @property-read mixed $name_with_registration
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $invites
- * @property-read int|null $invites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $memberInvites
+ * @property-read int|null $member_invites_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\Project|null $project
