@@ -24,36 +24,51 @@ class DatabaseSeeder extends Seeder
             'status' => ProjectStatus::Draft,
         ]);
 
-        \App\Models\Project::factory()->create([
+        $project2 = \App\Models\Project::factory()->create([
             'name' => 'Test Project 2',
             'description' => 'Test Project 2 Description',
             'status' => ProjectStatus::Draft,
         ]);
 
+
         \App\Models\Student::factory()->create([
             'name' => 'Test Student 1',
-            'email' => 'student1@example.com',
+            'email' => 'student1@szabist.pk',
             'project_id' => $project->id,
         ]);
 
         \App\Models\Student::factory()->create([
             'name' => 'Test Student 2',
-            'email' => 'student2@example.com',
+            'email' => 'student2@szabist.pk',
             'project_id' => $project->id,
+        ]);
+
+        \App\Models\Student::factory()->create([
+            'name' => 'Test Student 3',
+            'email' => 'student3@szabist.pk',
+            'project_id' => $project2->id,
         ]);
 
         \App\Models\User::factory()->create([
             'name' => 'Test Coordinator',
-            'email' => 'test@example.com',
+            'email' => 'test@szabist.pk',
         ]);
 
         \App\Models\Student::factory()->create([
             'name' => 'Test Student',
-            'email' => 'student@example.com'
+            'email' => 'student@szabist.pk'
         ]);
+
+        \App\Models\Advisor::factory()->create([
+            'name' => 'Test Advisor',
+            'email' => 'advisor@szabist.pk',
+            'room_no' => '404 A',
+            'field_of_interests' => ['Web Development', 'Android Development', 'Artificial Intelligence']
+        ]);
+
         \App\Models\Advisor::factory()->create([
             'name' => 'Ali Mobin',
-            'email' => 'Ali.Mobin@szabist.pk',
+            'email' => 'ali.mobin@szabist.pk',
             'room_no' => '303 A',
             'field_of_interests' => ['Artificial Intelligence', 'Web']
         ]);
@@ -77,7 +92,7 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\Advisor::factory()->create([
             'name' => 'Khalid Rasheed',
-            'email' => 'advisor@example.com',
+            'email' => 'khalid.rasheed@szabist.pk',
             'room_no' => '100C Room 201',
             'field_of_interests' => ['Image Processing', 'Machine Learning', 'Web Development', 'Android Development', 'Artificial Intelligence']
         ]);

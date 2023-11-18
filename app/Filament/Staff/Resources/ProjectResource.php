@@ -7,6 +7,7 @@ use App\Filament\Resources\ProjectResource\Pages;
 use App\Filament\Resources\ProjectResource\RelationManagers;
 use App\Models\Project;
 use Filament\Forms;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -33,7 +34,7 @@ class ProjectResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description'),
+                Forms\Components\MarkdownEditor::make('description'),
                 Forms\Components\Select::make('status')
                     ->options(ProjectStatus::class)
                     ->required(),
@@ -50,6 +51,8 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->words(10)
                     ->searchable(),
+                Tables\Columns\TextColumn::make('students.name')
+                    ->bulleted(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->searchable(),

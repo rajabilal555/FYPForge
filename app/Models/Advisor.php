@@ -55,6 +55,7 @@ class Advisor extends Authenticatable implements FilamentUser
     {
         return Auth::user();
     }
+
     public function getAvailableSlotsAttribute()
     {
         return $this->slots - $this->projects->count();
@@ -65,6 +66,15 @@ class Advisor extends Authenticatable implements FilamentUser
         return $this->hasMany(Project::class);
     }
 
+    public function invites()
+    {
+        return $this->hasMany(ProjectAdvisorInvite::class);
+    }
+
+    public function pendingProjectInvites()
+    {
+        return $this->hasMany(ProjectAdvisorInvite::class)->where('status', 'pending');
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {

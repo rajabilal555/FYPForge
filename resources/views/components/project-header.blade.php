@@ -2,6 +2,7 @@
     'actions' => [],
     'breadcrumbs' => [],
     'heading',
+    'project',
     'subheading' => null,
 ])
 

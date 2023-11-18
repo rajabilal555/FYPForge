@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class AdvisorResource extends Resource
 {
@@ -57,6 +58,10 @@ class AdvisorResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function (Builder $query): Builder {
+                return $query->addSelect('*')
+                    ->addSelect(DB::raw('slots-(SELECT COUNT(*) FROM projects WHERE projects.advisor_id = advisors.id) as projects_count'));
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
@@ -68,7 +73,7 @@ class AdvisorResource extends Resource
                     ->label('Fields of Interest'),
                 Tables\Columns\TextColumn::make('room_no')
                     ->label('Room No'),
-                Tables\Columns\TextColumn::make('available_slots')->counts('projects')
+                Tables\Columns\TextColumn::make('available_slots')
                     ->sortable(['projects_count'])
                     ->state(function (Advisor $record): string {
                         return $record->available_slots . ' / ' . $record->slots;

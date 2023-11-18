@@ -2,6 +2,7 @@
 
 namespace App\Filament\Advisor\Pages;
 
+use App\Filament\Advisor\Widgets\ProjectInvites;
 use Filament\Facades\Filament;
 use Filament\Pages\Page;
 use Filament\Panel;
@@ -56,6 +57,7 @@ class Dashboard extends Page
     {
         return [
             AccountWidget::class,
+            ProjectInvites::class,
         ];
     }
 

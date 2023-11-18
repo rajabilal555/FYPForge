@@ -60,9 +60,6 @@
                         @endforeach
 
                     </div>
-
-                    {{ $this->inviteStudentAction }}
-
                 </x-filament::section>
             </div>
 
@@ -100,7 +97,6 @@
                                 No Advisor yet
                             </div>
                         @endforelse
-                        {{ $this->inviteAdvisorAction }}
                     @else
                         {{ $project->advisor->name }}
                     @endif
@@ -157,5 +153,4 @@
             You dont have a project yet. Create one now.
         </x-filament::section>
     @endif
-
 </x-filament-panels::page>
