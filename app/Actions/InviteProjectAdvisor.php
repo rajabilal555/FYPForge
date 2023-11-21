@@ -6,14 +6,13 @@ use App\Enums\ProjectInviteStatus;
 use App\Models\Advisor;
 use App\Models\Project;
 use App\Models\ProjectAdvisorInvite;
-use App\Models\ProjectMemberInvite;
-use App\Models\Student;
 use App\Traits\Makeable;
 use Filament\Notifications\Notification;
 
 class InviteProjectAdvisor
 {
     use Makeable;
+
     public function handle(Project $project, $advisorId, $message): void
     {
         $advisor = Advisor::find($advisorId);
@@ -24,6 +23,7 @@ class InviteProjectAdvisor
                 ->body('The advisor you are trying to invite has no slots available.')
                 ->danger()
                 ->send();
+
             return;
         }
 
@@ -33,6 +33,7 @@ class InviteProjectAdvisor
                 ->body('You Already have a pending Invite, please wait 3 days.')
                 ->danger()
                 ->send();
+
             return;
         }
 

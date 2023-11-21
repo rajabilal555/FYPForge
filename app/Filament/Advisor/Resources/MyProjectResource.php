@@ -3,17 +3,14 @@
 namespace App\Filament\Advisor\Resources;
 
 use App\Filament\Advisor\Resources\MyProjectResource\Pages;
-use App\Filament\Advisor\Resources\MyProjectResource\RelationManagers;
 use App\Models\Advisor;
 use App\Models\Project;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MyProjectResource extends Resource
 {

@@ -13,9 +13,9 @@ class RejectProjectMemberInvite
 
     public function handle(ProjectMemberInvite $invite): void
     {
-//        $invite->update([
-//            'status' => ProjectInviteStatus::Rejected,
-//        ]);
+        //        $invite->update([
+        //            'status' => ProjectInviteStatus::Rejected,
+        //        ]);
         $invite->delete();
 
         Notification::make()

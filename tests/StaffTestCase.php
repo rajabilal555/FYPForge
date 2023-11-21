@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 abstract class StaffTestCase extends BaseTestCase
 {
     use CreatesApplication;
+
     protected function setUp(): void
     {
         parent::setUp();

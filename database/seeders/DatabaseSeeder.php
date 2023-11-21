@@ -5,7 +5,6 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Enums\ProjectStatus;
-use App\Models\Project;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -29,7 +28,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Test Project 2 Description',
             'status' => ProjectStatus::Draft,
         ]);
-
 
         \App\Models\Student::factory()->create([
             'name' => 'Test Student 1',
@@ -56,57 +54,57 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Student::factory()->create([
             'name' => 'Test Student',
-            'email' => 'student@szabist.pk'
+            'email' => 'student@szabist.pk',
         ]);
 
         \App\Models\Advisor::factory()->create([
             'name' => 'Test Advisor',
             'email' => 'advisor@szabist.pk',
             'room_no' => '404 A',
-            'field_of_interests' => ['Web Development', 'Android Development', 'Artificial Intelligence']
+            'field_of_interests' => ['Web Development', 'Android Development', 'Artificial Intelligence'],
         ]);
 
         \App\Models\Advisor::factory()->create([
             'name' => 'Ali Mobin',
             'email' => 'ali.mobin@szabist.pk',
             'room_no' => '303 A',
-            'field_of_interests' => ['Artificial Intelligence', 'Web']
+            'field_of_interests' => ['Artificial Intelligence', 'Web'],
         ]);
         \App\Models\Advisor::factory()->create([
             'name' => 'Asim Riaz',
             'email' => 'asim.riaz@szabist.pk',
             'room_no' => '154C',
-            'field_of_interests' => ['Software Engineering', 'Machine Learning', 'Management Information System']
+            'field_of_interests' => ['Software Engineering', 'Machine Learning', 'Management Information System'],
         ]);
         \App\Models\Advisor::factory()->create([
             'name' => 'Dr. Adeel Ansari',
             'email' => 'adeel.ansari@szabist.pk',
             'room_no' => '100C Room 102-B',
-            'field_of_interests' => ['Artificial Intelligence', 'Computational Algorithms', 'Web Development', 'Software Engineering']
+            'field_of_interests' => ['Artificial Intelligence', 'Computational Algorithms', 'Web Development', 'Software Engineering'],
         ]);
         \App\Models\Advisor::factory()->create([
             'name' => 'Shahzad Haroon',
             'email' => 'shahzad.haroon@szabist.pk',
             'room_no' => '100C, Room 203B',
-            'field_of_interests' => ['Networking', 'Machine Learning', 'Management Information Systems']
+            'field_of_interests' => ['Networking', 'Machine Learning', 'Management Information Systems'],
         ]);
         \App\Models\Advisor::factory()->create([
             'name' => 'Khalid Rasheed',
             'email' => 'khalid.rasheed@szabist.pk',
             'room_no' => '100C Room 201',
-            'field_of_interests' => ['Image Processing', 'Machine Learning', 'Web Development', 'Android Development', 'Artificial Intelligence']
+            'field_of_interests' => ['Image Processing', 'Machine Learning', 'Web Development', 'Android Development', 'Artificial Intelligence'],
         ]);
         \App\Models\Advisor::factory()->create([
             'name' => 'Khawaja Mohiuddin',
             'email' => 'khawaja.mohiuddin@szabist.pk',
             'room_no' => '154C',
-            'field_of_interests' => ['Software Engineering', 'MIS']
+            'field_of_interests' => ['Software Engineering', 'MIS'],
         ]);
         \App\Models\Advisor::factory()->create([
             'name' => 'Adeel Ahmed',
             'email' => 'adeel.ahmed@szabist.pk',
             'room_no' => '100C Room 201',
-            'field_of_interests' => ['Natural Language Processing', 'Text Mining', 'Machine Learning', 'Data Science']
+            'field_of_interests' => ['Natural Language Processing', 'Text Mining', 'Machine Learning', 'Data Science'],
         ]);
     }
 }

@@ -16,7 +16,6 @@ use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
-use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Pages\Page;
 use Illuminate\Contracts\View\View;
@@ -41,7 +40,7 @@ class MyProject extends Page
         return view('components.project-header', [
             'project' => $this->project,
             'heading' => $this->project?->name ?? 'My Project',
-            'actions' => $this->getHeaderActions()
+            'actions' => $this->getHeaderActions(),
         ]);
     }
 
@@ -52,13 +51,14 @@ class MyProject extends Page
                 ->color('success')
                 ->icon('heroicon-m-sparkles')
                 ->size('lg')
-                ->hidden(fn() => $this->project != null)
+                ->hidden(fn () => $this->project != null)
                 ->label(__('Create Project'))
                 ->model(Project::class)
                 ->successNotificationTitle('Project Created')
                 ->using(function (array $data): Project {
                     $project = Project::create($data);
                     $project->students()->save(Student::authUser());
+
                     return $project;
                 })
                 ->steps([
@@ -79,7 +79,7 @@ class MyProject extends Page
                 ->color('primary')
                 ->icon('heroicon-o-pencil')
                 ->size('lg')
-                ->hidden(fn() => $this->project == null)
+                ->hidden(fn () => $this->project == null)
                 ->label(__('Edit Project'))
                 ->model(Project::class)
                 ->record($this->project)
@@ -112,7 +112,6 @@ class MyProject extends Page
             });
     }
 
-
     public function inviteStudentAction(): Action
     {
         return Action::make('inviteStudentAction')
@@ -126,7 +125,7 @@ class MyProject extends Page
                 Select::make('student_id')
                     ->label('Student')
                     ->placeholder('Select a student')
-                    ->getSearchResultsUsing(fn(string $search): array => Student::where('name', 'like', "%{$search}%")->limit(50)->get()->pluck('name_with_registration', 'id')->toArray())
+                    ->getSearchResultsUsing(fn (string $search): array => Student::where('name', 'like', "%{$search}%")->limit(50)->get()->pluck('name_with_registration', 'id')->toArray())
                     ->getOptionLabelUsing(function ($value): ?string {
                         $student = Student::find($value);
 
@@ -174,9 +173,10 @@ class MyProject extends Page
             ->iconButton()
             ->action(function (array $arguments) {
                 $file = ProjectFile::find($arguments['file']);
+
                 return response()->streamDownload(function () use ($file) {
                     echo Storage::disk($file->storage_disk)->get($file->storage_path);
-                }, $file->name . '.' . $file->getFileType());
+                }, $file->name.'.'.$file->getFileType());
             });
     }
 
@@ -230,6 +230,4 @@ class MyProject extends Page
                 ]);
             });
     }
-
-
 }

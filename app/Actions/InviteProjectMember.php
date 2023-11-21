@@ -11,6 +11,7 @@ use Filament\Notifications\Notification;
 class InviteProjectMember
 {
     use Makeable;
+
     public function handle($project, $studentId, $message): void
     {
         $student = Student::find($studentId);
@@ -21,6 +22,7 @@ class InviteProjectMember
                 ->body('The student you are trying to invite already has a project.')
                 ->danger()
                 ->send();
+
             return;
         }
 

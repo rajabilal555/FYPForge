@@ -3,9 +3,7 @@
 namespace App\Filament\Advisor\Widgets;
 
 use App\Actions\AcceptProjectAdvisorInvite;
-use App\Actions\AcceptProjectMemberInvite;
 use App\Actions\RejectProjectAdvisorInvite;
-use App\Actions\RejectProjectMemberInvite;
 use App\Enums\ProjectInviteStatus;
 use App\Models\Advisor;
 use App\Models\ProjectAdvisorInvite;
@@ -35,7 +33,7 @@ class ProjectInvites extends BaseWidget
                     ->badge()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->formatStateUsing(fn($record) => $record->created_at->diffForHumans())
+                    ->formatStateUsing(fn ($record) => $record->created_at->diffForHumans())
                     ->label('Sent at')
                     ->sortable(),
             ])
@@ -51,16 +49,16 @@ class ProjectInvites extends BaseWidget
                             ->color('success')
                             ->requiresConfirmation()
                             ->cancelParentActions()
-                            ->hidden(fn(ProjectAdvisorInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
-                            ->action(fn(ProjectAdvisorInvite $invite) => AcceptProjectAdvisorInvite::make()->handle($invite)),
+                            ->hidden(fn (ProjectAdvisorInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                            ->action(fn (ProjectAdvisorInvite $invite) => AcceptProjectAdvisorInvite::make()->handle($invite)),
                         Tables\Actions\Action::make('rejectFooter')
                             ->label('Reject')
                             ->icon('heroicon-s-x-circle')
                             ->color('danger')
                             ->requiresConfirmation()
                             ->cancelParentActions()
-                            ->hidden(fn(ProjectAdvisorInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
-                            ->action(fn(ProjectAdvisorInvite $invite) => RejectProjectAdvisorInvite::make()->handle($invite)),
+                            ->hidden(fn (ProjectAdvisorInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                            ->action(fn (ProjectAdvisorInvite $invite) => RejectProjectAdvisorInvite::make()->handle($invite)),
                     ])
                     ->infolist([
                         Fieldset::make('Sender')

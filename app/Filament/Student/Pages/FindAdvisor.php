@@ -5,18 +5,16 @@ namespace App\Filament\Student\Pages;
 use App\Actions\InviteProjectAdvisor;
 use App\Models\Advisor;
 use App\Models\Student;
-use Doctrine\DBAL\Schema\Column;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Pages\Page;
-use Filament\Support\Colors\Color;
 use Filament\Support\Enums\FontWeight;
+use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
-use Filament\Tables;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -56,7 +54,7 @@ class FindAdvisor extends Page implements HasTable
                             ->sortable(['projects_count'])
                             ->html()
                             ->state(function (Advisor $record): string {
-                                return '<b>Slots:</b> ' . $record->available_slots . ' / ' . $record->slots;
+                                return '<b>Slots:</b> '.$record->available_slots.' / '.$record->slots;
                             })
                             ->label('Available Slots'),
                         Tables\Columns\Layout\Panel::make([
@@ -78,8 +76,8 @@ class FindAdvisor extends Page implements HasTable
             ->filters([
                 Tables\Filters\SelectFilter::make('field_of_interests')
                     ->multiple()
-                    ->options(fn(): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn($value, $key) => [$value => $value])->all())
-                    ->query(fn(Builder $query, array $data): Builder => $query->whereJsonContains('field_of_interests', $data['values']))
+                    ->options(fn (): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn ($value, $key) => [$value => $value])->all())
+                    ->query(fn (Builder $query, array $data): Builder => $query->whereJsonContains('field_of_interests', $data['values']))
                     ->label('Fields of Interest'),
             ], Tables\Enums\FiltersLayout::AboveContent)
             ->actions([
@@ -91,6 +89,7 @@ class FindAdvisor extends Page implements HasTable
                     ->icon('heroicon-o-envelope')
                     ->fillForm(function (): array {
                         $project = Student::authUser()->project;
+
                         return [
                             'project' => $project,
                             'members' => $project->students,
@@ -125,8 +124,8 @@ class FindAdvisor extends Page implements HasTable
                                 MarkdownEditor::make('message'),
                             ]),
                     ])
-                    ->action(fn(Advisor $record, array $data) => InviteProjectAdvisor::make()->handle(Student::authUser()->project, $record->id, $data['message']))
-                    ->modalHeading(fn(Advisor $record): string => 'Invite ' . $record->name . ' to your project')
+                    ->action(fn (Advisor $record, array $data) => InviteProjectAdvisor::make()->handle(Student::authUser()->project, $record->id, $data['message']))
+                    ->modalHeading(fn (Advisor $record): string => 'Invite '.$record->name.' to your project')
                     ->label('Invite'),
             ]);
     }

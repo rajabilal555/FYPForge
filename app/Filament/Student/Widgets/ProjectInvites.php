@@ -46,16 +46,16 @@ class ProjectInvites extends BaseWidget
                             ->color('success')
                             ->requiresConfirmation()
                             ->cancelParentActions()
-                            ->hidden(fn(ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
-                            ->action(fn(ProjectMemberInvite $invite) => AcceptProjectMemberInvite::make()->handle($invite)),
+                            ->hidden(fn (ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                            ->action(fn (ProjectMemberInvite $invite) => AcceptProjectMemberInvite::make()->handle($invite)),
                         Tables\Actions\Action::make('rejectFooter')
                             ->label('Reject')
                             ->icon('heroicon-s-x-circle')
                             ->color('danger')
                             ->requiresConfirmation()
                             ->cancelParentActions()
-                            ->hidden(fn(ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
-                            ->action(fn(ProjectMemberInvite $invite) => RejectProjectMemberInvite::make()->handle($invite)),
+                            ->hidden(fn (ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                            ->action(fn (ProjectMemberInvite $invite) => RejectProjectMemberInvite::make()->handle($invite)),
                     ])
                     ->infolist([
                         Fieldset::make('Sender')
@@ -83,21 +83,20 @@ class ProjectInvites extends BaseWidget
 
                     ]),
 
-
                 Tables\Actions\Action::make('accept')
                     ->label('Accept')
                     ->color('success')
                     ->icon('heroicon-s-check-circle')
                     ->requiresConfirmation()
-                    ->hidden(fn(ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
-                    ->action(fn(ProjectMemberInvite $invite) => AcceptProjectMemberInvite::make()->handle($invite)),
+                    ->hidden(fn (ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                    ->action(fn (ProjectMemberInvite $invite) => AcceptProjectMemberInvite::make()->handle($invite)),
                 Tables\Actions\Action::make('reject')
                     ->label('Reject')
                     ->color('danger')
                     ->icon('heroicon-s-x-circle')
                     ->requiresConfirmation()
-                    ->hidden(fn(ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
-                    ->action(fn(ProjectMemberInvite $invite) => RejectProjectMemberInvite::make()->handle($invite)),
+                    ->hidden(fn (ProjectMemberInvite $invite) => $invite->status != ProjectInviteStatus::Pending)
+                    ->action(fn (ProjectMemberInvite $invite) => RejectProjectMemberInvite::make()->handle($invite)),
             ]);
     }
 }

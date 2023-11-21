@@ -3,7 +3,6 @@
 namespace App\Filament\Staff\Resources;
 
 use App\Filament\Staff\Resources\AdvisorResource\Pages;
-use App\Filament\Staff\Resources\AdvisorResource\RelationManagers;
 use App\Models\Advisor;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -44,7 +43,7 @@ class AdvisorResource extends Resource
                     ->maxValue(15),
 
                 Forms\Components\Select::make('field_of_interests')
-                    ->options(fn(): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn($value, $key) => [$value => $value])->all())
+                    ->options(fn (): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn ($value, $key) => [$value => $value])->all())
                     ->multiple()
                     ->required(),
 
@@ -76,7 +75,7 @@ class AdvisorResource extends Resource
                 Tables\Columns\TextColumn::make('available_slots')
                     ->sortable(['projects_count'])
                     ->state(function (Advisor $record): string {
-                        return $record->available_slots . ' / ' . $record->slots;
+                        return $record->available_slots.' / '.$record->slots;
                     })
                     ->label('Available Slots'),
                 Tables\Columns\TextColumn::make('created_at')

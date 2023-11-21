@@ -2,9 +2,6 @@
 
 namespace App\Filament\Staff\Resources;
 
-use App\Filament\Resources\Staff;
-use App\Filament\Resources\StudentResource\Pages;
-use App\Filament\Resources\StudentResource\RelationManagers;
 use App\Filament\Staff\Resources;
 use App\Models\Student;
 use Filament\Forms;
@@ -75,8 +72,8 @@ class StudentResource extends Resource
                 Tables\Filters\SelectFilter::make('project')
                     ->relationship('project', 'name')
                     ->searchable()
-                    ->preload()
-            ],Tables\Enums\FiltersLayout::Dropdown)
+                    ->preload(),
+            ], Tables\Enums\FiltersLayout::Dropdown)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])

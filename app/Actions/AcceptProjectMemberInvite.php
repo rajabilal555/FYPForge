@@ -6,7 +6,6 @@ use App\Enums\ProjectInviteStatus;
 use App\Filament\Student\Pages\MyProject;
 use App\Models\ProjectMemberInvite;
 use App\Models\Student;
-
 use App\Traits\Makeable;
 use Filament\Notifications\Actions\Action;
 use Filament\Notifications\Notification;
@@ -14,6 +13,7 @@ use Filament\Notifications\Notification;
 class AcceptProjectMemberInvite
 {
     use Makeable;
+
     public function handle(ProjectMemberInvite $invite): void
     {
         $student = Student::find(auth()->id());
@@ -24,11 +24,11 @@ class AcceptProjectMemberInvite
                 ->body('You already have a project.')
                 ->danger()
                 ->send();
+
             return;
         }
 
         // TODO: check if the project is full
-
 
         $invite->project->students()->save($student);
 
@@ -50,7 +50,6 @@ class AcceptProjectMemberInvite
             ])
             ->success()
             ->send();
-
 
     }
 }

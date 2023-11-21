@@ -26,8 +26,12 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $available_slots
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectAdvisorInvite> $invites
+ * @property-read int|null $invites_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectAdvisorInvite> $pendingProjectInvites
+ * @property-read int|null $pending_project_invites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Project> $projects
  * @property-read int|null $projects_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens

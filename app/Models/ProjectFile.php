@@ -33,5 +33,4 @@ class ProjectFile extends Model
     {
         return File::extension($this->storage_path);
     }
-
 }

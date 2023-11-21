@@ -46,9 +46,10 @@ class ViewMyProject extends Page
             ->iconButton()
             ->action(function (array $arguments) {
                 $file = ProjectFile::find($arguments['file']);
+
                 return response()->streamDownload(function () use ($file) {
                     echo Storage::disk($file->storage_disk)->get($file->storage_path);
-                }, $file->name . '.' . $file->getFileType());
+                }, $file->name.'.'.$file->getFileType());
             });
     }
 
@@ -102,5 +103,4 @@ class ViewMyProject extends Page
                 ]);
             });
     }
-
 }

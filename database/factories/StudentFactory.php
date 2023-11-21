@@ -16,7 +16,6 @@ class StudentFactory extends Factory
      *
      * @return array<string, mixed>
      */
-
     public function definition(): array
     {
         return [
@@ -28,5 +27,4 @@ class StudentFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
-
 }

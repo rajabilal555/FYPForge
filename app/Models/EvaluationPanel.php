@@ -19,7 +19,6 @@ class EvaluationPanel extends Model
         'description',
     ];
 
-
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
@@ -29,5 +28,4 @@ class EvaluationPanel extends Model
     {
         return $this->hasMany(ProjectEvaluation::class);
     }
-
 }

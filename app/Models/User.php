@@ -11,7 +11,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
-
 /**
  * This is the class for Staff Users i.e. Coordinator, Moderators, etc.
  */
@@ -28,7 +27,7 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'role'
+        'role',
     ];
 
     /**
