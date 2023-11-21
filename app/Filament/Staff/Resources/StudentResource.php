@@ -48,14 +48,15 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('project.name')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('registration_no')
                     ->searchable(isIndividual: true),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('project.name')
+                    ->placeholder('No Project')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
@@ -100,6 +101,7 @@ class StudentResource extends Resource
             'index' => Resources\StudentResource\Pages\ListStudents::route('/'),
             'create' => Resources\StudentResource\Pages\CreateStudent::route('/create'),
             'edit' => Resources\StudentResource\Pages\EditStudent::route('/{record}/edit'),
+            'import' => Resources\StudentResource\Pages\ImportStudents::route('/import'),
         ];
     }
 }
