@@ -8,6 +8,7 @@ use App\Traits\Makeable;
 use Filament\Notifications\Notification;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ImportStudentsAction
@@ -45,6 +46,8 @@ class ImportStudentsAction
             if ($e instanceof UniqueConstraintViolationException) {
                 $message = 'Cannot import. Duplicate registration numbers found.';
             }
+
+            Log::error($e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
             Notification::make()
                 ->title('An error occured')
