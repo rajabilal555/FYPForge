@@ -10,6 +10,7 @@ enum ProjectInviteStatus: string implements HasColor, HasLabel
     case Pending = 'pending';
     case Accepted = 'accepted';
     case Rejected = 'rejected';
+    case Expired = 'expired';
 
     public function getLabel(): ?string
     {
@@ -17,6 +18,7 @@ enum ProjectInviteStatus: string implements HasColor, HasLabel
             self::Pending => 'Pending',
             self::Accepted => 'Accepted',
             self::Rejected => 'Rejected',
+            self::Expired => 'Expired',
         };
     }
 
@@ -26,6 +28,7 @@ enum ProjectInviteStatus: string implements HasColor, HasLabel
             self::Pending => 'info',
             self::Accepted => 'success',
             self::Rejected => 'danger',
+            self::Expired => 'warning',
         };
     }
 }

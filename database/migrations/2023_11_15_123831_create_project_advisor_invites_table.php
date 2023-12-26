@@ -30,6 +30,8 @@ return new class extends Migration
 
             $table->string('status');
 
+            $table->timestamp('expires_at');
+
             $table->timestamps();
         });
     }

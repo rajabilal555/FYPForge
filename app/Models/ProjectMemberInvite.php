@@ -17,6 +17,7 @@ class ProjectMemberInvite extends Model
         'student_id',
         'sent_by',
         'status',
+        'expires_at',
     ];
 
     protected $attributes = [

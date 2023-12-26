@@ -17,6 +17,7 @@ class ProjectAdvisorInvite extends Model
         'advisor_id',
         'sent_by',
         'status',
+        'expires_at',
     ];
 
     protected $attributes = [

@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Models\ProjectAdvisorInvite;
+use App\Models\ProjectMemberInvite;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +14,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            // TODO: move to a job, which will also send notifications to each users.
+            // Clear the expired project invites
+            ProjectMemberInvite::where('expires_at', '<=', now())->update(['status' => 'expired']);
+            ProjectAdvisorInvite::where('expires_at', '<=', now())->update(['status' => 'expired']);
+        })->twiceDaily();
     }
 
     /**
