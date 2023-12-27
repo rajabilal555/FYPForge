@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('project_queries', function (Blueprint $table) {
             $table->id();
-            $table->string('query');
+            $table->text('query');
 
             $table->foreignId('project_id')
                 ->constrained('projects')
@@ -23,7 +23,7 @@ return new class extends Migration
                 ->constrained('students')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->string('answer')
+            $table->text('answer')
                 ->nullable();
 
             $table->timestamps();

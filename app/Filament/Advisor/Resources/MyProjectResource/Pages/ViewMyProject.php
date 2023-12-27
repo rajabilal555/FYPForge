@@ -2,12 +2,16 @@
 
 namespace App\Filament\Advisor\Resources\MyProjectResource\Pages;
 
+use App\Actions\AnswerProjectQuery;
 use App\Filament\Advisor\Resources\MyProjectResource;
 use App\Models\Advisor;
 use App\Models\Project;
 use App\Models\ProjectFile;
+use App\Models\ProjectQuery;
 use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Set;
 use Filament\Resources\Pages\Page;
@@ -102,5 +106,35 @@ class ViewMyProject extends Page
                     'student_id' => auth()->id(),
                 ]);
             });
+    }
+
+    public function viewQueryAction(): Action
+    {
+        return Action::make('viewQueryAction')
+            ->icon('heroicon-o-eye')
+            ->iconButton()
+//            ->modalSubmitAction(false)
+            ->modalCancelAction(false)
+            ->fillForm(fn (array $arguments) => ProjectQuery::find($arguments['query'])->toArray())
+            ->modalHeading('View Query')
+            ->form([
+                Section::make('Query')
+                    ->collapsible()
+                    ->compact()
+                    ->schema([
+                        MarkdownEditor::make('query')
+                            ->label('')
+                            ->disabled(),
+                    ]),
+                Section::make('Answer')
+                    ->collapsible()
+                    ->compact()
+                    ->schema([
+                        MarkdownEditor::make('answer')
+                            ->label('')
+                            ->required(),
+                    ]),
+            ])
+            ->action(fn (array $arguments, array $data) => AnswerProjectQuery::make()->handle(ProjectQuery::find($arguments['query']), $data['answer']));
     }
 }

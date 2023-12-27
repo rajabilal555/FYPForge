@@ -2,11 +2,13 @@
 
 namespace App\Filament\Student\Pages;
 
+use App\Actions\CreateProjectQuery;
 use App\Actions\InviteProjectMember;
 use App\Models\Project;
 use App\Models\ProjectAdvisorInvite;
 use App\Models\ProjectFile;
 use App\Models\ProjectMemberInvite;
+use App\Models\ProjectQuery;
 use App\Models\Student;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
@@ -14,6 +16,7 @@ use Filament\Actions\EditAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Forms\Set;
@@ -140,6 +143,52 @@ class MyProject extends Page
             ->action(function (array $data) {
                 InviteProjectMember::make()->handle($this->project, $data['student_id'], $data['message']);
             });
+    }
+
+    public function sendQueryAction(): Action
+    {
+        return Action::make('sendQueryAction')
+            ->label('Send Query')
+            ->icon('heroicon-o-plus')
+            ->color('success')
+            ->extraAttributes([
+                'class' => 'mt-5 w-full',
+            ])
+            ->form([
+                MarkdownEditor::make('query')
+                    ->required(),
+            ])
+            ->action(function (array $data) {
+                CreateProjectQuery::make()->handle($this->project, $data['query']);
+            });
+    }
+
+    public function viewQueryAction(): Action
+    {
+        return Action::make('viewQueryAction')
+            ->icon('heroicon-o-eye')
+            ->iconButton()
+            ->modalSubmitAction(false)
+            ->modalCancelAction(false)
+            ->fillForm(fn (array $arguments) => ProjectQuery::find($arguments['query'])->toArray())
+            ->form([
+                Tabs::make('Tabs')
+                    ->tabs([
+                        Tabs\Tab::make('Query')
+                            ->schema([
+                                MarkdownEditor::make('query')
+                                    ->label('')
+                                    ->disabled(),
+                            ]),
+                        Tabs\Tab::make('Answer')
+                            ->schema([
+                                MarkdownEditor::make('answer')
+                                    ->label('')
+                                    ->formatStateUsing(fn (?string $state) => $state ?? 'No answer yet')
+                                    ->disabled(),
+                            ]),
+                    ]),
+            ]);
     }
 
     public function cancelMemberInviteAction(): Action

@@ -5,8 +5,8 @@
                 {{ $project->description ?? "No description"}}
             </p>
         </x-filament::section>
-        <div class="flex flex-col md:flex-row gap-4">
-            <div class="w-full md:w-2/6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="">
                 <x-filament::section>
                     <x-slot name="heading">
                         Members
@@ -66,7 +66,7 @@
                 </x-filament::section>
             </div>
 
-            <div class="w-full md:w-2/6">
+            <div class="">
                 <x-filament::section>
                     <x-slot name="heading">
                         Advisor
@@ -107,7 +107,7 @@
                 </x-filament::section>
             </div>
 
-            <div class="w-full md:w-2/6">
+            <div class="">
                 <x-filament::section>
                     <x-slot name="heading">
                         Files
@@ -145,6 +145,37 @@
                     </div>
 
                     {{ $this->uploadFileAction }}
+                </x-filament::section>
+            </div>
+
+            <div class="">
+                <x-filament::section>
+                    <x-slot name="heading">
+                        Queries
+                    </x-slot>
+
+                    <div class="flex flex-col gap-2">
+                        @forelse($project->queries as $query)
+                            <x-filament::section compact>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="flex flex-col gap-2 justify-center">
+                                            <p class="text-asd">
+                                                {{ Str::limit( $query->query, 50, $end='...') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {{ ($this->viewQueryAction)(['query' => $query->id]) }}
+                                </div>
+                            </x-filament::section>
+                        @empty
+                            <div class="text-gray-400">
+                                You have no Queries.
+                            </div>
+                        @endforelse
+                    </div>
+
+                    {{ $this->sendQueryAction }}
                 </x-filament::section>
             </div>
         </div>
