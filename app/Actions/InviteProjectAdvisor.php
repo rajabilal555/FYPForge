@@ -37,13 +37,27 @@ class InviteProjectAdvisor
             return;
         }
 
-        ProjectAdvisorInvite::updateOrCreate([
+        $oldRequest = ProjectAdvisorInvite::where('project_id', $project->id)
+            ->where('advisor_id', $advisorId)
+            ->first();
+
+        if ($oldRequest != null) {
+            Notification::make()
+                ->title('Invitation Failed')
+                ->body('You cannot invite this advisor again.')
+                ->danger()
+                ->send();
+
+            return;
+        }
+
+        ProjectAdvisorInvite::create([
             'project_id' => $project->id,
             'advisor_id' => $advisorId,
             'sent_by' => auth()->id(),
-        ], [
             'message' => $message,
             'status' => ProjectInviteStatus::Pending,
+            'expires_at' => now()->addDays(3),
         ]);
 
         Notification::make()
@@ -51,5 +65,6 @@ class InviteProjectAdvisor
             ->body('The invitation was sent, you will get a response within 3 days.')
             ->success()
             ->send();
+
     }
 }

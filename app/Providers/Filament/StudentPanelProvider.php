@@ -6,9 +6,11 @@ use App\Filament\Student\Pages\Auth\Login;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Notifications\Livewire\Notifications;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\VerticalAlignment;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -21,6 +23,8 @@ class StudentPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        Notifications::verticalAlignment(VerticalAlignment::End);
+
         return $panel
             ->default()
             ->id('student')

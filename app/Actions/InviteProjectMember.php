@@ -26,13 +26,27 @@ class InviteProjectMember
             return;
         }
 
-        ProjectMemberInvite::updateOrCreate([
+        $oldRequest = ProjectMemberInvite::where('project_id', $project->id)
+            ->where('student_id', $studentId)
+            ->first();
+
+        if ($oldRequest != null) {
+            Notification::make()
+                ->title('Invitation Failed')
+                ->body('You cannot invite this student again.')
+                ->danger()
+                ->send();
+
+            return;
+        }
+
+        ProjectMemberInvite::create([
             'project_id' => $project->id,
             'student_id' => $studentId,
             'sent_by' => auth()->id(),
-        ], [
             'message' => $message,
             'status' => ProjectInviteStatus::Pending,
+            'expires_at' => now()->addDays(3),
         ]);
 
         Notification::make()

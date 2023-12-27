@@ -121,7 +121,8 @@ class FindAdvisor extends Page implements HasTable
                         Step::make('Send Invite')
                             ->description('Send the invite to the advisor with a message')
                             ->schema([
-                                MarkdownEditor::make('message'),
+                                MarkdownEditor::make('message')
+                                    ->required(),
                             ]),
                     ])
                     ->action(fn (Advisor $record, array $data) => InviteProjectAdvisor::make()->handle(Student::authUser()->project, $record->id, $data['message']))

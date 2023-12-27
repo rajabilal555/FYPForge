@@ -5,8 +5,8 @@
                 {{ $project->description ?? "No description"}}
             </p>
         </x-filament::section>
-        <div class="flex gap-4">
-            <div class="w-2/6">
+        <div class="flex flex-col md:flex-row gap-4">
+            <div class="w-full md:w-2/6">
                 <x-filament::section>
                     <x-slot name="heading">
                         Members
@@ -63,7 +63,7 @@
                 </x-filament::section>
             </div>
 
-            <div class="w-2/6">
+            <div class="w-full md:w-2/6">
                 <x-filament::section>
                     <x-slot name="heading">
                         Advisor
@@ -103,7 +103,7 @@
                 </x-filament::section>
             </div>
 
-            <div class="w-2/6">
+            <div class="w-full md:w-2/6">
                 <x-filament::section>
                     <x-slot name="heading">
                         Files
