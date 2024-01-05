@@ -4,17 +4,22 @@ namespace App\Filament\Student\Pages;
 
 use App\Actions\CreateProjectQuery;
 use App\Actions\InviteProjectMember;
+use App\Enums\ProjectTaskStatus;
 use App\Models\Project;
 use App\Models\ProjectAdvisorInvite;
 use App\Models\ProjectFile;
 use App\Models\ProjectMemberInvite;
 use App\Models\ProjectQuery;
+use App\Models\ProjectTask;
 use App\Models\Student;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
@@ -36,6 +41,11 @@ class MyProject extends Page
     public function boot(): void
     {
         $this->project = Student::authUser()->project;
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return Student::authUser()->project->tasks()->where('status', ProjectTaskStatus::Assigned)->count();
     }
 
     public function getHeader(): ?View
@@ -171,6 +181,7 @@ class MyProject extends Page
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->fillForm(fn (array $arguments) => ProjectQuery::find($arguments['query'])->toArray())
+            ->modalHeading('View Query')
             ->form([
                 Tabs::make('Tabs')
                     ->tabs([
@@ -276,6 +287,46 @@ class MyProject extends Page
                     'storage_path' => $data['document'],
                     'storage_disk' => 'private',
                     'student_id' => auth()->id(),
+                ]);
+            });
+    }
+
+    public function viewTaskAction(): Action
+    {
+        return Action::make('viewTaskAction')
+            ->icon('heroicon-o-eye')
+            ->iconButton()
+//            ->modalSubmitAction(fn (array $arguments) => ProjectTask::find($arguments['task'])->status === ProjectTaskStatus::Cancelled ? false : null)
+            ->modalCancelAction(false)
+            ->fillForm(fn (array $arguments) => ProjectTask::find($arguments['task'])->toArray())
+            ->modalHeading('View Task')
+            ->form([
+                Radio::make('status')
+                    ->label('Status')
+                    ->inline()
+                    ->disabled(fn (string $state) => $state === ProjectTaskStatus::Cancelled->value)
+                    ->disableOptionWhen(fn (string $value): bool => $value === 'cancelled')
+                    ->options(ProjectTaskStatus::class),
+
+                Grid::make([
+                    'default' => 1,
+                    'md' => 2,
+                ])
+                    ->schema([
+                        TextInput::make('name')
+                            ->label('Task Title')
+                            ->disabled(),
+                        DatePicker::make('due_date')
+                            ->hidden(fn ($state) => $state === null)
+                            ->label('Due Date')
+                            ->disabled(),
+                    ]),
+                MarkdownEditor::make('description')
+                    ->label('Description')
+                    ->disabled(),
+            ])->action(function (array $arguments, array $data) {
+                ProjectTask::find($arguments['task'])->update([
+                    'status' => $data['status'],
                 ]);
             });
     }

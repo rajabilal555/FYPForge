@@ -163,6 +163,9 @@
                                             <p class="text-asd">
                                                 {{ Str::limit( $query->query, 50, $end='...') }}
                                             </p>
+                                            <p class="text-gray-400 text-sm">
+                                                {{ $query->created_at->diffForHumans()}}
+                                            </p>
                                         </div>
                                     </div>
                                     {{ ($this->viewQueryAction)(['query' => $query->id]) }}
@@ -176,6 +179,49 @@
                     </div>
 
                     {{ $this->sendQueryAction }}
+                </x-filament::section>
+            </div>
+            <div class="">
+                <x-filament::section>
+                    <x-slot name="heading">
+                        Tasks
+                    </x-slot>
+
+                    <div class="flex flex-col gap-2">
+                        @forelse($project->tasks as $task)
+                            <x-filament::section compact>
+                                <div class="pb-2 flex">
+                                    <x-filament::badge :color="$task->status->getColor()">
+                                        {{ $task->status->getLabel() }}
+                                    </x-filament::badge>
+                                </div>
+
+                                <div class="flex justify-between items-center">
+                                    <div class="flex gap-4 items-center">
+                                        <div class="flex flex-col gap-2 justify-between">
+                                            <p>
+                                                {{ $task->name }}
+                                            </p>
+                                            <div>
+                                                <p class="text-gray-400 text-sm">
+                                                    Assigned on: {{ $task->created_at->diffForHumans()}}
+                                                </p>
+                                                <p class="text-gray-400 text-sm">
+                                                    Due on: {{ $task->due_date?->diffForHumans() ?? 'No Due date' }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{ ($this->viewTaskAction)(['task' => $task->id]) }}
+                                </div>
+                            </x-filament::section>
+                        @empty
+                            <div class="text-gray-400">
+                                You have no Tasks.
+                            </div>
+                        @endforelse
+                    </div>
                 </x-filament::section>
             </div>
         </div>
