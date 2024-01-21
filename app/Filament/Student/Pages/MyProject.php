@@ -45,7 +45,12 @@ class MyProject extends Page
 
     public static function getNavigationBadge(): ?string
     {
-        return Student::authUser()->project->tasks()->where('status', ProjectTaskStatus::Assigned)->count();
+        $project = Student::authUser()->project;
+        if ($project != null) {
+            return $project->tasks()->where('status', ProjectTaskStatus::Assigned)->count();
+        }
+
+        return null;
     }
 
     public function getHeader(): ?View
