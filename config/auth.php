@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'advisors',
         ],
+        'evaluator' => [
+            'driver' => 'session',
+            'provider' => 'evaluators',
+        ],
     ],
 
     /*
@@ -79,6 +83,10 @@ return [
         'advisors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Advisor::class,
+        ],
+        'evaluators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\EvaluationPanel::class,
         ],
     ],
 
