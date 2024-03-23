@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ProjectApprovalStatus;
 use App\Enums\ProjectStatus;
+use App\Enums\ProjectTerm;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +22,9 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
+        'term',
         'status',
+        'approval_status',
         'panel_id',
         'created_by',
         'updated_by',
@@ -32,11 +36,15 @@ class Project extends Model
      * @var array
      */
     protected $attributes = [
-        'status' => ProjectStatus::Draft,
+        'status' => ProjectStatus::InProgress,
+        'approval_status' => ProjectApprovalStatus::Draft,
+        'term' => ProjectTerm::FYP1,
     ];
 
     protected $casts = [
         'status' => ProjectStatus::class,
+        'approval_status' => ProjectApprovalStatus::class,
+        'term' => ProjectTerm::class,
     ];
 
     public function students(): HasMany

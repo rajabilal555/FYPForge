@@ -2,7 +2,7 @@
     @if($this->project)
         <x-filament::section>
             <p class="{{ !filled($project->description) ?'text-gray-400' : ''}} break-words overflow-ellipsis">
-                {{ $project->description ?? "No description"}}
+                {{ \Illuminate\Mail\Markdown::parse($project->description ?? "No description") }}
             </p>
         </x-filament::section>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

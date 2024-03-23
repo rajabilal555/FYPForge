@@ -2,7 +2,14 @@
 
 namespace App\Filament\Staff\Resources;
 
+use App\Enums\ProjectApprovalStatus;
 use App\Enums\ProjectStatus;
+use App\Enums\ProjectTerm;
+use App\Filament\Staff\Resources\ProjectResource\Pages\CreateProject;
+use App\Filament\Staff\Resources\ProjectResource\Pages\EditProject;
+use App\Filament\Staff\Resources\ProjectResource\Pages\ListProjects;
+use App\Filament\Staff\Resources\ProjectResource\RelationManagers\FilesRelationManager;
+use App\Filament\Staff\Resources\ProjectResource\RelationManagers\StudentRelationManager;
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -20,22 +27,51 @@ class ProjectResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('evaluation_panel_id')
-                    ->relationship(name: 'evaluation_panel', titleAttribute: 'id')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\Select::make('advisor_id')
-                    ->relationship(name: 'advisor', titleAttribute: 'name')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\MarkdownEditor::make('description'),
-                Forms\Components\Select::make('status')
-                    ->options(ProjectStatus::class)
-                    ->required(),
-                Forms\Components\DateTimePicker::make('next_evaluation_date'),
+                Forms\Components\Grid::make([
+                    'default' => 1,
+                    'md' => 3,
+                ])
+                    ->schema([
+                        Forms\Components\Section::make('Project Details')
+                            ->columnSpan(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\MarkdownEditor::make('description'),
+
+                            ]),
+                        Forms\Components\Grid::make(1)
+                            ->columnSpan(1)
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->columnSpan(1)
+                                    ->schema([
+                                        Forms\Components\Select::make('evaluation_panel_id')
+                                            ->relationship(name: 'evaluation_panel', titleAttribute: 'id')
+                                            ->searchable()
+                                            ->preload(),
+                                        Forms\Components\Select::make('advisor_id')
+                                            ->relationship(name: 'advisor', titleAttribute: 'name')
+                                            ->searchable()
+                                            ->preload(),
+                                    ]),
+                                Forms\Components\Section::make()
+                                    ->columnSpan(1)
+                                    ->schema([
+                                        Forms\Components\DateTimePicker::make('next_evaluation_date'),
+                                        Forms\Components\Select::make('status')
+                                            ->options(ProjectStatus::class)
+                                            ->required(),
+                                        Forms\Components\Select::make('approval_status')
+                                            ->options(ProjectApprovalStatus::class)
+                                            ->required(),
+                                        Forms\Components\Select::make('term')
+                                            ->options(ProjectTerm::class)
+                                            ->required(),
+                                    ]), ]),
+
+                    ]),
             ]);
     }
 
@@ -50,7 +86,13 @@ class ProjectResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('students.name')
                     ->bulleted(),
+                Tables\Columns\TextColumn::make('approval_status')
+                    ->badge()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('term')
                     ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evaluation_panel.description')
@@ -91,16 +133,17 @@ class ProjectResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            StudentRelationManager::class,
+            FilesRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => \App\Filament\Staff\Resources\ProjectResource\Pages\ListProjects::route('/'),
-            'create' => \App\Filament\Staff\Resources\ProjectResource\Pages\CreateProject::route('/create'),
-            'edit' => \App\Filament\Staff\Resources\ProjectResource\Pages\EditProject::route('/{record}/edit'),
+            'index' => ListProjects::route('/'),
+            'create' => CreateProject::route('/create'),
+            'edit' => EditProject::route('/{record}/edit'),
         ];
     }
 }

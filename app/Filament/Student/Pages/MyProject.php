@@ -241,7 +241,8 @@ class MyProject extends Page
 
                 return response()->streamDownload(function () use ($file) {
                     echo Storage::disk($file->storage_disk)->get($file->storage_path);
-                }, $file->name.'.'.$file->getFileType());
+                }, $file->name);
+                //TODO: fix files name when downloading,!! there is possibility that file extension is not in the name
             });
     }
 

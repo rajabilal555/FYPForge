@@ -19,6 +19,10 @@ return new class extends Migration
 
             $table->string('status');
 
+            $table->string('approval_status');
+
+            $table->string('term');
+
             $table->foreignId('evaluation_panel_id')
                 ->nullable()
                 ->constrained('evaluation_panels')

@@ -72,6 +72,9 @@ class ProjectResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->actions([
+                Tables\Actions\ViewAction::make(),
             ]);
     }
 
@@ -86,6 +89,7 @@ class ProjectResource extends Resource
     {
         return [
             'index' => Pages\ListProjects::route('/'),
+            'view' => Pages\ViewProject::route('/{record}'),
         ];
     }
 }

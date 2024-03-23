@@ -75,7 +75,7 @@
                     <x-heroicon-o-arrow-right class="self-center shrink-0 stroke-black w-6 h-6 ml-auto"/>
                 </a>
 
-                <a href="#/evaluators"
+                <a href="/evaluator"
                    class="scale-100 p-6 bg-white ring-1 dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-blue-500">
                     <div>
                         <div
@@ -94,11 +94,11 @@
             </div>
         </div>
 
-        <div class="flex justify-center mt-16 px-0 sm:items-center">
-            <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">
-                Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
-            </div>
-        </div>
+{{--        <div class="flex justify-center mt-16 px-0 sm:items-center">--}}
+{{--            <div class="ml-4 text-center text-sm text-gray-500 dark:text-gray-400 sm:text-right sm:ml-0">--}}
+{{--                Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </div>
 </div>
 </body>

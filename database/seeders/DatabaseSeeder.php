@@ -20,13 +20,13 @@ class DatabaseSeeder extends Seeder
         $project = \App\Models\Project::factory()->create([
             'name' => 'Test Project 1',
             'description' => 'Test Project 1 Description',
-            'status' => ProjectStatus::Draft,
+            'status' => ProjectStatus::InProgress,
         ]);
 
         $project2 = \App\Models\Project::factory()->create([
             'name' => 'Test Project 2',
             'description' => 'Test Project 2 Description',
-            'status' => ProjectStatus::Draft,
+            'status' => ProjectStatus::InProgress,
         ]);
 
         \App\Models\Student::factory()->create([

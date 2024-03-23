@@ -2,9 +2,12 @@
 
 namespace App\Filament\Staff\Resources\ProjectResource\Pages;
 
+use App\Enums\ProjectTerm;
 use App\Filament\Staff\Resources\ProjectResource;
 use Filament\Actions;
+use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListProjects extends ListRecords
 {
@@ -14,6 +17,17 @@ class ListProjects extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+        ];
+    }
+
+    public function getTabs(): array
+    {
+        return [
+            'all' => Tab::make(),
+            'fyp1' => Tab::make('FYP 1')
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('term', ProjectTerm::FYP1)),
+            'fyp2' => Tab::make('FYP 2')
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('term', ProjectTerm::FYP2)),
         ];
     }
 }

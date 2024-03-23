@@ -7,31 +7,25 @@ use Filament\Support\Contracts\HasLabel;
 
 enum ProjectStatus: string implements HasColor, HasLabel
 {
-    case Draft = 'draft';
-    case Reviewing = 'reviewing';
-    case Approved = 'approved';
-    case Rejected = 'rejected';
-    case NeedsRevision = 'needs_revision';
+    case InProgress = 'in_progress';
+    case Graded = 'graded';
+    case Failed = 'failed';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Draft => 'Draft',
-            self::Reviewing => 'Reviewing',
-            self::Approved => 'Approved',
-            self::Rejected => 'Rejected',
-            self::NeedsRevision => 'Needs Revision',
+            self::InProgress => 'In Progress',
+            self::Graded => 'Graded',
+            self::Failed => 'Failed',
         };
     }
 
     public function getColor(): string|array|null
     {
         return match ($this) {
-            self::Draft => 'gray',
-            self::Reviewing => 'info',
-            self::Approved => 'success',
-            self::Rejected => 'danger',
-            self::NeedsRevision => 'warning',
+            self::InProgress => 'warning',
+            self::Graded => 'success',
+            self::Failed => 'danger',
         };
     }
 }
