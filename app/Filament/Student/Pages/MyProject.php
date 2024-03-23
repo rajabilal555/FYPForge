@@ -190,12 +190,6 @@ class MyProject extends Page
             ->form([
                 Tabs::make('Tabs')
                     ->tabs([
-                        Tabs\Tab::make('Query')
-                            ->schema([
-                                MarkdownEditor::make('query')
-                                    ->label('')
-                                    ->disabled(),
-                            ]),
                         Tabs\Tab::make('Answer')
                             ->schema([
                                 MarkdownEditor::make('answer')
@@ -203,6 +197,13 @@ class MyProject extends Page
                                     ->formatStateUsing(fn (?string $state) => $state ?? 'No answer yet')
                                     ->disabled(),
                             ]),
+                        Tabs\Tab::make('Query')
+                            ->schema([
+                                MarkdownEditor::make('query')
+                                    ->label('')
+                                    ->disabled(),
+                            ]),
+
                     ]),
             ]);
     }

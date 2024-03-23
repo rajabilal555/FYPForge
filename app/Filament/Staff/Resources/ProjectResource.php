@@ -48,7 +48,7 @@ class ProjectResource extends Resource
                                     ->columnSpan(1)
                                     ->schema([
                                         Forms\Components\Select::make('evaluation_panel_id')
-                                            ->relationship(name: 'evaluation_panel', titleAttribute: 'id')
+                                            ->relationship(name: 'evaluation_panel', titleAttribute: 'name')
                                             ->searchable()
                                             ->preload(),
                                         Forms\Components\Select::make('advisor_id')
@@ -95,7 +95,7 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('term')
                     ->badge()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('evaluation_panel.description')
+                Tables\Columns\TextColumn::make('evaluation_panel.name')
                     ->placeholder('No Panel')
                     ->words(10)
                     ->sortable(),

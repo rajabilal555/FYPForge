@@ -1,7 +1,133 @@
 <x-filament-panels::page>
-    <x-filament::section>
-        <p class="{{ !filled($project->description) ?'text-gray-400' : ''}} break-words overflow-ellipsis">
-            {{ \Illuminate\Mail\Markdown::parse($project->description ?? "No description") }}
-        </p>
-    </x-filament::section>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="flex flex-col gap-4">
+            <x-filament::section compact>
+                <p class="{{ !filled($project->description) ?'text-gray-400' : ''}} break-words overflow-ellipsis">
+                    {{ \Illuminate\Mail\Markdown::parse($project->description ?? "No description") }}
+                </p>
+            </x-filament::section>
+            <x-filament::section compact>
+                <x-slot name="heading">
+                    Advisor
+                </x-slot>
+                @if($project->advisor == null)
+                    <div class="text-gray-400">
+                        No Advisor yet
+                    </div>
+                @else
+                    {{ $project->advisor->name }}
+                @endif
+            </x-filament::section>
+            <x-filament::section compact>
+                <x-slot name="heading">
+                    Members
+                </x-slot>
+                <div class="flex flex-col gap-2">
+                    @forelse($project->students as $student)
+                        <x-filament::section compact>
+                            <div class="flex justify-between items-center">
+                                <div class="flex gap-4 items-center">
+                                    <div class="flex flex-col gap-2 items-center">
+                                        <x-heroicon-s-user class="w-6 h-6"/>
+                                    </div>
+                                    <div class="flex flex-col gap-2 justify-center">
+                                        <h3 class="text-md">
+                                            {{$student->name}}
+                                        </h3>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </x-filament::section>
+                    @empty
+                        <div class="text-gray-400">
+                            No Members yet.
+                        </div>
+                    @endforelse
+                </div>
+            </x-filament::section>
+            <x-filament::section compact>
+                <x-slot name="heading">
+                    Files
+                </x-slot>
+                <div class="flex flex-col gap-2">
+                    @forelse($project->files as $file)
+                        <x-filament::section compact>
+                            <div class="flex justify-between items-center">
+                                <div class="flex gap-4 items-center">
+                                    <div class="flex flex-col gap-2 items-center">
+                                        <x-heroicon-o-document class="w-6 h-6"/>
+                                        <x-heroicon-o-clock class="w-4 h-4"/>
+                                    </div>
+                                    <div class="flex flex-col gap-2 justify-center">
+                                        <h3 class="text-md">
+                                            {{$file->name}}
+                                        </h3>
+                                        <p class="text-gray-400 text-sm">
+                                            {{$file->created_at->diffForHumans()}} by {{$file->student->name}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 items-center">
+                                    {{ ($this->downloadFileAction)(['file' => $file->id]) }}
+                                </div>
+                            </div>
+                        </x-filament::section>
+                    @empty
+                        <div class="text-gray-400">
+                            No files yet.
+                        </div>
+                    @endforelse
+                </div>
+            </x-filament::section>
+        </div>
+        <div class="col-span-2">
+            <x-filament::fieldset class="flex flex-col gap-4">
+                <x-slot name="label">
+                    Marks
+                </x-slot>
+                <div class="flex flex-col gap-2">
+                    @forelse($project->students as $student)
+                        <x-filament::section collapsible="true">
+                            <x-slot name="heading">
+                                <div class="flex gap-4 items-center">
+                                    <div class="flex flex-col gap-2 items-center">
+                                        <x-heroicon-s-user class="w-6 h-6"/>
+                                    </div>
+                                    <div class="flex flex-col gap-2 justify-center">
+                                        <h3 class="text-md">
+                                            {{$student->name}}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </x-slot>
+                            <div class="flex justify-between items-center">
+                                <div class="flex gap-4 items-center">
+
+                                    <div class="flex flex-col gap-2 justify-center">
+                                        <h3 class="text-md">
+                                            {{$this->getStudentMarks($student->id)}} / 100
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4 items-center">
+                                    {{ ($this->editMarksAction)(['student' => $student->id]) }}
+                                </div>
+                            </div>
+                        </x-filament::section>
+                    @empty
+                        <div class="text-gray-400">
+                            Project has no Members.
+                        </div>
+                    @endforelse
+                </div>
+
+
+                {{ $this->saveMarksAction }}
+
+            </x-filament::fieldset>
+        </div>
+    </div>
+
+
 </x-filament-panels::page>

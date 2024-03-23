@@ -3,6 +3,7 @@
 namespace App\Filament\Student\Pages;
 
 use App\Actions\InviteProjectAdvisor;
+use App\Livewire\AlertWidget;
 use App\Models\Advisor;
 use App\Models\Student;
 use Filament\Forms\Components\MarkdownEditor;
@@ -26,6 +27,18 @@ class FindAdvisor extends Page implements HasTable
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.student.pages.find-advisor';
+
+    protected function getHeaderWidgets(): array
+    {
+        //TODO: Implement the alert widget
+//        if (Student::authUser()->project?->advisor()->exists() === true) {
+//            return [
+//                AlertWidget::make(['You already have an advisor', 'You can only invite an advisor if you do not have one.', 'info']),
+//            ];
+//        }
+
+        return [];
+    }
 
     public function table(Table $table): Table
     {

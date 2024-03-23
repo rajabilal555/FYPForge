@@ -29,10 +29,9 @@ class EvaluationPanelResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required(function (string $operation) {
-                        return $operation === 'create';
-                    })
-                    ->hiddenOn('edit')
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->autocomplete('new-password')
                     ->maxLength(255),
 
                 Forms\Components\Textarea::make('description')

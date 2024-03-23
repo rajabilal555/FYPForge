@@ -57,6 +57,10 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('approval_status')
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('next_evaluation_date')
                     ->dateTime()

@@ -27,6 +27,16 @@ class InviteProjectAdvisor
             return;
         }
 
+        if ($project->advisor()->exists()) {
+            Notification::make()
+                ->title('Invitation Failed')
+                ->body('The project already has an advisor.')
+                ->danger()
+                ->send();
+
+            return;
+        }
+
         if ($project->pendingAdvisorInvites()->count() > 0) {
             Notification::make()
                 ->title('Invitation Failed')
