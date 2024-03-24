@@ -16,28 +16,43 @@ class EvaluationPanelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Evaluation';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required(fn (string $operation): bool => $operation === 'create')
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->autocomplete('new-password')
-                    ->maxLength(255),
-
-                Forms\Components\Textarea::make('description')
-                    ->required()
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                Forms\Components\Grid::make([
+                    'default' => 1,
+                    'md' => 2,
+                ])->schema([
+                    Forms\Components\Section::make()
+                        ->columnSpan(1)
+                        ->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('email')
+                                ->email()
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('password')
+                                ->password()
+                                ->required(fn (string $operation): bool => $operation === 'create')
+                                ->dehydrated(fn ($state) => filled($state))
+                                ->autocomplete('new-password')
+                                ->maxLength(255),
+                        ]),
+                    Forms\Components\Section::make()
+                        ->columnSpan(1)
+                        ->schema([
+                            Forms\Components\Textarea::make('description')
+                                ->required()
+                                ->maxLength(65535)
+                                ->rows(10)
+                                ->columnSpanFull(),
+                        ]),
+                ]),
             ]);
     }
 

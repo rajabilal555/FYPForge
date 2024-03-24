@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources;
 
+use App\Actions\PromoteProject;
 use App\Enums\ProjectApprovalStatus;
 use App\Enums\ProjectStatus;
 use App\Enums\ProjectTerm;
@@ -13,9 +14,11 @@ use App\Filament\Staff\Resources\ProjectResource\RelationManagers\StudentRelatio
 use App\Models\Project;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class ProjectResource extends Resource
 {
@@ -43,7 +46,19 @@ class ProjectResource extends Resource
                             ]),
                         Forms\Components\Grid::make(1)
                             ->columnSpan(1)
-                            ->schema([
+                            ->schema([Forms\Components\Section::make()
+                                ->columnSpan(1)
+                                ->schema([
+                                    Forms\Components\Select::make('status')
+                                        ->options(ProjectStatus::class)
+                                        ->required(),
+                                    Forms\Components\Select::make('approval_status')
+                                        ->options(ProjectApprovalStatus::class)
+                                        ->required(),
+                                    Forms\Components\Select::make('term')
+                                        ->options(ProjectTerm::class)
+                                        ->required(),
+                                ]),
                                 Forms\Components\Section::make()
                                     ->columnSpan(1)
                                     ->schema([
@@ -59,18 +74,12 @@ class ProjectResource extends Resource
                                 Forms\Components\Section::make()
                                     ->columnSpan(1)
                                     ->schema([
-                                        Forms\Components\DateTimePicker::make('next_evaluation_date'),
-                                        Forms\Components\Select::make('status')
-                                            ->options(ProjectStatus::class)
-                                            ->required(),
-                                        Forms\Components\Select::make('approval_status')
-                                            ->options(ProjectApprovalStatus::class)
-                                            ->required(),
-                                        Forms\Components\Select::make('term')
-                                            ->options(ProjectTerm::class)
-                                            ->required(),
-                                    ]), ]),
+                                        Forms\Components\Checkbox::make('is_final_evaluation'),
+                                        Forms\Components\DateTimePicker::make('next_evaluation_date')
+                                            ->native(false),
+                                    ]),
 
+                            ]),
                     ]),
             ]);
     }
@@ -118,12 +127,52 @@ class ProjectResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('promote')
+                    ->label('Promote')
+                    ->icon('heroicon-o-arrow-up-circle')
+                    ->modalWidth('sm')
+                    ->fillForm(function (Project $record) {
+                        return [
+                            'term' => $record->term,
+                        ];
+                    })
+                    ->form([
+                        Forms\Components\Select::make('term')
+                            ->selectablePlaceholder(false)
+                            ->options(ProjectTerm::class)
+                            ->required(),
+                    ])
+                    ->action(function (Project $record, array $data) {
+                        if ($data['term'] != '') {
+                            PromoteProject::make()->handle($record, $data['term']);
+                        }
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkAction::make('promote')
+                    ->label('Promote Selected Projects')
+                    ->icon('heroicon-o-arrow-up-circle')
+                    ->modalWidth('sm')
+                    ->form([
+                        Forms\Components\Select::make('term')
+                            ->selectablePlaceholder(false)
+                            ->options(ProjectTerm::class)
+                            ->required(),
+                    ])
+                    ->action(function (Collection $records, array $data) {
+                        foreach ($records as $record) {
+                            PromoteProject::make()->handle($record, ProjectTerm::from($data['term']), false);
+                        }
+
+                        Notification::make()
+                            ->title(count($records).' Projects Promoted')
+                            ->body('The selected projects have been promoted')
+                            ->success()
+                            ->send();
+
+                    }),
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

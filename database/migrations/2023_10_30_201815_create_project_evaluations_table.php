@@ -18,6 +18,9 @@ return new class extends Migration
                 ->constrained('projects')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
+            $table->string('term')
+                ->comment('e.g. FYP1, FYP2');
+
             $table->foreignId('student_id')
                 ->constrained('students')
                 ->cascadeOnDelete()->cascadeOnUpdate();
@@ -26,18 +29,15 @@ return new class extends Migration
                 ->constrained('evaluation_panels')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            // Status can be Satisfactory, Rejected, or Needs Improvement
-            $table->string('status')
-                ->default('Satisfactory');
-
-            $table->string('remarks')
-                ->comment('e.g. can be improved');
-
-            $table->integer('score')
-                ->default(0);
-
-            $table->dateTime('evaluation_date')
+            $table->integer('marks')
                 ->nullable();
+
+            $table->integer('is_final')
+                ->default(0) // 0 = false, 1 = true
+                ->comment('Final evaluation or not');
+
+            $table->string('comments')
+                ->comment('e.g. can be improved');
 
             $table->timestamps();
         });
@@ -48,6 +48,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_evaluation');
+        Schema::dropIfExists('project_evaluations');
     }
 };

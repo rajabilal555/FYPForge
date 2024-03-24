@@ -36,6 +36,9 @@ return new class extends Migration
             $table->dateTime('next_evaluation_date')
                 ->nullable();
 
+            $table->integer('is_final_evaluation')
+                ->default(0);
+
             $table->timestamps();
         });
     }

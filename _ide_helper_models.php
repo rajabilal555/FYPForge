@@ -60,22 +60,36 @@ namespace App\Models{
  * App\Models\EvaluationPanel
  *
  * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property mixed $password
+ * @property string|null $remember_token
  * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectEvaluation> $projectEvaluations
  * @property-read int|null $project_evaluations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Project> $projects
  * @property-read int|null $projects_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel query()
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereUpdatedAt($value)
  */
-	class EvaluationPanel extends \Eloquent {}
+	class EvaluationPanel extends \Eloquent implements \Filament\Models\Contracts\FilamentUser {}
 }
 
 namespace App\Models{
@@ -86,15 +100,20 @@ namespace App\Models{
  * @property string $name
  * @property string|null $description
  * @property \App\Enums\ProjectStatus $status
+ * @property \App\Enums\ProjectApprovalStatus $approval_status
+ * @property \App\Enums\ProjectTerm $term
  * @property int|null $evaluation_panel_id
  * @property int|null $advisor_id
- * @property string|null $next_evaluation_date
+ * @property \Illuminate\Support\Carbon|null $next_evaluation_date
+ * @property bool|null $is_final_evaluation
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Advisor|null $advisor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectAdvisorInvite> $advisorInvites
  * @property-read int|null $advisor_invites_count
  * @property-read \App\Models\EvaluationPanel|null $evaluation_panel
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectEvaluation> $evaluations
+ * @property-read int|null $evaluations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectFile> $files
  * @property-read int|null $files_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $memberInvites
@@ -103,20 +122,27 @@ namespace App\Models{
  * @property-read int|null $pending_advisor_invites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectMemberInvite> $pendingMemberInvites
  * @property-read int|null $pending_member_invites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectQuery> $queries
+ * @property-read int|null $queries_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Student> $students
  * @property-read int|null $students_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectTask> $tasks
+ * @property-read int|null $tasks_count
  * @method static \Database\Factories\ProjectFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Project newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Project newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Project query()
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereAdvisorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereApprovalStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereEvaluationPanelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereIsFinalEvaluation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereNextEvaluationDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereTerm($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereUpdatedAt($value)
  */
 	class Project extends \Eloquent {}
@@ -132,6 +158,7 @@ namespace App\Models{
  * @property int $advisor_id
  * @property int $sent_by
  * @property \App\Enums\ProjectInviteStatus $status
+ * @property string $expires_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Advisor $advisor
@@ -142,6 +169,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereAdvisorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereExpiresAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectAdvisorInvite whereProjectId($value)
@@ -158,29 +186,29 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $project_id
+ * @property string $term e.g. FYP1, FYP2
  * @property int $student_id
  * @property int $evaluation_panel_id
- * @property string $status
- * @property string $remarks e.g. can be improved
- * @property int $score
- * @property string|null $evaluation_date
+ * @property int|null $marks
+ * @property bool $is_final Final evaluation or not
+ * @property string $comments e.g. can be improved
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\EvaluationPanel|null $panel
+ * @property-read \App\Models\EvaluationPanel $evaluation_panel
  * @property-read \App\Models\Project $project
  * @property-read \App\Models\Student $student
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereComments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereEvaluationDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereEvaluationPanelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereIsFinal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereMarks($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereProjectId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereRemarks($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereScore($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereStudentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereTerm($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereUpdatedAt($value)
  */
 	class ProjectEvaluation extends \Eloquent {}
@@ -225,6 +253,7 @@ namespace App\Models{
  * @property int $student_id
  * @property int $sent_by
  * @property \App\Enums\ProjectInviteStatus $status
+ * @property string $expires_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Project $project
@@ -234,6 +263,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereExpiresAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectMemberInvite whereProjectId($value)
@@ -256,6 +286,8 @@ namespace App\Models{
  * @property string|null $answer
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Project $project
+ * @property-read \App\Models\Student $student
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectQuery newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectQuery newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectQuery query()
@@ -277,12 +309,13 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string|null $description
- * @property string $status
+ * @property \App\Enums\ProjectTaskStatus $status
  * @property int $project_id
  * @property string|null $remarks
- * @property string|null $due_date
+ * @property \Illuminate\Support\Carbon|null $due_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Project $project
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectTask newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectTask newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectTask query()

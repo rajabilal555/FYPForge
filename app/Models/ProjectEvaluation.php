@@ -12,12 +12,16 @@ class ProjectEvaluation extends Model
 
     protected $fillable = [
         'project_id',
-        'panel_id',
+        'evaluation_panel_id',
         'student_id',
         'marks',
+        'term',
         'comments',
-        'created_by',
-        'updated_by',
+        'is_final',
+    ];
+
+    protected $casts = [
+        'is_final' => 'boolean',
     ];
 
     public function project(): BelongsTo
@@ -25,7 +29,7 @@ class ProjectEvaluation extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function panel(): BelongsTo
+    public function evaluation_panel(): BelongsTo
     {
         return $this->belongsTo(EvaluationPanel::class);
     }

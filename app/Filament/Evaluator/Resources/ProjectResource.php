@@ -48,6 +48,9 @@ class ProjectResource extends Resource
         return $table
             ->modifyQueryUsing(fn (Builder $query) => $query->where('evaluation_panel_id', auth()->id()))
             ->columns([
+                Tables\Columns\IconColumn::make('submitted')
+                    ->boolean()
+                    ->state(fn (Project $project) => $project->hasCurrentEvaluation()),
                 Tables\Columns\TextColumn::make('evaluation_panel.name')
                     ->numeric()
                     ->sortable(),

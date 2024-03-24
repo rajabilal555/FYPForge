@@ -242,8 +242,7 @@ class MyProject extends Page
 
                 return response()->streamDownload(function () use ($file) {
                     echo Storage::disk($file->storage_disk)->get($file->storage_path);
-                }, $file->name);
-                //TODO: fix files name when downloading,!! there is possibility that file extension is not in the name
+                }, $file->name.'.'.$file->getFileType());
             });
     }
 
@@ -278,7 +277,7 @@ class MyProject extends Page
 
                 FileUpload::make('document')
                     ->afterStateUpdated(function (Set $set, TemporaryUploadedFile $state) {
-                        $set('document_name', $state->getClientOriginalName());
+                        $set('document_name', pathinfo($state->getClientOriginalName(), PATHINFO_FILENAME));
                     })
 //                    ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'image',])
                     ->maxSize(1024 * 20)

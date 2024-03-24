@@ -22,12 +22,13 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
-        'term',
         'status',
         'approval_status',
+        'term',
         'panel_id',
-        'created_by',
-        'updated_by',
+        'advisor_id',
+        'next_evaluation_date',
+        'is_final_evaluation',
     ];
 
     /**
@@ -42,9 +43,11 @@ class Project extends Model
     ];
 
     protected $casts = [
+        'next_evaluation_date' => 'datetime',
         'status' => ProjectStatus::class,
         'approval_status' => ProjectApprovalStatus::class,
         'term' => ProjectTerm::class,
+        'is_final_evaluation' => 'boolean',
     ];
 
     public function students(): HasMany
@@ -75,6 +78,29 @@ class Project extends Model
     public function evaluation_panel(): BelongsTo
     {
         return $this->belongsTo(EvaluationPanel::class);
+    }
+
+    public function evaluations(): HasMany
+    {
+        return $this->hasMany(ProjectEvaluation::class);
+    }
+
+    public function getCurrentEvaluations()
+    {
+        return $this->evaluations()
+            ->where('evaluation_panel_id', auth()->id())
+            ->where('term', $this->term)
+            ->where('is_final', $this->is_final_evaluation)
+            ->get();
+    }
+
+    public function hasCurrentEvaluation(): bool
+    {
+        return $this->evaluations()
+            ->where('evaluation_panel_id', auth()->id())
+            ->where('term', $this->term)
+            ->where('is_final', $this->is_final_evaluation)
+            ->exists();
     }
 
     public function advisor(): BelongsTo

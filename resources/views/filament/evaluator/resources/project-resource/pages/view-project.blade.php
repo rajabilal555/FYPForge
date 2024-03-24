@@ -2,21 +2,60 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div class="flex flex-col gap-4">
             <x-filament::section compact>
-                <p class="{{ !filled($project->description) ?'text-gray-400' : ''}} break-words overflow-ellipsis">
+                <p class="{{ !filled($project->description) ? 'text-gray-400' : '' }} break-words overflow-ellipsis">
                     {{ \Illuminate\Mail\Markdown::parse($project->description ?? "No description") }}
                 </p>
             </x-filament::section>
             <x-filament::section compact>
-                <x-slot name="heading">
-                    Advisor
-                </x-slot>
-                @if($project->advisor == null)
-                    <div class="text-gray-400">
-                        No Advisor yet
+                <div class="flex flex-col gap-2">
+                    <div>
+                        @if($project->advisor == null)
+                            <div class="text-gray-400">
+                                No Advisor yet
+                            </div>
+                        @else
+                            <span
+                                class="font-semibold">Advisor:</span>  {{ $project->advisor->name }}
+                        @endif
                     </div>
-                @else
-                    {{ $project->advisor->name }}
-                @endif
+                    <div>
+                        <span
+                            class="font-semibold">Evaluation Date:</span> {{ $project->next_evaluation_date->toDayDateTimeString() }}
+                        ({{ $project->next_evaluation_date->diffForHumans() }})
+                    </div>
+                    <div class="flex gap-2">
+                         <span
+                             class="font-semibold">Status:</span>
+                        <x-filament::badge class="px-2" :size="\Filament\Support\Enums\ActionSize::Medium"
+                                           :color="$project->status->getColor()">
+                            {{ $project->status->getLabel() }}
+                        </x-filament::badge>
+                    </div>
+                    <div class="flex gap-2">
+                        <span
+                            class="font-semibold">Approval Status:</span>
+                        <x-filament::badge class="px-2" :size="\Filament\Support\Enums\ActionSize::Medium"
+                                           :color="$project->approval_status->getColor()">
+                            {{ $project->approval_status->getLabel() }}
+                        </x-filament::badge>
+                    </div>
+                    <div class="flex gap-2">
+                        <span
+                            class="font-semibold">Term:</span>
+                        <x-filament::badge class="px-2" :size="\Filament\Support\Enums\ActionSize::Medium"
+                                           :color="$project->term->getColor()">
+                            {{ $project->term->getLabel() }}
+                        </x-filament::badge>
+                    </div>
+                    <div class="flex gap-2">
+                        <span
+                            class="font-semibold">Is Final Evaluation:</span>
+                        <x-filament::badge class="px-2" :size="\Filament\Support\Enums\ActionSize::Medium"
+                                           :color="$project->is_final_evaluation ? 'warning' : 'info'">
+                            {{ $project->is_final_evaluation ? 'Yes' : 'No' }}
+                        </x-filament::badge>
+                    </div>
+                </div>
             </x-filament::section>
             <x-filament::section compact>
                 <x-slot name="heading">
@@ -84,7 +123,7 @@
         <div class="col-span-2">
             <x-filament::fieldset class="flex flex-col gap-4">
                 <x-slot name="label">
-                    Marks
+                    Evaluation
                 </x-slot>
                 <div class="flex flex-col gap-2">
                     @forelse($project->students as $student)
@@ -103,16 +142,24 @@
                             </x-slot>
                             <div class="flex justify-between items-center">
                                 <div class="flex gap-4 items-center">
-
                                     <div class="flex flex-col gap-2 justify-center">
-                                        <h3 class="text-md">
-                                            {{$this->getStudentMarks($student->id)}} / 100
-                                        </h3>
+                                        @if($project->is_final_evaluation)
+                                            <p class="text-md">
+                                                {{$this->getStudentMarks($student->id)??0}}%<span
+                                                    class="mx-2 text-primary-400">/</span>100%
+                                            </p>
+                                        @endif
+                                        <p>
+                                                <span
+                                                    class="font-semibold">Remarks:</span> {{$this->getStudentRemarks($student->id) ?? 'No Remarks'}}
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="flex gap-4 items-center">
-                                    {{ ($this->editMarksAction)(['student' => $student->id]) }}
-                                </div>
+                                @if(!$submitted)
+                                    <div class="flex gap-4 items-center">
+                                        {{ ($this->editMarksAction)(['student' => $student->id]) }}
+                                    </div>
+                                @endif
                             </div>
                         </x-filament::section>
                     @empty
@@ -121,10 +168,7 @@
                         </div>
                     @endforelse
                 </div>
-
-
                 {{ $this->saveMarksAction }}
-
             </x-filament::fieldset>
         </div>
     </div>
