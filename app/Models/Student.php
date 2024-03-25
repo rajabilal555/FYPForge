@@ -23,6 +23,7 @@ class Student extends Authenticatable implements FilamentUser
         'name',
         'email',
         'registration_no',
+        'project_id',
         'password',
     ];
 

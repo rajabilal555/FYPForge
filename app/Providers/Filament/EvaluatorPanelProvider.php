@@ -29,7 +29,7 @@ class EvaluatorPanelProvider extends PanelProvider
 //            ->profile()
             ->brandLogo(fn () => asset('logo.png'))
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#0c54a3',
             ])
             ->viteTheme('resources/css/app.css')
             ->maxContentWidth('full')

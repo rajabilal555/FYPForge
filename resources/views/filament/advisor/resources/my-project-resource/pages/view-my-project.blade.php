@@ -4,8 +4,8 @@
             {{ \Illuminate\Mail\Markdown::parse($project->description ?? "No description") }}
         </p>
     </x-filament::section>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="">
+    <div class="columns-1 lg:columns-2 xl:columns-3 gap-4 space-y-4">
+        <div class="break-inside-avoid-column">
             <x-filament::section>
                 <x-slot name="heading">
                     Members
@@ -25,6 +25,9 @@
                                         </h3>
 
                                     </div>
+                                </div>
+                                <div class="flex gap-4 items-center">
+                                    {{ ($this->removeMemberAction)(['student' => $student->id]) }}
                                 </div>
                             </div>
                         </x-filament::section>
@@ -50,10 +53,6 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="flex gap-4 items-center">
-                                    <p class="text-gray-400">Invitation {{ $invite->status }}</p>
-                                    {{ ($this->cancelMemberInviteAction)(['invite' => $invite->id]) }}
-                                </div>
                             </div>
                         </x-filament::section>
                     @endforeach
@@ -62,7 +61,7 @@
             </x-filament::section>
         </div>
 
-        <div class="">
+        <div class="break-inside-avoid-column">
             <x-filament::section>
                 <x-slot name="heading">
                     Advisor
@@ -102,7 +101,7 @@
             </x-filament::section>
         </div>
 
-        <div class="">
+        <div class="break-inside-avoid-column">
             <x-filament::section>
                 <x-slot name="heading">
                     Files
@@ -111,19 +110,21 @@
                     @forelse($project->files as $file)
                         <x-filament::section compact>
                             <div class="flex justify-between items-center">
-                                <div class="flex gap-4 items-center">
-                                    <div class="flex flex-col gap-2 items-center">
-                                        <x-heroicon-o-document class="w-6 h-6"/>
-                                        <x-heroicon-o-clock class="w-4 h-4"/>
-                                    </div>
+                                <div class="flex gap-4 items-stretch">
                                     <div class="flex flex-col gap-2 justify-center">
-                                        <h3 class="text-md">
+                                        <h3 class="text-md flex gap-2">
+                                            <div class="w-6 flex justify-center items-center">
+                                                <x-file-type-icon :filetype="$file->getFileType()"
+                                                                  class="w-6 h-6 text-gray-600"/>
+                                            </div>
                                             {{$file->name}}
                                         </h3>
-                                        <p class="text-gray-400 text-sm">
+                                        <div class="text-gray-400 flex gap-2 text-sm items-center">
+                                            <div class="w-6 flex justify-center">
+                                                <x-heroicon-o-clock class="w-4 h-4 text-gray-600"/>
+                                            </div>
                                             {{$file->created_at->diffForHumans()}} by {{$file->student->name}}
-                                        </p>
-
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="flex gap-4 items-center">
@@ -143,7 +144,7 @@
             </x-filament::section>
         </div>
 
-        <div class="">
+        <div class="break-inside-avoid-column">
             <x-filament::section>
                 <x-slot name="heading">
                     Queries
@@ -176,7 +177,7 @@
             </x-filament::section>
         </div>
 
-        <div class="">
+        <div class="break-inside-avoid-column">
             <x-filament::section>
                 <x-slot name="heading">
                     Tasks

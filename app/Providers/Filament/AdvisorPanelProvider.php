@@ -33,7 +33,7 @@ class AdvisorPanelProvider extends PanelProvider
             ->profile()
             ->brandLogo(fn () => asset('logo.png'))
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => '#0c54a3',
             ])
             ->viteTheme('resources/css/app.css')
             ->maxContentWidth('full')

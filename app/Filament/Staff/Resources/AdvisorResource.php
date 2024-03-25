@@ -22,35 +22,47 @@ class AdvisorResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required(function (string $operation) {
-                        return $operation === 'create';
-                    })
-                    ->hiddenOn('edit')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('slots')
-                    ->required()
-                    ->numeric()
-                    ->minValue(1)
-                    ->maxValue(15),
+                Forms\Components\Grid::make([
+                    'default' => 1,
+                    'md' => 2,
+                ])->schema([
+                    Forms\Components\Section::make()
+                        ->columnSpan(1)
+                        ->schema([
+                            Forms\Components\TextInput::make('name')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('email')
+                                ->email()
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('password')
+                                ->password()
+                                ->required(fn (string $operation): bool => $operation === 'create')
+                                ->dehydrated(fn ($state) => filled($state))
+                                ->autocomplete('new-password')
+                                ->maxLength(255),
+                        ]),
 
-                Forms\Components\Select::make('field_of_interests')
-                    ->options(fn (): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn ($value, $key) => [$value => $value])->all())
-                    ->multiple()
-                    ->required(),
+                    Forms\Components\Section::make()
+                        ->columnSpan(1)
+                        ->schema([
+                            Forms\Components\TextInput::make('slots')
+                                ->required()
+                                ->numeric()
+                                ->minValue(1)
+                                ->maxValue(15),
 
-                Forms\Components\TextInput::make('room_no')
-                    ->required()
-                    ->maxLength(255),
+                            Forms\Components\Select::make('field_of_interests')
+                                ->options(fn (): array => Advisor::all()->groupBy('field_of_interests')->keys()->mapWithKeys(fn ($value, $key) => [$value => $value])->all())
+                                ->multiple()
+                                ->required(),
 
+                            Forms\Components\TextInput::make('room_no')
+                                ->required()
+                                ->maxLength(255),
+                        ]),
+                ]),
             ]);
     }
 

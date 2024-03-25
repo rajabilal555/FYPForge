@@ -20,27 +20,41 @@ class StudentResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('project_id')
-                    ->relationship(name: 'project', titleAttribute: 'name')
-                    ->searchable()
-                    ->preload(),
-                Forms\Components\TextInput::make('registration_no')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required(function (string $operation) {
-                        return $operation === 'create';
-                    })
-                    ->hiddenOn('edit')
-                    ->maxLength(255),
+                Forms\Components\Grid::make([
+                    'default' => 1,
+                    'md' => 2,
+                ])
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->columnSpan(1)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('email')
+                                    ->email()
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('password')
+                                    ->password()
+                                    ->required(fn (string $operation): bool => $operation === 'create')
+                                    ->dehydrated(fn ($state) => filled($state))
+                                    ->autocomplete('new-password')
+                                    ->maxLength(255),
+                            ]),
+
+                        Forms\Components\Section::make()
+                            ->columnSpan(1)
+                            ->schema([
+                                Forms\Components\Select::make('project_id')
+                                    ->relationship(name: 'project', titleAttribute: 'name')
+                                    ->searchable()
+                                    ->preload(),
+                                Forms\Components\TextInput::make('registration_no')
+                                    ->required()
+                                    ->maxLength(255),
+                            ]),
+                    ]),
             ]);
     }
 

@@ -9,7 +9,7 @@ class Login extends BaseLogin
 {
     public function getTitle(): string|Htmlable
     {
-        return __('Advisor ').' '.__('filament-panels::pages/auth/login.title');
+        return __('Evaluator ').' '.__('filament-panels::pages/auth/login.title');
     }
 
     public function getHeading(): string|Htmlable

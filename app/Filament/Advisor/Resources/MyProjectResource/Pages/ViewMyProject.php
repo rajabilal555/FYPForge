@@ -3,13 +3,16 @@
 namespace App\Filament\Advisor\Resources\MyProjectResource\Pages;
 
 use App\Actions\AnswerProjectQuery;
+use App\Actions\InviteProjectMember;
 use App\Enums\ProjectTaskStatus;
 use App\Filament\Advisor\Resources\MyProjectResource;
 use App\Models\Advisor;
 use App\Models\Project;
 use App\Models\ProjectFile;
+use App\Models\ProjectMemberInvite;
 use App\Models\ProjectQuery;
 use App\Models\ProjectTask;
+use App\Models\Student;
 use Filament\Actions\Action;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -17,6 +20,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Set;
 use Filament\Resources\Pages\Page;
@@ -46,6 +50,35 @@ class ViewMyProject extends Page
             'heading' => $this->project->name,
             'actions' => $this->getHeaderActions(),
         ]);
+    }
+
+    public function removeMemberAction(): Action
+    {
+        return Action::make('removeMemberAction')
+//            ->label('Remove Member')
+            ->icon('heroicon-o-x-circle')
+            ->iconButton()
+            ->color('danger')
+            ->requiresConfirmation()
+            ->action(function (array $arguments) {
+                //TODO: can use eloquent relations to disassociate this relation.
+                $student = Student::find($arguments['student']);
+                $student->update([
+                    'project_id' => null,
+                ]);
+            });
+    }
+
+    public function cancelMemberInviteAction(): Action
+    {
+        return Action::make('cancelMemberInviteAction')
+            ->icon('heroicon-o-x-mark')
+            ->iconButton()
+            ->color('danger')
+            ->action(function (array $arguments) {
+                $invite = ProjectMemberInvite::find($arguments['invite']);
+                $invite->delete();
+            });
     }
 
     public function downloadFileAction(): Action

@@ -5,9 +5,8 @@
                 {{ \Illuminate\Mail\Markdown::parse($project->description ?? "No description") }}
             </p>
         </x-filament::section>
-        <div class="flex flex-wrap gap-4">
-            {{--            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">--}}
-            <div class="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4 break-inside-avoid-column">
+        <div class="">
+            <div class="columns-1 lg:columns-2 xl:columns-3 gap-4 space-y-4">
                 <div class="break-inside-avoid-column">
                     <x-filament::section>
                         <x-slot name="heading">
@@ -133,7 +132,6 @@
                                                     </div>
                                                     {{$file->created_at->diffForHumans()}} by {{$file->student->name}}
                                                 </div>
-
                                             </div>
                                         </div>
                                         <div class="flex gap-4 items-center">

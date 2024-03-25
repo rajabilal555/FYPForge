@@ -7,4 +7,11 @@ export default {
         './resources/views/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
     ],
+    theme: {
+        extend: {
+            colors: {
+                'zab': '#0c54a3',
+            }
+        }
+    }
 }
