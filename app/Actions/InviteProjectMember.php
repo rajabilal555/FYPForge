@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use App\Enums\ProjectInviteStatus;
+use App\Models\Project;
 use App\Models\ProjectMemberInvite;
 use App\Models\Student;
 use App\Traits\Makeable;
@@ -12,7 +13,7 @@ class InviteProjectMember
 {
     use Makeable;
 
-    public function handle($project, $studentId, $message): void
+    public function handle(Project $project, $studentId, $message): void
     {
         $student = Student::find($studentId);
 
@@ -20,6 +21,16 @@ class InviteProjectMember
             Notification::make()
                 ->title('Invitation Failed')
                 ->body('The student you are trying to invite already has a project.')
+                ->danger()
+                ->send();
+
+            return;
+        }
+
+        if ($project->isMemberLimitReached()) {
+            Notification::make()
+                ->title('Invitation Failed')
+                ->body('Your project member limit is reached.')
                 ->danger()
                 ->send();
 

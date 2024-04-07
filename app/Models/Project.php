@@ -29,6 +29,7 @@ class Project extends Model
         'advisor_id',
         'next_evaluation_date',
         'is_final_evaluation',
+        'member_limit',
     ];
 
     /**
@@ -83,6 +84,11 @@ class Project extends Model
     public function evaluations(): HasMany
     {
         return $this->hasMany(ProjectEvaluation::class);
+    }
+
+    public function isMemberLimitReached(): bool
+    {
+        return $this->students()->count() >= $this->member_limit;
     }
 
     public function getCurrentEvaluations()

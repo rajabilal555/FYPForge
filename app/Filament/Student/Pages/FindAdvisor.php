@@ -47,7 +47,7 @@ class FindAdvisor extends Page implements HasTable
                 Advisor::query()
                     ->with('projects')
                     ->addSelect('*')
-                    ->addSelect(DB::raw('slots-(SELECT COUNT(*) FROM projects WHERE projects.advisor_id = advisors.id) as projects_count'))
+//                    ->addSelect(DB::raw('slots-(SELECT COUNT(*) FROM projects WHERE projects.advisor_id = advisors.id) as projects_count'))
             )
             ->paginated([12, 24, 42, 88, 'all'])
             ->contentGrid([
@@ -61,15 +61,14 @@ class FindAdvisor extends Page implements HasTable
                             ->weight(FontWeight::Bold)
                             ->searchable()
                             ->sortable(),
-                        Tables\Columns\TextColumn::make('available_slots')
-                            ->label('Available Slots')
+                        Tables\Columns\TextColumn::make('projects_count')
+                            ->label('Slots')
                             ->counts('projects')
                             ->sortable(['projects_count'])
                             ->html()
                             ->state(function (Advisor $record): string {
-                                return '<b>Slots:</b> '.$record->available_slots.' / '.$record->slots;
-                            })
-                            ->label('Available Slots'),
+                                return '<b>Slots:</b> '.$record->projects_count.' / '.$record->slots;
+                            }),
                         Tables\Columns\Layout\Panel::make([
                             Tables\Columns\Layout\Split::make([
                                 Tables\Columns\TextColumn::make('room_no')
@@ -116,7 +115,7 @@ class FindAdvisor extends Page implements HasTable
                             ->schema([
                                 TextInput::make('project.name')
                                     ->columnSpan(1),
-                                TextInput::make('project.description')
+                                MarkdownEditor::make('project.description')
                                     ->columnSpan(1),
                                 Repeater::make('members')
                                     ->schema([

@@ -28,13 +28,18 @@ class AcceptProjectMemberInvite
             return;
         }
 
-        // TODO: check if the project is full
+        $project = $invite->project;
+        if ($project->isMemberLimitReached()) {
+            Notification::make()
+                ->title('Invitation Failed')
+                ->body('Your project member limit is reached.')
+                ->danger()
+                ->send();
+
+            return;
+        }
 
         $invite->project->students()->save($student);
-
-        $student->memberInvites()->whereNot('id', $invite->id)->update([
-            'status' => ProjectInviteStatus::Rejected,
-        ]);
 
         $invite->update([
             'status' => ProjectInviteStatus::Accepted,

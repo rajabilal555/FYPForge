@@ -42,13 +42,16 @@ class ProjectResource extends Resource
                                     ->required()
                                     ->maxLength(255),
                                 Forms\Components\MarkdownEditor::make('description'),
-
                             ]),
                         Forms\Components\Grid::make(1)
                             ->columnSpan(1)
                             ->schema([Forms\Components\Section::make()
                                 ->columnSpan(1)
                                 ->schema([
+                                    Forms\Components\TextInput::make('member_limit')
+                                        ->type('number')
+                                        ->step(1)
+                                        ->required(),
                                     Forms\Components\Select::make('status')
                                         ->options(ProjectStatus::class)
                                         ->required(),
@@ -91,6 +94,7 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
+                    ->markdown()
                     ->words(10)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('students.name')

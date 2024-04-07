@@ -10,7 +10,14 @@
                 <div class="break-inside-avoid-column">
                     <x-filament::section>
                         <x-slot name="heading">
-                            Members
+                            <div class="flex flex-row justify-between">
+                                Members
+                                @if($project->isMemberLimitReached())
+                                    <x-filament::badge color="warning" icon="heroicon-o-information-circle">
+                                        Limit Reached
+                                    </x-filament::badge>
+                                @endif
+                            </div>
                         </x-slot>
 
                         <div class="flex flex-col gap-2">
@@ -62,7 +69,10 @@
 
                         </div>
 
-                        {{ $this->inviteStudentAction }}
+                        @if(!$project->isMemberLimitReached())
+                            {{ $this->inviteStudentAction }}
+                        @endif
+
 
                     </x-filament::section>
                 </div>
