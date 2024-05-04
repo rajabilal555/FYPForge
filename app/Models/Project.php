@@ -27,9 +27,9 @@ class Project extends Model
         'term',
         'panel_id',
         'advisor_id',
-        'next_evaluation_date',
-        'is_final_evaluation',
         'member_limit',
+        'evaluation_event_id',
+        'next_evaluation_date',
     ];
 
     /**
@@ -89,6 +89,11 @@ class Project extends Model
     public function isMemberLimitReached(): bool
     {
         return $this->students()->count() >= $this->member_limit;
+    }
+
+    public function evaluationEvent(): BelongsTo
+    {
+        return $this->belongsTo(EvaluationEvent::class);
     }
 
     public function getCurrentEvaluations()

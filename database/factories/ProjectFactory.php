@@ -20,7 +20,7 @@ class ProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->domainWord.' Project',
             'description' => $this->faker->text,
             'status' => $this->faker->randomElement(array_column(ProjectStatus::cases(), 'value')),
             'approval_status' => $this->faker->randomElement(array_column(ProjectApprovalStatus::cases(), 'value')),

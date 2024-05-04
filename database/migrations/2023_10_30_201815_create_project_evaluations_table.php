@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('project_evaluations', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('evaluation_event_id')
+                ->constrained('evaluation_events')
+                ->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->foreignId('project_id')
                 ->constrained('projects')
                 ->cascadeOnDelete()->cascadeOnUpdate();
-
-            $table->string('term')
-                ->comment('e.g. FYP1, FYP2');
 
             $table->foreignId('student_id')
                 ->constrained('students')
@@ -28,6 +29,9 @@ return new class extends Migration
             $table->foreignId('evaluation_panel_id')
                 ->constrained('evaluation_panels')
                 ->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->string('term')
+                ->comment('e.g. FYP1, FYP2');
 
             $table->integer('marks')
                 ->nullable();

@@ -14,10 +14,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Student::factory(100)->create();
-        \App\Models\Advisor::factory(50)->create();
+        \App\Models\User::factory()->create([
+            'name' => 'Test Coordinator',
+            'email' => 'test@szabist.pk',
+            'role' => 'admin',
+        ]);
 
-        $project = \App\Models\Project::factory()->create([
+        \App\Models\Student::factory(100)->create();
+        \App\Models\Advisor::factory(20)->create();
+
+        $project1 = \App\Models\Project::factory()->create([
             'name' => 'Test Project 1',
             'description' => 'Test Project 1 Description',
             'status' => ProjectStatus::InProgress,
@@ -29,27 +35,28 @@ class DatabaseSeeder extends Seeder
             'status' => ProjectStatus::InProgress,
         ]);
 
+        $evaluator = \App\Models\EvaluationPanel::factory()->create([
+            'name' => 'Test Evaluator',
+            'email' => 'evaluator@szabist.pk',
+            'description' => 'Test Evaluators for evaluation of Test Projects.',
+        ]);
+
         \App\Models\Student::factory()->create([
-            'name' => 'Test Student 1',
+            'name' => 'Test Student 1P1',
             'email' => 'student1@szabist.pk',
-            'project_id' => $project->id,
+            'project_id' => $project1->id,
         ]);
 
         \App\Models\Student::factory()->create([
-            'name' => 'Test Student 2',
+            'name' => 'Test Student 2P1',
             'email' => 'student2@szabist.pk',
-            'project_id' => $project->id,
+            'project_id' => $project1->id,
         ]);
 
         \App\Models\Student::factory()->create([
-            'name' => 'Test Student 3',
+            'name' => 'Test Student 3P2',
             'email' => 'student3@szabist.pk',
             'project_id' => $project2->id,
-        ]);
-
-        \App\Models\User::factory()->create([
-            'name' => 'Test Coordinator',
-            'email' => 'test@szabist.pk',
         ]);
 
         \App\Models\Student::factory()->create([

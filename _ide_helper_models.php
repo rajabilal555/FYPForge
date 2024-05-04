@@ -1,6 +1,7 @@
 <?php
 
 // @formatter:off
+// phpcs:ignoreFile
 /**
  * A helper file for your Eloquent Models
  * Copy the phpDocs from this file to the correct Model,
@@ -57,6 +58,39 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\EvaluationEvent
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon $start_datetime
+ * @property int $per_project_duration
+ * @property int $total_marks
+ * @property bool $is_final_evaluation
+ * @property bool $shuffle_evaluation_panels
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectEvaluation> $projectEvaluations
+ * @property-read int|null $project_evaluations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Project> $projects
+ * @property-read int|null $projects_count
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereIsFinalEvaluation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent wherePerProjectDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereShuffleEvaluationPanels($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereStartDatetime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereTotalMarks($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereUpdatedAt($value)
+ */
+	class EvaluationEvent extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\EvaluationPanel
  *
  * @property int $id
@@ -66,6 +100,7 @@ namespace App\Models{
  * @property mixed $password
  * @property string|null $remember_token
  * @property string $description
+ * @property bool $is_active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
@@ -76,6 +111,7 @@ namespace App\Models{
  * @property-read int|null $projects_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
+ * @method static \Database\Factories\EvaluationPanelFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel query()
@@ -84,6 +120,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereIsActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationPanel whereRememberToken($value)
@@ -102,15 +139,18 @@ namespace App\Models{
  * @property \App\Enums\ProjectStatus $status
  * @property \App\Enums\ProjectApprovalStatus $approval_status
  * @property \App\Enums\ProjectTerm $term
- * @property int|null $evaluation_panel_id
  * @property int|null $advisor_id
+ * @property int|null $evaluation_panel_id
+ * @property int|null $next_evaluation_event_id
  * @property \Illuminate\Support\Carbon|null $next_evaluation_date
- * @property bool|null $is_final_evaluation
+ * @property int $is_archived
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $member_limit
  * @property-read \App\Models\Advisor|null $advisor
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectAdvisorInvite> $advisorInvites
  * @property-read int|null $advisor_invites_count
+ * @property-read \App\Models\EvaluationEvent|null $evaluationEvent
  * @property-read \App\Models\EvaluationPanel|null $evaluation_panel
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectEvaluation> $evaluations
  * @property-read int|null $evaluations_count
@@ -138,9 +178,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereEvaluationPanelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Project whereIsFinalEvaluation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereIsArchived($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereMemberLimit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereNextEvaluationDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Project whereNextEvaluationEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereTerm($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Project whereUpdatedAt($value)
@@ -185,10 +227,11 @@ namespace App\Models{
  * App\Models\ProjectEvaluation
  *
  * @property int $id
+ * @property int $evaluation_event_id
  * @property int $project_id
- * @property string $term e.g. FYP1, FYP2
  * @property int $student_id
  * @property int $evaluation_panel_id
+ * @property string $term e.g. FYP1, FYP2
  * @property int|null $marks
  * @property bool $is_final Final evaluation or not
  * @property string $comments e.g. can be improved
@@ -202,6 +245,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation query()
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereComments($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereEvaluationEventId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereEvaluationPanelId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|ProjectEvaluation whereIsFinal($value)

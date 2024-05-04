@@ -46,6 +46,10 @@ class EvaluationPanelResource extends Resource
                     Forms\Components\Section::make()
                         ->columnSpan(1)
                         ->schema([
+                            Forms\Components\Checkbox::make('is_active')
+                                ->default(false)
+                                ->columnSpanFull(),
+
                             Forms\Components\Textarea::make('description')
                                 ->required()
                                 ->maxLength(65535)
@@ -60,6 +64,10 @@ class EvaluationPanelResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Active')
+                    ->boolean(),
+
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')

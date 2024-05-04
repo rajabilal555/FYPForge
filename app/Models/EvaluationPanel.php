@@ -25,6 +25,7 @@ class EvaluationPanel extends Authenticatable implements FilamentUser
         'email',
         'password',
         'description',
+        'is_active',
     ];
 
     /**
@@ -45,6 +46,7 @@ class EvaluationPanel extends Authenticatable implements FilamentUser
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_active' => 'boolean',
     ];
 
     public static function authUser(): static|Authenticatable
@@ -64,7 +66,6 @@ class EvaluationPanel extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        //TODO: check the time limit for panel access
-        return true;
+        return $this->is_active;
     }
 }

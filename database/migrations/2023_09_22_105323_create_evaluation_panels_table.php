@@ -14,11 +14,17 @@ return new class extends Migration
         Schema::create('evaluation_panels', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('email')
+                ->unique();
+            $table->timestamp('email_verified_at')
+                ->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->text('description');
+
+            // defines if the panel can log in (if it is active)
+            $table->tinyInteger('is_active')
+                ->default(0);
             $table->timestamps();
         });
     }

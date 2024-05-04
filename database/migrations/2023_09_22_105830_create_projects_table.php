@@ -23,20 +23,25 @@ return new class extends Migration
 
             $table->string('term');
 
-            $table->foreignId('evaluation_panel_id')
-                ->nullable()
-                ->constrained('evaluation_panels')
-                ->cascadeOnDelete()->cascadeOnUpdate();
-
             $table->foreignId('advisor_id')
                 ->nullable()
                 ->constrained('advisors')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
+            $table->foreignId('evaluation_panel_id')
+                ->nullable()
+                ->constrained('evaluation_panels')
+                ->cascadeOnDelete()->cascadeOnUpdate();
+
+            $table->foreignId('next_evaluation_event_id')
+                ->nullable()
+                ->constrained('evaluation_events')
+                ->cascadeOnDelete()->cascadeOnUpdate();
+
             $table->dateTime('next_evaluation_date')
                 ->nullable();
 
-            $table->integer('is_final_evaluation')
+            $table->tinyInteger('is_archived')
                 ->default(0);
 
             $table->timestamps();
