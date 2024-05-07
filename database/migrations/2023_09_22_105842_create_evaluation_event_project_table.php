@@ -11,22 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_files', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('storage_path');
-            $table->string('storage_disk');
-
+        Schema::create('evaluation_event_project', function (Blueprint $table) {
+            $table->foreignId('evaluation_event_id')
+                ->constrained('evaluation_events')
+                ->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('project_id')
                 ->constrained('projects')
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
-            $table->foreignId('student_id')
-                ->nullable()
-                ->constrained('students')
-                ->nullOnDelete()->cascadeOnUpdate();
+            $table->dateTime('evaluation_date');
 
-            $table->timestamps();
+            $table->primary(['evaluation_event_id', 'project_id']);
         });
     }
 
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_files');
+        Schema::dropIfExists('evaluation_event_project');
     }
 };

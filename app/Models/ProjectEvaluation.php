@@ -11,17 +11,16 @@ class ProjectEvaluation extends Model
     use HasFactory;
 
     protected $fillable = [
+        'evaluation_event_id',
         'project_id',
         'evaluation_panel_id',
         'student_id',
         'marks',
         'term',
         'comments',
-        'is_final',
     ];
 
     protected $casts = [
-        'is_final' => 'boolean',
     ];
 
     public function project(): BelongsTo
@@ -32,6 +31,11 @@ class ProjectEvaluation extends Model
     public function evaluation_panel(): BelongsTo
     {
         return $this->belongsTo(EvaluationPanel::class);
+    }
+
+    public function evaluation_event(): BelongsTo
+    {
+        return $this->belongsTo(EvaluationEvent::class);
     }
 
     public function student(): BelongsTo

@@ -4,6 +4,7 @@ namespace App\Filament\Evaluator\Resources\ProjectResource\Pages;
 
 use App\Actions\SubmitEvaluation;
 use App\Filament\Evaluator\Resources\ProjectResource;
+use App\Models\EvaluationEvent;
 use App\Models\EvaluationPanel;
 use App\Models\Project;
 use App\Models\ProjectFile;
@@ -23,6 +24,10 @@ class ViewProject extends Page
 
     public Project $project;
 
+    public EvaluationEvent $evaluationEvent;
+
+    public $evaluationDate;
+
     public bool $submitted;
 
     public Collection $evaluation;
@@ -32,6 +37,8 @@ class ViewProject extends Page
         abort_unless($record->evaluation_panel_id === EvaluationPanel::authUser()->id, 403);
 
         $this->project = $record;
+        $this->evaluationEvent = $this->project->latestEvaluationEvent();
+        $this->evaluationDate = $this->evaluationEvent->pivot->evaluation_date;
         $this->evaluation = collect();
         $this->submitted = $this->project->hasCurrentEvaluation();
         if ($this->submitted) {
@@ -84,10 +91,10 @@ class ViewProject extends Page
                 TextInput::make('marks')
                     ->numeric()
                     ->minValue(0)
-                    ->maxValue(100)
+                    ->maxValue($this->evaluationEvent->total_marks)
                     ->label('Marks')
-                    ->suffix('out of 100%')
-                    ->hidden(fn () => ! $this->project->is_final_evaluation)
+                    ->suffix('/ '.$this->evaluationEvent->total_marks)
+//                    ->hidden(fn () => ! $this->evaluationEvent->is_final_evaluation)
                     ->required(),
                 Textarea::make('remarks')
                     ->required()
@@ -95,9 +102,9 @@ class ViewProject extends Page
             ])
             ->action(function (array $arguments, array $data) {
                 $studentId = $arguments['student'];
-                if ($this->project->is_final_evaluation) {
-                    $this->evaluation->put("$studentId.marks", $data['marks']);
-                }
+                //                if ($this->evaluationEvent->is_final_evaluation) {
+                $this->evaluation->put("$studentId.marks", $data['marks']);
+                //                }
                 $this->evaluation->put("$studentId.remarks", $data['remarks']);
             });
     }
@@ -107,7 +114,7 @@ class ViewProject extends Page
         return Action::make('saveMarksAction')
             ->label('Submit Evaluation')
             ->icon('heroicon-o-check-circle')
-            ->color(fn () => $this->project->is_final_evaluation ? 'danger' : 'primary')
+            ->color(fn () => $this->evaluationEvent->is_final_evaluation ? 'danger' : 'primary')
             ->disabled(fn () => $this->project->hasCurrentEvaluation())
             ->action(function () {
                 $this->submitted = SubmitEvaluation::make()->handle($this->project, $this->getStudentMarks(...), $this->getStudentRemarks(...));

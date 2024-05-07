@@ -31,11 +31,11 @@ class FindAdvisor extends Page implements HasTable
     protected function getHeaderWidgets(): array
     {
         //TODO: Implement the alert widget
-//        if (Student::authUser()->project?->advisor()->exists() === true) {
-//            return [
-//                AlertWidget::make(['You already have an advisor', 'You can only invite an advisor if you do not have one.', 'info']),
-//            ];
-//        }
+        //        if (Student::authUser()->project?->advisor()->exists() === true) {
+        //            return [
+        //                AlertWidget::make(['You already have an advisor', 'You can only invite an advisor if you do not have one.', 'info']),
+        //            ];
+        //        }
 
         return [];
     }
@@ -47,7 +47,7 @@ class FindAdvisor extends Page implements HasTable
                 Advisor::query()
                     ->with('projects')
                     ->addSelect('*')
-//                    ->addSelect(DB::raw('slots-(SELECT COUNT(*) FROM projects WHERE projects.advisor_id = advisors.id) as projects_count'))
+                //                    ->addSelect(DB::raw('slots-(SELECT COUNT(*) FROM projects WHERE projects.advisor_id = advisors.id) as projects_count'))
             )
             ->paginated([12, 24, 42, 88, 'all'])
             ->contentGrid([
@@ -82,7 +82,7 @@ class FindAdvisor extends Page implements HasTable
                         ])->extraAttributes(['class' => 'mt-2']),
                         Tables\Columns\TextColumn::make('field_of_interests')
                             ->markdown()
-                            ->prefix('**Fields of Interest:** '),
+                            ->prefix('Fields of Interest: '),
                     ]),
             ])
             ->filters([

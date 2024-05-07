@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('total_marks');
             $table->tinyInteger('is_final_evaluation');
             $table->tinyInteger('shuffle_evaluation_panels');
+            $table->tinyInteger('active')->default('0');
             $table->timestamps();
         });
     }

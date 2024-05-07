@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Enums\ProjectApprovalStatus;
 use App\Enums\ProjectStatus;
+use App\Enums\ProjectTerm;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,11 +24,14 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Student::factory(100)->create();
         \App\Models\Advisor::factory(20)->create();
+        \App\Models\Project::factory(10)->create();
 
         $project1 = \App\Models\Project::factory()->create([
             'name' => 'Test Project 1',
             'description' => 'Test Project 1 Description',
             'status' => ProjectStatus::InProgress,
+            'approval_status' => ProjectApprovalStatus::Approved,
+            'term' => ProjectTerm::FYP1,
         ]);
 
         $project2 = \App\Models\Project::factory()->create([
@@ -38,6 +43,17 @@ class DatabaseSeeder extends Seeder
         $evaluator = \App\Models\EvaluationPanel::factory()->create([
             'name' => 'Test Evaluator',
             'email' => 'evaluator@szabist.pk',
+            'description' => 'Test Evaluators for evaluation of Test Projects.',
+        ]);
+        \App\Models\EvaluationPanel::factory()->create([
+            'name' => 'Test Evaluator 2',
+            'email' => 'evaluator2@szabist.pk',
+            'description' => 'Test Evaluators for evaluation of Test Projects.',
+        ]);
+
+        \App\Models\EvaluationPanel::factory()->create([
+            'name' => 'Test Evaluator 3',
+            'email' => 'evaluator3@szabist.pk',
             'description' => 'Test Evaluators for evaluation of Test Projects.',
         ]);
 

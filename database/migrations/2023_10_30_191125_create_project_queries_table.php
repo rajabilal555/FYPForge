@@ -20,8 +20,9 @@ return new class extends Migration
                 ->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->foreignId('student_id')
+                ->nullable()
                 ->constrained('students')
-                ->cascadeOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->text('answer')
                 ->nullable();

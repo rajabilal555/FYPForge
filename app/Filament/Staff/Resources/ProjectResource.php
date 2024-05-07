@@ -74,14 +74,6 @@ class ProjectResource extends Resource
                                             ->searchable()
                                             ->preload(),
                                     ]),
-                                Forms\Components\Section::make()
-                                    ->columnSpan(1)
-                                    ->schema([
-                                        Forms\Components\Checkbox::make('is_final_evaluation'),
-                                        Forms\Components\DateTimePicker::make('next_evaluation_date')
-                                            ->native(false),
-                                    ]),
-
                             ]),
                     ]),
             ]);
@@ -95,9 +87,12 @@ class ProjectResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->markdown()
+                    ->toggleable()
+                    ->toggledHiddenByDefault()
                     ->words(10)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('students.name')
+                    ->toggleable()
                     ->bulleted(),
                 Tables\Columns\TextColumn::make('approval_status')
                     ->badge()
@@ -107,6 +102,7 @@ class ProjectResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('term')
                     ->badge()
+                    ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('evaluation_panel.name')
                     ->placeholder('No Panel')
@@ -115,9 +111,18 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('advisor.name')
                     ->placeholder('No Advisor')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('next_evaluation_date')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('next_evaluation')
+                    ->placeholder('Not Scheduled')
+                    ->toggleable()
+                    ->html()
+                    ->state(function (Project $record) {
+                        $event = $record->latestEvaluationEvent();
+                        if ($event != null) {
+                            return $event->name.'<br>'.$event->pivot->evaluation_date->diffForHumans(short: true, parts: 2);
+                        } else {
+                            return null;
+                        }
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -128,7 +133,6 @@ class ProjectResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
             ])
             ->actions([
                 Tables\Actions\Action::make('promote')
@@ -161,7 +165,7 @@ class ProjectResource extends Resource
                     ->modalWidth('sm')
                     ->form([
                         Forms\Components\Select::make('term')
-                            ->selectablePlaceholder(false)
+                            ->placeholder('Select Term')
                             ->options(ProjectTerm::class)
                             ->required(),
                     ])
@@ -177,9 +181,6 @@ class ProjectResource extends Resource
                             ->send();
 
                     }),
-            ])
-            ->emptyStateActions([
-                Tables\Actions\CreateAction::make(),
             ]);
     }
 

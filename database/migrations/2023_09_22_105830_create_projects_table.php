@@ -26,20 +26,12 @@ return new class extends Migration
             $table->foreignId('advisor_id')
                 ->nullable()
                 ->constrained('advisors')
-                ->cascadeOnDelete()->cascadeOnUpdate();
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->foreignId('evaluation_panel_id')
                 ->nullable()
                 ->constrained('evaluation_panels')
-                ->cascadeOnDelete()->cascadeOnUpdate();
-
-            $table->foreignId('next_evaluation_event_id')
-                ->nullable()
-                ->constrained('evaluation_events')
-                ->cascadeOnDelete()->cascadeOnUpdate();
-
-            $table->dateTime('next_evaluation_date')
-                ->nullable();
+                ->nullOnDelete()->cascadeOnUpdate();
 
             $table->tinyInteger('is_archived')
                 ->default(0);

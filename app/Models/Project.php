@@ -8,7 +8,9 @@ use App\Enums\ProjectTerm;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Project extends Model
 {
@@ -28,8 +30,6 @@ class Project extends Model
         'panel_id',
         'advisor_id',
         'member_limit',
-        'evaluation_event_id',
-        'next_evaluation_date',
     ];
 
     /**
@@ -44,11 +44,9 @@ class Project extends Model
     ];
 
     protected $casts = [
-        'next_evaluation_date' => 'datetime',
         'status' => ProjectStatus::class,
         'approval_status' => ProjectApprovalStatus::class,
         'term' => ProjectTerm::class,
-        'is_final_evaluation' => 'boolean',
     ];
 
     public function students(): HasMany
@@ -91,27 +89,29 @@ class Project extends Model
         return $this->students()->count() >= $this->member_limit;
     }
 
-    public function evaluationEvent(): BelongsTo
+    public function evaluationEvents(): BelongsToMany
     {
-        return $this->belongsTo(EvaluationEvent::class);
+        return $this->belongsToMany(EvaluationEvent::class)
+            ->withPivot(['evaluation_date'])
+            ->using(EvaluationEventProject::class);
     }
 
-    public function getCurrentEvaluations()
+    public function latestEvaluationEvent(): ?EvaluationEvent
     {
-        return $this->evaluations()
-            ->where('evaluation_panel_id', auth()->id())
-            ->where('term', $this->term)
-            ->where('is_final', $this->is_final_evaluation)
-            ->get();
+        return $this->evaluationEvents()->orderByPivot('evaluation_date', 'desc')->first();
+    }
+
+    public function getCurrentEvaluations(): Collection
+    {
+        return $this->latestEvaluationEvent()
+            ?->evaluations()
+            ->where('project_id', $this->id)
+            ->get() ?? collect();
     }
 
     public function hasCurrentEvaluation(): bool
     {
-        return $this->evaluations()
-            ->where('evaluation_panel_id', auth()->id())
-            ->where('term', $this->term)
-            ->where('is_final', $this->is_final_evaluation)
-            ->exists();
+        return $this->getCurrentEvaluations()->isNotEmpty();
     }
 
     public function advisor(): BelongsTo

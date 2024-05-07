@@ -20,8 +20,8 @@
                     </div>
                     <div>
                         <span
-                            class="font-semibold">Evaluation Date:</span> {{ $project->next_evaluation_date->toDayDateTimeString() }}
-                        ({{ $project->next_evaluation_date->diffForHumans() }})
+                            class="font-semibold">Evaluation Date:</span> {{ $evaluationDate->toDayDateTimeString() }}
+                        ({{ $evaluationDate->diffForHumans() }})
                     </div>
                     <div class="flex gap-2">
                          <span
@@ -51,8 +51,8 @@
                         <span
                             class="font-semibold">Is Final Evaluation:</span>
                         <x-filament::badge class="px-2" :size="\Filament\Support\Enums\ActionSize::Medium"
-                                           :color="$project->is_final_evaluation ? 'warning' : 'info'">
-                            {{ $project->is_final_evaluation ? 'Yes' : 'No' }}
+                                           :color="$evaluationEvent->is_final_evaluation ? 'warning' : 'info'">
+                            {{ $evaluationEvent->is_final_evaluation ? 'Yes' : 'No' }}
                         </x-filament::badge>
                     </div>
                 </div>
@@ -143,15 +143,13 @@
                             <div class="flex justify-between items-center">
                                 <div class="flex gap-4 items-center">
                                     <div class="flex flex-col gap-2 justify-center">
-                                        @if($project->is_final_evaluation)
-                                            <p class="text-md">
-                                                {{$this->getStudentMarks($student->id)??0}}%<span
-                                                    class="mx-2 text-primary-400">/</span>100%
-                                            </p>
-                                        @endif
+                                        <p class="text-md">
+                                            {{$this->getStudentMarks($student->id)??0}}<span
+                                                class="mx-2 text-primary-400">/</span>{{$evaluationEvent->total_marks}}
+                                        </p>
                                         <p>
-                                                <span
-                                                    class="font-semibold">Remarks:</span> {{$this->getStudentRemarks($student->id) ?? 'No Remarks'}}
+                                            <span
+                                                class="font-semibold">Remarks:</span> {{$this->getStudentRemarks($student->id) ?? 'No Remarks'}}
                                         </p>
                                     </div>
                                 </div>
@@ -168,7 +166,9 @@
                         </div>
                     @endforelse
                 </div>
-                {{ $this->saveMarksAction }}
+                @if($project->students->count() > 0)
+                    {{ $this->saveMarksAction }}
+                @endif
             </x-filament::fieldset>
         </div>
     </div>

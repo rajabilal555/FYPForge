@@ -25,7 +25,6 @@ class ProjectFactory extends Factory
             'status' => $this->faker->randomElement(array_column(ProjectStatus::cases(), 'value')),
             'approval_status' => $this->faker->randomElement(array_column(ProjectApprovalStatus::cases(), 'value')),
             'term' => $this->faker->randomElement(array_column(ProjectTerm::cases(), 'value')),
-            'next_evaluation_date' => $this->faker->dateTime,
         ];
     }
 }

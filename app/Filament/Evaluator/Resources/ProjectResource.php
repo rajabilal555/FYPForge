@@ -3,9 +3,8 @@
 namespace App\Filament\Evaluator\Resources;
 
 use App\Filament\Evaluator\Resources\ProjectResource\Pages;
+use App\Models\EvaluationEvent;
 use App\Models\Project;
-use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -22,31 +21,19 @@ class ProjectResource extends Resource
         return false;
     }
 
-    public static function form(Form $form): Form
+    public static function canAccess(): bool
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('evaluation_panel_id')
-                    ->relationship('evaluation_panel', 'name'),
-                Forms\Components\Select::make('advisor_id')
-                    ->relationship('advisor', 'name'),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('next_evaluation_date'),
-            ]);
+        abort_if(! EvaluationEvent::getActiveEvaluationEvent(), 403, 'No Ongoing Active evaluation event.');
+
+        return EvaluationEvent::getActiveEvaluationEvent() != null;
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->where('evaluation_panel_id', auth()->id()))
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('evaluation_panel_id', auth()->id())
+                ->whereIn('id', EvaluationEvent::getActiveEvaluationEvent()->projects()->pluck('id'))
+            )
             ->columns([
                 Tables\Columns\IconColumn::make('submitted')
                     ->boolean()
@@ -65,9 +52,18 @@ class ProjectResource extends Resource
                 Tables\Columns\TextColumn::make('approval_status')
                     ->badge()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('next_evaluation_date')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('next_evaluation')
+                    ->placeholder('Not Scheduled')
+                    ->toggleable()
+                    ->html()
+                    ->state(function (Project $record) {
+                        $event = $record->latestEvaluationEvent();
+                        if ($event != null) {
+                            return $event->name.'<br>'.$event->pivot->evaluation_date->diffForHumans(short: true, parts: 2);
+                        } else {
+                            return null;
+                        }
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

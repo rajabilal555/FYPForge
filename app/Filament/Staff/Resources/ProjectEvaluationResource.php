@@ -38,15 +38,14 @@ class ProjectEvaluationResource extends Resource
                             Forms\Components\Select::make('evaluation_panel_id')
                                 ->relationship('evaluation_panel', 'name')
                                 ->required(),
+                            Forms\Components\Select::make('evaluation_event_id')
+                                ->relationship('evaluation_event', 'name')
+                                ->required(),
                         ]),
 
                     Forms\Components\Section::make()
                         ->columnSpan(1)
                         ->schema([
-                            Forms\Components\Checkbox::make('is_final')
-                                ->label('Final Evaluation')
-                                ->required()
-                                ->default(0),
                             Forms\Components\TextInput::make('term')
                                 ->required()
                                 ->maxLength(255),
@@ -64,10 +63,11 @@ class ProjectEvaluationResource extends Resource
     {
         return $table
             ->groups([
+                'evaluation_event.name',
                 'project.name',
                 'term',
             ])
-            ->defaultGroup('project.name')
+            ->defaultGroup('evaluation_event.name')
             ->columns([
                 Tables\Columns\TextColumn::make('project.name')
                     ->numeric()
@@ -79,14 +79,15 @@ class ProjectEvaluationResource extends Resource
                 Tables\Columns\TextColumn::make('evaluation_panel.name')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('evaluation_event.name')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('term')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('marks')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_final')
-                    ->boolean()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('comments')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -125,7 +126,7 @@ class ProjectEvaluationResource extends Resource
     {
         return [
             'index' => Pages\ListProjectEvaluations::route('/'),
-            'create' => Pages\CreateProjectEvaluation::route('/create'),
+//            'create' => Pages\CreateProjectEvaluation::route('/create'),
             'edit' => Pages\EditProjectEvaluation::route('/{record}/edit'),
         ];
     }

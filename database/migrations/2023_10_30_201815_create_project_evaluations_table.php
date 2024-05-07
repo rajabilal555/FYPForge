@@ -36,10 +36,6 @@ return new class extends Migration
             $table->integer('marks')
                 ->nullable();
 
-            $table->integer('is_final')
-                ->default(0) // 0 = false, 1 = true
-                ->comment('Final evaluation or not');
-
             $table->string('comments')
                 ->comment('e.g. can be improved');
 

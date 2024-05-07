@@ -5,6 +5,9 @@ namespace App\Filament\Staff\Pages;
 use App\Enums\ProjectApprovalStatus;
 use App\Enums\ProjectStatus;
 use App\Enums\ProjectTerm;
+use App\Filament\Staff\Resources\EvaluationEventResource;
+use App\Models\EvaluationEvent;
+use App\Models\EvaluationPanel;
 use App\Models\Project;
 use Carbon\Carbon;
 use Filament\Actions\Action;
@@ -30,6 +33,13 @@ class StartNewEvaluation extends Page
     protected static ?string $navigationGroup = 'Evaluation';
 
     public ?array $data = null;
+
+    public ?array $evaluationPanels;
+
+    public function mount()
+    {
+        $this->evaluationPanels = EvaluationPanel::all()->pluck('name', 'id')->toArray();
+    }
 
     public function form(Form $form): Form
     {
@@ -72,13 +82,14 @@ class StartNewEvaluation extends Page
                                                 ->required(),
 
                                             Checkbox::make('shuffle_evaluation_panels')
-                                                ->label('Shuffle Evaluation Panels?'),
+                                                ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'If enabled, evaluation panels will be shuffled for each project. Also makes sure that all projects are assigned to an evaluation panel.')
+                                                ->label('Re-assign Evaluation Panels?'),
 
-                                            Checkbox::make('is_final')
+                                            Checkbox::make('is_final_evaluation')
                                                 ->label('Is Final Evaluation?'),
 
                                         ])->columnSpan(1),
-                                        Fieldset::make('Projects Configuration')
+                                        Fieldset::make('Projects Inclusion Configuration')
                                             ->schema([
                                                 Select::make('included_terms')
                                                     ->label('Included Terms')
@@ -112,10 +123,17 @@ class StartNewEvaluation extends Page
                                     ->schema([
                                         TextInput::make('project_name')
                                             ->label('Project Name')
+                                            ->columnSpan(fn () => $this->data['shuffle_evaluation_panels'] === false ? 1 : 2)
                                             ->disabled(),
 
-                                        DateTimePicker::make('next_evaluation_date')
+                                        DateTimePicker::make('evaluation_date')
                                             ->label('Next Evaluation Date')
+                                            ->required(),
+
+                                        Select::make('evaluation_panel_id')
+                                            ->hidden(fn () => $this->data['shuffle_evaluation_panels'] === false)
+                                            ->label('Evaluation Panel')
+                                            ->options(fn () => $this->evaluationPanels)
                                             ->required(),
                                     ]),
 
@@ -128,6 +146,9 @@ class StartNewEvaluation extends Page
 
     public function loadProjectDistributions(): array
     {
+        // refresh evaluation panels
+        $this->evaluationPanels = EvaluationPanel::all()->pluck('name', 'id')->toArray();
+
         $projects = Project::query()
             ->whereIn('term', $this->data['included_terms'])
             ->whereIn('status', $this->data['included_project_status'])
@@ -146,11 +167,21 @@ class StartNewEvaluation extends Page
 
         $distribution = [];
         $startDateTime = $this->data['start_datetime']; //2024-05-07T16:00
-        foreach ($projects as $project) {
+
+        if ($this->data['shuffle_evaluation_panels'] === true) {
+            $panels = EvaluationPanel::inRandomOrder()->get();
+        }
+
+        foreach ($projects as $i => $project) {
+            if ($this->data['shuffle_evaluation_panels'] === true) {
+                $project->evaluation_panel_id = $panels[$i % $panels->count()]->id;
+            }
+
             $distribution[] = [
                 'project_id' => $project->id,
                 'project_name' => $project->name,
-                'next_evaluation_date' => $startDateTime,
+                'evaluation_date' => $startDateTime,
+                'evaluation_panel_id' => $project->evaluation_panel_id,
             ];
 
             $startDateTime = Carbon::parse($startDateTime)
@@ -166,7 +197,43 @@ class StartNewEvaluation extends Page
         return Action::make('submitAction')
             ->label('Submit')
             ->action(function () {
-                dd($this->data);
+                try {
+                    $distribution = $this->data['distribution'];
+
+                    // create an evaluation event
+                    $event = EvaluationEvent::create([
+                        'name' => $this->data['name'],
+                        'total_marks' => $this->data['total_marks'],
+                        'start_datetime' => $this->data['start_datetime'],
+                        'per_project_duration' => $this->data['per_project_duration'],
+                        'is_final_evaluation' => $this->data['is_final_evaluation'],
+                        'shuffle_evaluation_panels' => $this->data['shuffle_evaluation_panels'],
+                    ]);
+
+                    foreach ($distribution as $data) {
+                        $project = Project::find($data['project_id']);
+
+                        $project->evaluation_panel_id = $data['evaluation_panel_id'];
+                        $project->evaluationEvents()->attach($event, ['evaluation_date' => $data['evaluation_date']]);
+
+                        $project->save();
+                    }
+
+                    Notification::make()
+                        ->title('Success')
+                        ->body('Evaluation event created successfully.')
+                        ->success()
+                        ->send();
+
+                    $this->redirect(EvaluationEventResource::getUrl());
+
+                } catch (\Exception $e) {
+                    Notification::make()
+                        ->title('Error')
+                        ->body($e->getMessage())
+                        ->danger()
+                        ->send();
+                }
             });
     }
 }

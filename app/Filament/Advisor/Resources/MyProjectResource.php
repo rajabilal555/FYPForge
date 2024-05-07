@@ -51,9 +51,18 @@ class MyProjectResource extends Resource
                     ->placeholder('No Panel')
                     ->words(10)
                     ->sortable(),
-                TextColumn::make('next_evaluation_date')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('next_evaluation')
+                    ->placeholder('Not Scheduled')
+                    ->toggleable()
+                    ->html()
+                    ->state(function (Project $record) {
+                        $event = $record->latestEvaluationEvent();
+                        if ($event != null) {
+                            return $event->name.'<br>'.$event->pivot->evaluation_date->diffForHumans(short: true, parts: 2);
+                        } else {
+                            return null;
+                        }
+                    }),
             ])
             ->filters([
                 //

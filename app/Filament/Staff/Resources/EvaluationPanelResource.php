@@ -65,6 +65,8 @@ class EvaluationPanelResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\IconColumn::make('is_active')
+                    ->alignCenter()
+                    ->tooltip(fn (EvaluationPanel $record) => $record->is_active ? 'Login enabled' : 'Login disabled')
                     ->label('Active')
                     ->boolean(),
 
@@ -92,16 +94,30 @@ class EvaluationPanelResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
+                //                Tables\Actions\DeleteBulkAction::make(),
+
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                    Tables\Actions\BulkAction::make('activate_panel')
+                        ->color('success')
+                        ->label('Activate')
+                        ->requiresConfirmation()
+                        ->action(fn ($records) => $records->each->update(['is_active' => true])),
+
+                    Tables\Actions\BulkAction::make('deactivate_panel')
+                        ->color('danger')
+                        ->label('Deactivate')
+                        ->requiresConfirmation()
+                        ->action(fn ($records) => $records->each->update(['is_active' => false])),
+                ])
+                    ->label('Activate/Deactivate')
+                    ->icon('heroicon-o-play-circle'),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            EvaluationPanelResource\RelationManagers\ProjectsRelationManager::class,
         ];
     }
 

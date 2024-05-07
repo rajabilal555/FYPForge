@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class EvaluationEvent extends Model
@@ -17,20 +18,27 @@ class EvaluationEvent extends Model
         'total_marks',
         'is_final_evaluation',
         'shuffle_evaluation_panels',
+        'active',
     ];
 
     protected $casts = [
         'start_datetime' => 'datetime',
         'is_final_evaluation' => 'boolean',
         'shuffle_evaluation_panels' => 'boolean',
+        'active' => 'boolean',
     ];
 
-    public function projects(): HasMany
+    public static function getActiveEvaluationEvent(): ?self
     {
-        return $this->hasMany(Project::class);
+        return self::query()->where('active', true)->first();
     }
 
-    public function projectEvaluations(): HasMany
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    public function evaluations(): HasMany
     {
         return $this->hasMany(ProjectEvaluation::class);
     }
