@@ -67,6 +67,7 @@ namespace App\Models{
  * @property int $total_marks
  * @property bool $is_final_evaluation
  * @property bool $shuffle_evaluation_panels
+ * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectEvaluation> $evaluations
@@ -76,6 +77,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereActive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|EvaluationEvent whereIsFinalEvaluation($value)

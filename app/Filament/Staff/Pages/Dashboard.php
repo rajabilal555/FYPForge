@@ -2,51 +2,17 @@
 
 namespace App\Filament\Staff\Pages;
 
-use Filament\Facades\Filament;
-use Filament\Pages\Page;
-use Filament\Panel;
-use Filament\Support\Facades\FilamentIcon;
+use App\Filament\Staff\Widgets\AdvisorDiversityChart;
+use App\Filament\Staff\Widgets\ProjectStatusChart;
+use App\Filament\Staff\Widgets\StatsOverview;
+use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Widgets\AccountWidget;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Support\Facades\Route;
+use Filament\Widgets\Widget;
+use Filament\Widgets\WidgetConfiguration;
 
-class Dashboard extends Page
+class Dashboard extends BaseDashboard
 {
-    protected static string $routePath = '/';
-
-    protected static ?int $navigationSort = -2;
-
-    /**
-     * @var view-string
-     */
-    protected static string $view = 'filament-panels::pages.dashboard';
-
-    public static function getNavigationLabel(): string
-    {
-        return static::$navigationLabel ??
-            static::$title ??
-            __('filament-panels::pages/dashboard.title');
-    }
-
-    public static function getNavigationIcon(): ?string
-    {
-        return static::$navigationIcon
-            ?? FilamentIcon::resolve('panels::pages.dashboard.navigation-item')
-            ?? (Filament::hasTopNavigation() ? 'heroicon-m-home' : 'heroicon-o-home');
-    }
-
-    public static function routes(Panel $panel): void
-    {
-        Route::get(static::getRoutePath(), static::class)
-            ->middleware(static::getRouteMiddleware($panel))
-            ->withoutMiddleware(static::getWithoutRouteMiddleware($panel))
-            ->name(static::getSlug());
-    }
-
-    public static function getRoutePath(): string
-    {
-        return static::$routePath;
-    }
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
 
     /**
      * @return array<class-string<Widget> | WidgetConfiguration>
@@ -54,16 +20,11 @@ class Dashboard extends Page
     public function getWidgets(): array
     {
         return [
-            AccountWidget::class,
+//            AccountWidget::class,
+            StatsOverview::class,
+            ProjectStatusChart::class,
+            AdvisorDiversityChart::class,
         ];
-    }
-
-    /**
-     * @return array<class-string<Widget> | WidgetConfiguration>
-     */
-    public function getVisibleWidgets(): array
-    {
-        return $this->filterVisibleWidgets($this->getWidgets());
     }
 
     /**
@@ -72,10 +33,5 @@ class Dashboard extends Page
     public function getColumns(): int|string|array
     {
         return 2;
-    }
-
-    public function getTitle(): string|Htmlable
-    {
-        return static::$title ?? __('filament-panels::pages/dashboard.title');
     }
 }

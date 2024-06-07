@@ -15,7 +15,7 @@ class EvaluationEventResource extends Resource
 {
     protected static ?string $model = EvaluationEvent::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-calendar-days';
 
     protected static ?string $navigationGroup = 'Evaluation';
 
