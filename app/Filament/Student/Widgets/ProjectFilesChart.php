@@ -4,6 +4,7 @@ namespace App\Filament\Student\Widgets;
 
 use App\Models\Advisor;
 use App\Models\ProjectFile;
+use App\Models\Student;
 use Carbon\Carbon;
 use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
@@ -30,7 +31,7 @@ class ProjectFilesChart extends ChartWidget
 
     protected function getData(): array
     {
-        $filesTrend = Trend::query(ProjectFile::query()->whereIn('project_id', Advisor::authUser()->projects->pluck('id')))
+        $filesTrend = Trend::query(Student::authUser()->project->files()->getQuery())
             ->between(
                 start: now()->startOfWeek(),
                 end: now(),

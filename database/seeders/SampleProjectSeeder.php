@@ -52,6 +52,8 @@ class SampleProjectSeeder extends Seeder
             'description' => 'Test Evaluators for evaluation of Test Projects.',
         ]);
 
-        $evaluator->projects()->attach($project1->id);
+        $project1->update([
+            'evaluation_panel_id' => $evaluator->id,
+        ]);
     }
 }

@@ -74,7 +74,7 @@ class Project extends Model
         return $this->hasMany(ProjectAdvisorInvite::class)->where('status', 'pending');
     }
 
-    public function evaluation_panel(): BelongsTo
+    public function evaluationPanel(): BelongsTo
     {
         return $this->belongsTo(EvaluationPanel::class);
     }

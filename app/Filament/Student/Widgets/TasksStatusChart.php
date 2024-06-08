@@ -3,8 +3,8 @@
 namespace App\Filament\Student\Widgets;
 
 use App\Enums\ProjectTaskStatus;
-use App\Models\Advisor;
-use App\Models\ProjectTask;
+use App\Models\Student;
+use Filament\Support\Colors\Color;
 use Filament\Widgets\ChartWidget;
 
 class TasksStatusChart extends ChartWidget
@@ -12,6 +12,7 @@ class TasksStatusChart extends ChartWidget
     protected static ?string $heading = 'Tasks Status';
 
     protected static ?string $maxHeight = '300px';
+
     protected function getOptions(): array
     {
         return [
@@ -25,21 +26,26 @@ class TasksStatusChart extends ChartWidget
             ],
         ];
     }
+
     protected function getData(): array
     {
-        $advisorTasks = ProjectTask::query()->whereIn('project_id', Advisor::authUser()->projects->pluck('id'))->get();
+        $tasks = Student::authUser()->project->tasks;
 
-        $tasks = $advisorTasks->groupBy('status')->map(function ($tasks, $status) {
-            return $tasks->count();
+        $tasks = collect(ProjectTaskStatus::cases())->mapWithKeys(function ($status) use ($tasks) {
+            return [$status->value => $tasks->where('status', $status)->count()];
         });
 
         return [
-            'labels' => collect(ProjectTaskStatus::cases())->map(fn ($status) => $status->getLabel())->values()->toArray(),
+            'labels' => $tasks->keys()->map(fn ($status) => ProjectTaskStatus::from($status)->getLabel())->values()->toArray(),
             'datasets' => [
                 [
                     'label' => 'Tasks',
                     'data' => $tasks->values()->toArray(),
-
+                    'backgroundColor' => [
+                        'rgba('.Color::Gray[500].', 0.7)',
+                        'rgba('.Color::Red[500].', 0.7)',
+                        'rgba('.Color::Green[500].', 0.7)',
+                    ],
                 ],
             ],
         ];

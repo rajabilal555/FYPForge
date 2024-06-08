@@ -5,6 +5,7 @@ namespace App\Filament\Advisor\Widgets;
 use App\Enums\ProjectTaskStatus;
 use App\Models\Advisor;
 use App\Models\ProjectTask;
+use Filament\Support\Colors\Color;
 use Filament\Widgets\ChartWidget;
 
 class TasksStatusChart extends ChartWidget
@@ -12,6 +13,7 @@ class TasksStatusChart extends ChartWidget
     protected static ?string $heading = 'Tasks Status';
 
     protected static ?string $maxHeight = '300px';
+
     protected function getOptions(): array
     {
         return [
@@ -25,27 +27,26 @@ class TasksStatusChart extends ChartWidget
             ],
         ];
     }
+
     protected function getData(): array
     {
 
-        $advisorTasks = ProjectTask::query()->whereIn('project_id', Advisor::authUser()->projects->pluck('id'))->get();
+        $tasks = ProjectTask::query()->whereIn('project_id', Advisor::authUser()->projects->pluck('id'))->get();
 
-        $tasks = $advisorTasks->groupBy('status')->map(function ($tasks, $status) {
-            return $tasks->count();
+        $tasks = collect(ProjectTaskStatus::cases())->mapWithKeys(function ($status) use ($tasks) {
+            return [$status->value => $tasks->where('status', $status)->count()];
         });
 
         return [
-            'labels' => collect(ProjectTaskStatus::cases())->map(fn ($status) => $status->getLabel())->values()->toArray(),
+            'labels' => $tasks->keys()->map(fn ($status) => ProjectTaskStatus::from($status)->getLabel())->values()->toArray(),
             'datasets' => [
                 [
                     'label' => 'Tasks',
                     'data' => $tasks->values()->toArray(),
-
                     'backgroundColor' => [
-                        'rgba(255, 206, 86, 0.7)',
-                        'rgba(12, 84, 163, 0.7)',
-                        'rgba(153, 102, 255, 0.7)',
-                        'rgba(255, 159, 64, 0.7)',
+                        'rgba('.Color::Gray[500].', 0.7)',
+                        'rgba('.Color::Red[500].', 0.7)',
+                        'rgba('.Color::Green[500].', 0.7)',
                     ],
                 ],
             ],

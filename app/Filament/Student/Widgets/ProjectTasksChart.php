@@ -4,6 +4,7 @@ namespace App\Filament\Student\Widgets;
 
 use App\Models\Advisor;
 use App\Models\ProjectTask;
+use App\Models\Student;
 use Carbon\Carbon;
 use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
@@ -30,7 +31,7 @@ class ProjectTasksChart extends ChartWidget
 
     protected function getData(): array
     {
-        $taskTrend = Trend::query(ProjectTask::query()->whereIn('project_id', Advisor::authUser()->projects->pluck('id')))
+        $taskTrend = Trend::query(Student::authUser()->project->tasks()->getQuery())
             ->between(
                 start: now()->startOfWeek(),
                 end: now(),
