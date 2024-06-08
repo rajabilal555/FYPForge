@@ -5,6 +5,7 @@ namespace App\Filament\Staff\Pages;
 use App\Filament\Staff\Widgets\AdvisorDiversityChart;
 use App\Filament\Staff\Widgets\ProjectStatusChart;
 use App\Filament\Staff\Widgets\StatsOverview;
+use App\Filament\Staff\Widgets\StudentStatusesChart;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\Widget;
@@ -24,6 +25,7 @@ class Dashboard extends BaseDashboard
             StatsOverview::class,
             ProjectStatusChart::class,
             AdvisorDiversityChart::class,
+            StudentStatusesChart::class,
         ];
     }
 

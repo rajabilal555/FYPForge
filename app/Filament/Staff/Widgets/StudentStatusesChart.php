@@ -2,13 +2,11 @@
 
 namespace App\Filament\Staff\Widgets;
 
-use App\Enums\ProjectStatus;
-use App\Models\Project;
 use Filament\Widgets\ChartWidget;
 
-class ProjectStatusChart extends ChartWidget
+class StudentStatusesChart extends ChartWidget
 {
-    protected static ?string $heading = 'Projects Status';
+    protected static ?string $heading = 'Student Project Assignment Statuses';
 
     protected static ?string $maxHeight = '300px';
 
@@ -28,21 +26,17 @@ class ProjectStatusChart extends ChartWidget
 
     protected function getData(): array
     {
-        /**
-         * @var \Illuminate\Support\Collection $data
-         */
-        $data = Project::all()->groupBy('status')->map->count();
+        $studentInProject = \App\Models\Student::where('project_id', '!=', null)->count();
+        $studentNotInProject = \App\Models\Student::where('project_id', null)->count();
 
         return [
-            'labels' => $data->keys()->map(fn ($status) => ProjectStatus::from($status)->getLabel()),
+            'labels' => ['In Project', 'Not In Project'],
             'datasets' => [
                 [
-                    'label' => 'All Projects Status',
-                    'data' => $data->values()->toArray(),
+                    'label' => 'Students',
+                    'data' => [$studentInProject, $studentNotInProject],
                     'backgroundColor' => [
-                        'rgba(255, 206, 86, 0.7)',
                         'rgba(12, 84, 163, 0.7)',
-                        'rgba(153, 102, 255, 0.7)',
                         'rgba(255, 159, 64, 0.7)',
                     ],
                 ],
@@ -52,6 +46,6 @@ class ProjectStatusChart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'pie';
+        return 'doughnut';
     }
 }

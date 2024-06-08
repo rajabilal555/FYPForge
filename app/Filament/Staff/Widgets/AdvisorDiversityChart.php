@@ -3,11 +3,19 @@
 namespace App\Filament\Staff\Widgets;
 
 use App\Models\Advisor;
+use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
 
 class AdvisorDiversityChart extends ChartWidget
 {
     protected static ?string $heading = 'Advisor Diversity';
+
+    protected function getOptions(): array|RawJs|null
+    {
+        return [
+            'indexAxis' => 'y',
+        ];
+    }
 
     protected function getData(): array
     {
@@ -20,7 +28,7 @@ class AdvisorDiversityChart extends ChartWidget
             'labels' => $data->keys()->toArray(),
             'datasets' => [
                 [
-                    'label' => 'Fields',
+                    'label' => 'Advisors',
                     'data' => $data->values()->toArray(),
                 ],
             ],
