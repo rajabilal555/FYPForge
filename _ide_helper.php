@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 10.48.10.
+ * Generated for Laravel 10.48.12.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -18845,7 +18845,7 @@ namespace Livewire\Features\SupportTesting {
          * 
          *
          * @see \Filament\Forms\Testing\TestsForms::fillForm()
-         * @param array $state
+         * @param \Closure|array $state
          * @param string $formName
          * @return static 
          * @static 
@@ -18857,7 +18857,7 @@ namespace Livewire\Features\SupportTesting {
          * 
          *
          * @see \Filament\Forms\Testing\TestsForms::assertFormSet()
-         * @param array $state
+         * @param \Closure|array $state
          * @param string $formName
          * @return static 
          * @static 

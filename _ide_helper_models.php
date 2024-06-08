@@ -169,7 +169,7 @@ namespace App\Models{
  * @property-read int|null $advisor_invites_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EvaluationEvent> $evaluationEvents
  * @property-read int|null $evaluation_events_count
- * @property-read \App\Models\EvaluationPanel|null $evaluation_panel
+ * @property-read \App\Models\EvaluationPanel|null $evaluationPanel
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectEvaluation> $evaluations
  * @property-read int|null $evaluations_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProjectFile> $files
