@@ -57,6 +57,11 @@ class Student extends Authenticatable implements FilamentUser
         return $this->name.' ('.$this->registration_no.')';
     }
 
+    public function evaluations()
+    {
+        return $this->hasMany(ProjectEvaluation::class);
+    }
+
     public function project()
     {
         return $this->belongsTo(Project::class);

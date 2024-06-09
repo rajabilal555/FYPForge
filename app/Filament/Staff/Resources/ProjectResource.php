@@ -9,6 +9,7 @@ use App\Enums\ProjectTerm;
 use App\Filament\Staff\Resources\ProjectResource\Pages\CreateProject;
 use App\Filament\Staff\Resources\ProjectResource\Pages\EditProject;
 use App\Filament\Staff\Resources\ProjectResource\Pages\ListProjects;
+use App\Filament\Staff\Resources\ProjectResource\RelationManagers\EvaluationsRelationManager;
 use App\Filament\Staff\Resources\ProjectResource\RelationManagers\FilesRelationManager;
 use App\Filament\Staff\Resources\ProjectResource\RelationManagers\StudentRelationManager;
 use App\Models\Project;
@@ -209,6 +210,7 @@ class ProjectResource extends Resource
         return [
             StudentRelationManager::class,
             FilesRelationManager::class,
+            EvaluationsRelationManager::class,
         ];
     }
 

@@ -39,7 +39,7 @@ class AdvisorResource extends Resource
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('password')
                                 ->password()
-                                ->placeholder(fn (EvaluationPanel $record) => $record->exists ? 'Leave empty to keep the same' : null)
+                                ->placeholder(fn (Advisor $record) => $record->exists ? 'Leave empty to keep the same' : null)
                                 ->required(fn (string $operation): bool => $operation === 'create')
                                 ->dehydrated(fn ($state) => filled($state))
                                 ->autocomplete('new-password')
