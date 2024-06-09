@@ -7,6 +7,7 @@ use App\Filament\Staff\Resources\EvaluationEventResource\Pages;
 use App\Models\EvaluationEvent;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -29,11 +30,9 @@ class EvaluationEventResource extends Resource
         return $form
             ->columns(2)
             ->schema([
-
                 Forms\Components\Section::make()
                     ->columnSpan(1)
                     ->schema([
-
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
@@ -128,10 +127,16 @@ class EvaluationEventResource extends Resource
 
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make()->before(function ($records) {
+                Tables\Actions\DeleteBulkAction::make()->before(function (Tables\Actions\DeleteBulkAction $action, $records) {
                     foreach ($records as $record) {
                         if ($record->active) {
-                            throw new \Exception('Cannot delete active evaluation events.');
+                            Notification::make()
+                                ->warning()
+                                ->title('Cannot delete active evaluation events.')
+                                ->send();
+
+                            $action->halt();
+                            //throw new \Exception('Cannot delete active evaluation events.');
                         }
                     }
                 }),
@@ -142,6 +147,7 @@ class EvaluationEventResource extends Resource
     {
         return [
             EvaluationEventResource\RelationManagers\ProjectsRelationManager::class,
+            EvaluationEventResource\RelationManagers\EvaluationsRelationManager::class,
         ];
     }
 

@@ -48,7 +48,7 @@ class SampleProjectSeeder extends Seeder
 
         $evaluator = EvaluationPanel::factory()->create([
             'name' => 'Test Evaluator',
-            'email' => 'evaluator@szabist.pk',
+            'email' => 'evaluator1@szabist.pk',
             'description' => 'Test Evaluators for evaluation of Test Projects.',
         ]);
 

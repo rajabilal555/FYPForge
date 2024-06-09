@@ -38,7 +38,7 @@ class ProjectResource extends Resource
                 Tables\Columns\IconColumn::make('submitted')
                     ->boolean()
                     ->state(fn (Project $project) => $project->hasCurrentEvaluation()),
-                Tables\Columns\TextColumn::make('evaluation_panel.name')
+                Tables\Columns\TextColumn::make('evaluationPanel.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('advisor.name')

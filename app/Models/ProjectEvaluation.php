@@ -28,7 +28,7 @@ class ProjectEvaluation extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function evaluation_panel(): BelongsTo
+    public function evaluationPanel(): BelongsTo
     {
         return $this->belongsTo(EvaluationPanel::class);
     }

@@ -24,11 +24,16 @@ class ListProjects extends ListRecords
     public function getTabs(): array
     {
         return [
-            'all' => Tab::make(),
+            'all' => Tab::make()
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('is_archived', false)),
             'fyp1' => Tab::make('FYP 1')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('term', ProjectTerm::FYP1)),
+                ->modifyQueryUsing(fn (Builder $query) => $query
+                    ->where('is_archived', false)
+                    ->where('term', ProjectTerm::FYP1)),
             'fyp2' => Tab::make('FYP 2')
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('term', ProjectTerm::FYP2)),
+                ->modifyQueryUsing(fn (Builder $query) => $query
+                    ->where('is_archived', false)
+                    ->where('term', ProjectTerm::FYP2)),
             'archived' => Tab::make('Archived')
                 ->icon('heroicon-o-archive-box')
                 ->iconPosition(IconPosition::After)

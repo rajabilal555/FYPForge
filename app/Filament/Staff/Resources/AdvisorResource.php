@@ -4,6 +4,7 @@ namespace App\Filament\Staff\Resources;
 
 use App\Filament\Staff\Resources\AdvisorResource\Pages;
 use App\Models\Advisor;
+use App\Models\EvaluationPanel;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -38,6 +39,7 @@ class AdvisorResource extends Resource
                                 ->maxLength(255),
                             Forms\Components\TextInput::make('password')
                                 ->password()
+                                ->placeholder(fn (EvaluationPanel $record) => $record->exists ? 'Leave empty to keep the same' : null)
                                 ->required(fn (string $operation): bool => $operation === 'create')
                                 ->dehydrated(fn ($state) => filled($state))
                                 ->autocomplete('new-password')

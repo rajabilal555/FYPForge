@@ -39,7 +39,7 @@ class ProjectsListTable extends BaseWidget
 //                      ->prefix('Students: ')
                         ->markdown()
                         ->separator(', <br>'),
-                    TextColumn::make('evaluation_panel.description')
+                    TextColumn::make('evaluationPanel.description')
                         ->placeholder('No Panel')
                         ->words(10),
 

@@ -47,7 +47,7 @@ class MyProjectResource extends Resource
                 TextColumn::make('status')
                     ->badge()
                     ->searchable(),
-                TextColumn::make('evaluation_panel.description')
+                TextColumn::make('evaluationPanel.description')
                     ->placeholder('No Panel')
                     ->words(10)
                     ->sortable(),

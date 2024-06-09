@@ -2,6 +2,7 @@
 
 namespace App\Filament\Staff\Resources;
 
+use App\Enums\ProjectTerm;
 use App\Filament\Staff\Resources\ProjectEvaluationResource\Pages;
 use App\Models\ProjectEvaluation;
 use Filament\Forms;
@@ -36,7 +37,7 @@ class ProjectEvaluationResource extends Resource
                                 ->relationship('student', 'name')
                                 ->required(),
                             Forms\Components\Select::make('evaluation_panel_id')
-                                ->relationship('evaluation_panel', 'name')
+                                ->relationship('evaluationPanel', 'name')
                                 ->required(),
                             Forms\Components\Select::make('evaluation_event_id')
                                 ->relationship('evaluation_event', 'name')
@@ -46,9 +47,9 @@ class ProjectEvaluationResource extends Resource
                     Forms\Components\Section::make()
                         ->columnSpan(1)
                         ->schema([
-                            Forms\Components\TextInput::make('term')
-                                ->required()
-                                ->maxLength(255),
+                            Forms\Components\Select::make('term')
+                                ->options(ProjectTerm::class)
+                                ->required(),
                             Forms\Components\TextInput::make('marks')
                                 ->numeric(),
                             Forms\Components\Textarea::make('comments')
@@ -76,13 +77,14 @@ class ProjectEvaluationResource extends Resource
                 Tables\Columns\TextColumn::make('student.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('evaluation_panel.name')
+                Tables\Columns\TextColumn::make('evaluationPanel.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('evaluation_event.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('term')
+                    ->badge()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('marks')
                     ->numeric()
@@ -109,6 +111,7 @@ class ProjectEvaluationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -126,7 +129,7 @@ class ProjectEvaluationResource extends Resource
     {
         return [
             'index' => Pages\ListProjectEvaluations::route('/'),
-//            'create' => Pages\CreateProjectEvaluation::route('/create'),
+            //            'create' => Pages\CreateProjectEvaluation::route('/create'),
             'edit' => Pages\EditProjectEvaluation::route('/{record}/edit'),
         ];
     }

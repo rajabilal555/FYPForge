@@ -30,6 +30,7 @@ class Project extends Model
         'panel_id',
         'advisor_id',
         'member_limit',
+        'is_archived',
     ];
 
     /**
@@ -47,6 +48,7 @@ class Project extends Model
         'status' => ProjectStatus::class,
         'approval_status' => ProjectApprovalStatus::class,
         'term' => ProjectTerm::class,
+        'is_archived' => 'boolean',
     ];
 
     public function students(): HasMany

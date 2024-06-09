@@ -45,28 +45,29 @@ class ProjectResource extends Resource
                             ]),
                         Forms\Components\Grid::make(1)
                             ->columnSpan(1)
-                            ->schema([Forms\Components\Section::make()
-                                ->columnSpan(1)
-                                ->schema([
-                                    Forms\Components\TextInput::make('member_limit')
-                                        ->type('number')
-                                        ->step(1)
-                                        ->required(),
-                                    Forms\Components\Select::make('status')
-                                        ->options(ProjectStatus::class)
-                                        ->required(),
-                                    Forms\Components\Select::make('approval_status')
-                                        ->options(ProjectApprovalStatus::class)
-                                        ->required(),
-                                    Forms\Components\Select::make('term')
-                                        ->options(ProjectTerm::class)
-                                        ->required(),
-                                ]),
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->columnSpan(1)
+                                    ->schema([
+                                        Forms\Components\TextInput::make('member_limit')
+                                            ->type('number')
+                                            ->step(1)
+                                            ->required(),
+                                        Forms\Components\Select::make('status')
+                                            ->options(ProjectStatus::class)
+                                            ->required(),
+                                        Forms\Components\Select::make('approval_status')
+                                            ->options(ProjectApprovalStatus::class)
+                                            ->required(),
+                                        Forms\Components\Select::make('term')
+                                            ->options(ProjectTerm::class)
+                                            ->required(),
+                                    ]),
                                 Forms\Components\Section::make()
                                     ->columnSpan(1)
                                     ->schema([
                                         Forms\Components\Select::make('evaluation_panel_id')
-                                            ->relationship(name: 'evaluation_panel', titleAttribute: 'name')
+                                            ->relationship(name: 'evaluationPanel', titleAttribute: 'name')
                                             ->searchable()
                                             ->preload(),
                                         Forms\Components\Select::make('advisor_id')
@@ -104,7 +105,7 @@ class ProjectResource extends Resource
                     ->badge()
                     ->toggleable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('evaluation_panel.name')
+                Tables\Columns\TextColumn::make('evaluationPanel.name')
                     ->placeholder('No Panel')
                     ->words(10)
                     ->sortable(),
@@ -139,6 +140,7 @@ class ProjectResource extends Resource
                     ->label('Promote')
                     ->icon('heroicon-o-arrow-up-circle')
                     ->modalWidth('sm')
+                    ->color('success')
                     ->fillForm(function (Project $record) {
                         return [
                             'term' => $record->term,
@@ -159,6 +161,24 @@ class ProjectResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('bulkarchive')
+                        ->label('Archive Selected Projects')
+                        ->requiresConfirmation()
+                        ->color('danger')
+                        ->action(function (Collection $records) {
+                            $records->each(fn (Project $record) => $record->update(['is_archived' => true]));
+                        }),
+                    Tables\Actions\BulkAction::make('bulkunarchive')
+                        ->label('Unarchive Selected Projects')
+                        ->requiresConfirmation()
+                        ->color('success')
+                        ->action(function (Collection $records) {
+                            $records->each(fn (Project $record) => $record->update(['is_archived' => false]));
+                        }),
+                ])->label('Archive/Unarchive')
+                    ->icon('heroicon-o-archive-box'),
+
                 Tables\Actions\BulkAction::make('promote')
                     ->label('Promote Selected Projects')
                     ->icon('heroicon-o-arrow-up-circle')
