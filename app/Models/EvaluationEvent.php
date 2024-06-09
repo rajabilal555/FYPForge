@@ -19,6 +19,7 @@ class EvaluationEvent extends Model
         'is_final_evaluation',
         'shuffle_evaluation_panels',
         'active',
+        'result_generated',
     ];
 
     protected $casts = [
@@ -26,6 +27,7 @@ class EvaluationEvent extends Model
         'is_final_evaluation' => 'boolean',
         'shuffle_evaluation_panels' => 'boolean',
         'active' => 'boolean',
+        'result_generated' => 'boolean',
     ];
 
     public static function getActiveEvaluationEvent(): ?self
@@ -35,7 +37,9 @@ class EvaluationEvent extends Model
 
     public function projects(): BelongsToMany
     {
-        return $this->belongsToMany(Project::class);
+        return $this->belongsToMany(Project::class)
+            ->withPivot(['evaluation_date'])
+            ->using(EvaluationEventProject::class);
     }
 
     public function evaluations(): HasMany

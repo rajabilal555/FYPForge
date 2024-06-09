@@ -47,7 +47,7 @@ class EvaluationEventResource extends Resource
                     ]),
 
                 Forms\Components\Section::make('Other settings')
-                    ->description('Cannot be changed once the evaluation event is created.')
+                    ->description('Read only')
                     ->compact()
                     ->columnSpan(1)
                     ->schema([
@@ -55,6 +55,9 @@ class EvaluationEventResource extends Resource
                             ->disabled()
                             ->required(),
                         Forms\Components\Checkbox::make('shuffle_evaluation_panels')
+                            ->disabled()
+                            ->required(),
+                        Forms\Components\Checkbox::make('result_generated')
                             ->disabled()
                             ->required(),
                     ]),
@@ -88,6 +91,10 @@ class EvaluationEventResource extends Resource
                     ->sortable(),
                 Tables\Columns\IconColumn::make('shuffle_evaluation_panels')
                     ->label('Shuffled Panels')
+                    ->boolean()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('result_generated')
+                    ->label('Result Generated')
                     ->boolean()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

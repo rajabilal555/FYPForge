@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SampleProjectSeeder::class,
             SampleProject2Seeder::class,
+            SampleProject3Seeder::class,
             RealAdvisorsSeeder::class,
         ]);
 

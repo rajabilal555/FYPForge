@@ -23,6 +23,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Exceptions\Halt;
+use Illuminate\Support\Str;
 
 class StartNewEvaluation extends Page
 {
@@ -39,6 +40,8 @@ class StartNewEvaluation extends Page
     public function mount()
     {
         $this->evaluationPanels = EvaluationPanel::all()->pluck('name', 'id')->toArray();
+
+        $this->form->fill($this->data);
     }
 
     public function form(Form $form): Form
@@ -140,8 +143,7 @@ class StartNewEvaluation extends Page
                             ]),
                     ]),
             ])
-            ->statePath('data')
-            ->fill($this->data);
+            ->statePath('data');
     }
 
     public function loadProjectDistributions(): array
@@ -177,7 +179,7 @@ class StartNewEvaluation extends Page
                 $project->evaluation_panel_id = $panels[$i % $panels->count()]->id;
             }
 
-            $distribution[] = [
+            $distribution[Str::uuid()->toString()] = [
                 'project_id' => $project->id,
                 'project_name' => $project->name,
                 'evaluation_date' => $startDateTime,
@@ -236,4 +238,5 @@ class StartNewEvaluation extends Page
                 }
             });
     }
+
 }

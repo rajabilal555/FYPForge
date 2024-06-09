@@ -3,6 +3,7 @@
 namespace App\Filament\Staff\Resources\EvaluationEventResource\RelationManagers;
 
 use App\Filament\Staff\Resources\ProjectResource;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,7 +28,11 @@ class ProjectsRelationManager extends RelationManager
             ])
             ->filters([])
             ->headerActions([
-                Tables\Actions\AttachAction::make(),
+                Tables\Actions\AttachAction::make()
+                    ->form(fn (Tables\Actions\AttachAction $action): array => [
+                        $action->getRecordSelect(),
+                        DateTimePicker::make('evaluation_date')->required(),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

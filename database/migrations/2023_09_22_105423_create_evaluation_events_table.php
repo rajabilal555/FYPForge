@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('is_final_evaluation');
             $table->tinyInteger('shuffle_evaluation_panels');
             $table->tinyInteger('active')->default('0');
+            $table->tinyInteger('result_generated')->default('0');
             $table->timestamps();
         });
     }

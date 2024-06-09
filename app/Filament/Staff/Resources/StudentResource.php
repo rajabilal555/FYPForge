@@ -109,6 +109,7 @@ class StudentResource extends Resource
     {
         return [
             StudentResource\RelationManagers\EvaluationsRelationManager::class,
+            StudentResource\RelationManagers\ProjectResultsRelationManager::class,
         ];
     }
 
