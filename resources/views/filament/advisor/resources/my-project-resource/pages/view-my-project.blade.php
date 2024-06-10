@@ -23,11 +23,15 @@
                                         <h3 class="text-md">
                                             {{$student->name}}
                                         </h3>
-
                                     </div>
                                 </div>
                                 <div class="flex gap-4 items-center">
-                                    {{ ($this->removeMemberAction)(['student' => $student->id]) }}
+                                    <div>
+                                        {{ ($this->addMarksAction)(['student'=> $student->id]) }}
+                                    </div>
+                                    <div>
+                                        {{ ($this->removeMemberAction)(['student' => $student->id]) }}
+                                    </div>
                                 </div>
                             </div>
                         </x-filament::section>

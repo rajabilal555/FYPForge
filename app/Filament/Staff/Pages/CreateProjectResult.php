@@ -135,10 +135,16 @@ class CreateProjectResult extends Page
                                             ->label('Student Name')
                                             ->disabled(),
                                         TextInput::make('total_marks')
+                                            ->required()
                                             ->label('Total Marks')
                                             ->disabled(),
+                                        TextInput::make('advisor_marks')
+                                            ->required()
+                                            ->disabled()
+                                            ->label('Advisor Marks'),
 
                                         TextInput::make('total_marks_obtained')
+                                            ->required()
                                             ->label('Total Marks Obtained'),
 
                                         KeyValue::make('using_evaluations')
@@ -157,10 +163,6 @@ class CreateProjectResult extends Page
 
     public function prepareMarksStep()
     {
-        // get all students in the selected projects
-
-        $students = Project::whereIn('id', $this->data['included_projects'])->with('students')->get()->pluck('students')->flatten();
-
         // get the selected project evaluations of the selected projects in selected evaluation events
         $studentEvaluations = Student::whereIn('project_id', $this->data['included_projects'])
             ->with('evaluations')
@@ -173,7 +175,11 @@ class CreateProjectResult extends Page
         $studentEvaluations = $studentEvaluations->groupBy('student_id');
 
         // get the total marks of the selected evaluation events
-        $totalMarks = EvaluationEvent::whereIn('id', $this->data['included_evaluation_events'])->sum('total_marks');
+        $totalMarks = EvaluationEvent::whereIn('id', $this->data['included_evaluation_events'])
+            ->sum('total_marks');
+
+        // Add advisor total marks
+        $totalMarks = $totalMarks + 40;
 
         /**
          * @var \Illuminate\Support\Collection $studentEvaluations
@@ -187,9 +193,16 @@ class CreateProjectResult extends Page
                 'student_name' => $student->name,
                 'registration_no' => $student->registration_no,
                 'total_marks' => $totalMarks,
-                'total_marks_obtained' => $value->sum('marks'),
+                'advisor_marks' => $student->temp_advisor_marks, // Advisor Marks
+                'total_marks_obtained' => $value->sum('marks') + $student->temp_advisor_marks,
                 'using_evaluations' => $value->pluck('marks', 'evaluation_event_id')->toArray(),
-                'marks_breakdown_data' => $value->select(['evaluation_event_id', 'marks', 'comments'])->toArray(),
+                'marks_breakdown_data' => $value->select(['evaluation_event_id', 'marks', 'comments'])
+                    ->push([
+                        'evaluation_event_id' => null,
+                        'marks' => $student->temp_advisor_marks,
+                        'comments' => 'Advisor Marks',
+                    ])
+                    ->toArray(),
             ];
         })->toArray();
     }
@@ -221,7 +234,6 @@ class CreateProjectResult extends Page
                             'marks_breakdown_data' => $mark['marks_breakdown_data'],
                         ]);
                     }
-
 
                     Notification::make()
                         ->title('Success')

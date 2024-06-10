@@ -31,6 +31,7 @@ class Project extends Model
         'advisor_id',
         'member_limit',
         'is_archived',
+        'temp_advisor_marks',
     ];
 
     /**

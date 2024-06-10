@@ -67,6 +67,7 @@ class SampleProject3Seeder extends Seeder
             'student_id' => $project->students->first()->id,
             'evaluation_event_id' => $evaluationEvent->id,
             'evaluation_panel_id' => $evaluator->id,
+            'term' => ProjectTerm::FYP1,
             'marks' => 22,
             'comments' => 'Good work 2',
         ]);
@@ -75,6 +76,7 @@ class SampleProject3Seeder extends Seeder
             'student_id' => $project->students->last()->id,
             'evaluation_event_id' => $evaluationEvent->id,
             'evaluation_panel_id' => $evaluator->id,
+            'term' => ProjectTerm::FYP1,
             'marks' => 21,
             'comments' => 'Good work 1',
         ]);

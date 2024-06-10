@@ -30,8 +30,10 @@ class ProjectResultsRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('total_marks'),
-                Tables\Columns\TextColumn::make('total_marks_obtained'),
+                Tables\Columns\TextColumn::make('total_marks_obtained')
+                    ->summarize(Tables\Columns\Summarizers\Sum::make()->label('Total Obtained')),
             ])
+
             ->filters([])
             ->headerActions([])
             ->actions([])

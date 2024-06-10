@@ -25,6 +25,9 @@ return new class extends Migration
                 ->constrained('projects')
                 ->nullOnDelete()->cascadeOnUpdate();
 
+            $table->integer('temp_advisor_marks')
+                ->nullable();
+
             $table->timestamps();
         });
     }

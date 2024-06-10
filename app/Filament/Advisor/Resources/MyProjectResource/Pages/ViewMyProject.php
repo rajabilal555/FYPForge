@@ -3,7 +3,6 @@
 namespace App\Filament\Advisor\Resources\MyProjectResource\Pages;
 
 use App\Actions\AnswerProjectQuery;
-use App\Actions\InviteProjectMember;
 use App\Enums\ProjectTaskStatus;
 use App\Filament\Advisor\Resources\MyProjectResource;
 use App\Models\Advisor;
@@ -20,7 +19,6 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Set;
 use Filament\Resources\Pages\Page;
@@ -144,6 +142,38 @@ class ViewMyProject extends Page
                     'student_id' => auth()->id(),
                 ]);
             });
+    }
+
+    public function addMarksAction(): Action
+    {
+        return Action::make('addMarksAction')
+//            ->icon('heroicon-o-pencil')
+//            ->iconButton()
+            ->label(function (array $arguments) {
+                $student = Student::find($arguments['student']);
+
+                return $student->temp_advisor_marks ? '('.$student->temp_advisor_marks.') Edit' : 'Add Marks';
+            })
+            ->color('danger')
+            ->modalWidth('sm')
+            ->fillForm(function (array $arguments) {
+                //                dd($arguments);
+                $student = Student::find($arguments['student'])->toArray();
+
+                return ['marks' => $student['temp_advisor_marks']];
+            })
+            ->modalHeading('Edit Student Marks')
+            ->form([
+                TextInput::make('marks')
+                    ->label('Marks')
+                    ->minValue(0)
+                    ->maxValue(40)
+                    ->suffix('/40')
+                    ->required(),
+            ])
+            ->action(fn (array $arguments, array $data) => Student::find($arguments['student'])->update([
+                'temp_advisor_marks' => $data['marks'],
+            ]));
     }
 
     public function viewQueryAction(): Action
